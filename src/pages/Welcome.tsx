@@ -1,17 +1,28 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Waves, Smartphone, Sun, ChevronRight } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Waves, Smartphone, Sun, ChevronRight, QrCode, Upload, Sparkles } from 'lucide-react';
 
 const Welcome = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [hotelId, setHotelId] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleContinue = () => {
     if (hotelId.trim()) {
@@ -23,125 +34,185 @@ const Welcome = () => {
   };
 
   const handleQRScan = () => {
-    setIsVerifying(true);
-    setTimeout(() => {
-      setHotelId('POOL001');
+    if (isMobile) {
+      // Mobile QR scanning functionality
+      setIsVerifying(true);
       setTimeout(() => {
-        navigate('/booking/datetime');
+        setHotelId('POOL001');
+        setTimeout(() => {
+          navigate('/booking/datetime');
+        }, 1000);
       }, 1000);
-    }, 1000);
+    } else {
+      // Desktop - file upload for QR image
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) {
+          setIsVerifying(true);
+          setTimeout(() => {
+            setHotelId('POOL001');
+            setTimeout(() => {
+              navigate('/booking/datetime');
+            }, 1000);
+          }, 1000);
+        }
+      };
+      input.click();
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-400 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-4 sm:top-10 left-4 sm:left-10 w-12 sm:w-20 h-12 sm:h-20 bg-white rounded-full animate-pulse"></div>
-        <div className="absolute top-20 sm:top-32 right-10 sm:right-20 w-10 sm:w-16 h-10 sm:h-16 bg-white rounded-full animate-pulse delay-1000"></div>
-        <div className="absolute bottom-10 sm:bottom-20 left-1/4 w-8 sm:w-12 h-8 sm:h-12 bg-white rounded-full animate-pulse delay-2000"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+      {/* Premium Animated Background */}
+      <div className="absolute inset-0">
+        {/* Floating orbs */}
+        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-blue-400/30 to-cyan-400/30 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute top-32 right-20 w-24 h-24 bg-gradient-to-r from-purple-400/30 to-pink-400/30 rounded-full blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-20 left-1/4 w-28 h-28 bg-gradient-to-r from-emerald-400/30 to-teal-400/30 rounded-full blur-xl animate-pulse delay-2000"></div>
+        
+        {/* Grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+        
+        {/* Sparkle effects */}
+        <div className="absolute top-1/4 left-1/3 animate-bounce delay-500">
+          <Sparkles className="w-4 h-4 text-yellow-300/60" />
+        </div>
+        <div className="absolute top-2/3 right-1/4 animate-bounce delay-1500">
+          <Sparkles className="w-3 h-3 text-blue-300/60" />
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 py-4 sm:py-8 relative z-10">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-md mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-6 sm:mb-8">
-            <div className="flex justify-center mb-4 sm:mb-6">
-              <div className="p-3 sm:p-4 bg-white/20 backdrop-blur-sm rounded-full animate-bounce">
-                <Sun className="w-8 h-8 sm:w-12 sm:h-12 text-white" />
+          {/* Premium Hero Section */}
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-6">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full blur-lg opacity-50 animate-pulse"></div>
+                <div className="relative p-4 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full animate-bounce shadow-2xl">
+                  <Sun className="w-12 h-12 text-white drop-shadow-lg" />
+                </div>
               </div>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 animate-fade-in">
-              Your spot in the sun
-            </h1>
-            <h2 className="text-lg sm:text-2xl font-semibold text-white/90 mb-3 sm:mb-4">
-              booked before breakfast
-            </h2>
-            <p className="text-white/80 text-sm sm:text-lg px-2">
-              To reserve your sunbed, we just need to verify your accommodation.
+            
+            <div className="space-y-3 mb-6">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent animate-fade-in leading-tight">
+                Your Perfect Spot
+              </h1>
+              <h2 className="text-2xl font-semibold bg-gradient-to-r from-blue-200 to-cyan-300 bg-clip-text text-transparent">
+                Awaits in Paradise
+              </h2>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mx-auto rounded-full"></div>
+            </div>
+            
+            <p className="text-blue-100/90 text-lg leading-relaxed px-4">
+              Reserve your exclusive sunbed experience with just a few taps
             </p>
           </div>
 
-          {/* Language Selector */}
-          <div className="mb-4 sm:mb-6">
+          {/* Premium Language Selector */}
+          <div className="mb-6">
             <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-              <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-white/30 text-gray-800 h-10 sm:h-12 text-sm sm:text-base">
+              <SelectTrigger className="w-full bg-white/10 backdrop-blur-xl border border-white/20 text-white h-14 text-base hover:bg-white/15 transition-all duration-300 shadow-lg">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="en">🇺🇸 English</SelectItem>
-                <SelectItem value="es">🇪🇸 Español</SelectItem>
-                <SelectItem value="fr">🇫🇷 Français</SelectItem>
-                <SelectItem value="de">🇩🇪 Deutsch</SelectItem>
+              <SelectContent className="bg-slate-800/95 backdrop-blur-xl border-white/20">
+                <SelectItem value="en" className="text-white hover:bg-white/10">🇺🇸 English</SelectItem>
+                <SelectItem value="es" className="text-white hover:bg-white/10">🇪🇸 Español</SelectItem>
+                <SelectItem value="fr" className="text-white hover:bg-white/10">🇫🇷 Français</SelectItem>
+                <SelectItem value="de" className="text-white hover:bg-white/10">🇩🇪 Deutsch</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
-          {/* Main Action Card */}
-          <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-2xl mb-4 sm:mb-6 transform transition-all duration-300 hover:scale-105">
-            <CardContent className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+          {/* Premium Main Action Card */}
+          <Card className="bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl mb-6 transform transition-all duration-500 hover:scale-[1.02] hover:bg-white/15">
+            <CardContent className="p-6 space-y-6">
               {!isVerifying ? (
                 <>
-                  {/* QR Scan Button */}
+                  {/* Premium QR Scan Button */}
                   <Button
                     onClick={handleQRScan}
                     variant="outline"
-                    className="w-full border-dashed border-2 py-6 sm:py-8 px-4 sm:px-6 hover:bg-blue-50 transition-all duration-300 group"
+                    className="w-full border-2 border-dashed border-cyan-400/50 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-sm py-8 px-6 hover:from-cyan-500/20 hover:to-blue-500/20 hover:border-cyan-400/70 transition-all duration-300 group text-white"
                   >
-                    <div className="flex flex-col items-center space-y-2 sm:space-y-3">
-                      <div className="p-2 sm:p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
-                        <Smartphone className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+                    <div className="flex flex-col items-center space-y-3">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
+                        <div className="relative p-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg group-hover:scale-110 transition-transform">
+                          {isMobile ? (
+                            <QrCode className="w-8 h-8 text-white" />
+                          ) : (
+                            <Upload className="w-8 h-8 text-white" />
+                          )}
+                        </div>
                       </div>
                       <div className="text-center">
-                        <div className="font-semibold text-gray-800 text-sm sm:text-base">SCAN QR CODE</div>
-                        <div className="text-xs sm:text-sm text-gray-600">Tap to scan your QR code</div>
+                        <div className="font-bold text-white text-base mb-1">
+                          {isMobile ? 'SCAN QR CODE' : 'UPLOAD QR IMAGE'}
+                        </div>
+                        <div className="text-sm text-blue-200">
+                          {isMobile ? 'Tap to open camera scanner' : 'Select QR code image from your device'}
+                        </div>
                       </div>
                     </div>
                   </Button>
 
                   <div className="relative">
                     <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-gray-300"></div>
+                      <div className="w-full border-t border-white/20"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                      <span className="px-2 bg-white text-gray-500">or</span>
+                      <span className="px-3 bg-slate-800/50 text-blue-200 font-medium">or enter manually</span>
                     </div>
                   </div>
 
-                  {/* Manual ID Input */}
-                  <div className="space-y-3 sm:space-y-4">
-                    <Input
-                      placeholder="Type ID nr"
-                      value={hotelId}
-                      onChange={(e) => setHotelId(e.target.value)}
-                      className="text-center text-base sm:text-lg py-4 sm:py-6 border-2 border-gray-200 focus:border-blue-400 transition-colors"
-                    />
+                  {/* Premium Manual ID Input */}
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <Input
+                        placeholder="Enter your accommodation ID"
+                        value={hotelId}
+                        onChange={(e) => setHotelId(e.target.value)}
+                        className="text-center text-lg py-6 border-2 border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder:text-blue-200/70 focus:border-cyan-400/50 focus:bg-white/15 transition-all duration-300 shadow-lg"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-blue-500/5 rounded-md pointer-events-none"></div>
+                    </div>
                     
                     <Button
                       onClick={handleContinue}
                       disabled={!hotelId.trim()}
-                      className="w-full py-4 sm:py-6 text-base sm:text-lg bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 transition-all duration-300 group"
+                      className="w-full py-6 text-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 group shadow-2xl font-semibold"
                       size="lg"
                     >
-                      Continue
-                      <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                      <span className="flex items-center justify-center">
+                        Continue to Paradise
+                        <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </span>
                     </Button>
                   </div>
                 </>
               ) : (
-                /* Verification Animation */
-                <div className="text-center py-6 sm:py-8">
-                  <div className="flex justify-center mb-4 sm:mb-6">
-                    <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-4 border-blue-200 border-t-blue-600"></div>
+                /* Premium Verification Animation */
+                <div className="text-center py-8">
+                  <div className="flex justify-center mb-6">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50"></div>
+                      <div className="relative animate-spin rounded-full h-16 w-16 border-4 border-white/20 border-t-cyan-400 shadow-lg"></div>
+                    </div>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
-                    Verifying your hotel stay...
+                  <h3 className="text-xl font-bold text-white mb-3 bg-gradient-to-r from-cyan-200 to-blue-200 bg-clip-text text-transparent">
+                    Verifying Your Stay
                   </h3>
-                  <p className="text-sm sm:text-base text-gray-600 px-4">
-                    We verify your hotel stay instantly
+                  <p className="text-blue-100/80 text-base px-4 mb-4">
+                    Connecting you to your perfect poolside experience
                   </p>
                   <div className="mt-4">
-                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full animate-pulse"></div>
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+                      <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full animate-pulse shadow-lg"></div>
                     </div>
                   </div>
                 </div>
@@ -149,11 +220,11 @@ const Welcome = () => {
             </CardContent>
           </Card>
 
-          {/* Back Button */}
+          {/* Premium Back Button */}
           <div className="text-center">
             <Button
               variant="ghost"
-              className="text-white/80 hover:text-white hover:bg-white/10 transition-colors text-sm sm:text-base"
+              className="text-blue-200/80 hover:text-white hover:bg-white/10 transition-all duration-300 text-base backdrop-blur-sm px-6 py-3"
             >
               ← Back
             </Button>
