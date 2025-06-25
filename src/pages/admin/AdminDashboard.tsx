@@ -60,7 +60,7 @@ const AdminDashboard = () => {
                   <Calendar className="w-6 h-6 text-blue-600" />
                 </div>
               </div>
-            </div>
+            </CardContent>
           </Card>
 
           <Card className="bg-green-50 border-green-200">
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
                   <TrendingUp className="w-6 h-6 text-green-600" />
                 </div>
               </div>
-            </div>
+            </CardContent>
           </Card>
 
           <Card className="bg-purple-50 border-purple-200">
@@ -88,7 +88,7 @@ const AdminDashboard = () => {
                   <DollarSign className="w-6 h-6 text-purple-600" />
                 </div>
               </div>
-            </div>
+            </CardContent>
           </Card>
 
           <Card className="bg-orange-50 border-orange-200">
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
                   <Users className="w-6 h-6 text-orange-600" />
                 </div>
               </div>
-            </div>
+            </CardContent>
           </Card>
         </div>
 
