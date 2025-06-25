@@ -2,7 +2,7 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { LayoutDashboard, Calendar, Map, Package, Settings, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Calendar, Map, Package, Settings, LogOut, Menu, X, User } from 'lucide-react';
 import { useState } from 'react';
 
 interface AdminLayoutProps {
@@ -29,7 +29,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 flex w-full">
       {/* Mobile menu overlay */}
       {isMobileMenuOpen && (
         <div 
@@ -38,24 +38,44 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
         />
       )}
 
-      {/* Sidebar */}
+      {/* Fixed Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
+        fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="flex items-center justify-between h-16 px-6 border-b">
-          <h1 className="text-xl font-bold text-gray-800">Pool Admin</h1>
+        {/* Sidebar Header */}
+        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-700 bg-gradient-to-r from-blue-600 to-cyan-600">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+              <span className="text-blue-600 font-bold text-lg">P</span>
+            </div>
+            <h1 className="text-xl font-bold text-white">Pool Admin</h1>
+          </div>
           <Button
             variant="ghost"
             size="sm"
-            className="lg:hidden"
+            className="lg:hidden text-white hover:bg-white/20"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             <X className="w-5 h-5" />
           </Button>
         </div>
 
-        <nav className="mt-6 px-3">
+        {/* Admin Profile */}
+        <div className="p-6 border-b border-gray-700">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+              <User className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <p className="text-white font-semibold">Admin User</p>
+              <p className="text-gray-400 text-sm">Super Administrator</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav className="mt-6 px-3 flex-1">
           <ul className="space-y-2">
             {navigation.map((item) => {
               const Icon = item.icon;
@@ -64,15 +84,15 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
                   <Link
                     to={item.href}
                     className={`
-                      flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors
+                      flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 group
                       ${isActive(item.href)
-                        ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg transform scale-105'
+                        : 'text-gray-300 hover:bg-gray-700 hover:text-white hover:scale-102'
                       }
                     `}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Icon className="w-5 h-5 mr-3" />
+                    <Icon className={`w-5 h-5 mr-3 transition-transform duration-300 ${isActive(item.href) ? 'scale-110' : 'group-hover:scale-110'}`} />
                     {item.name}
                   </Link>
                 </li>
@@ -81,26 +101,28 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
           </ul>
         </nav>
 
-        <div className="absolute bottom-6 left-3 right-3">
+        {/* Logout Button */}
+        <div className="p-3 border-t border-gray-700">
           <Link
             to="/admin/login"
-            className="flex items-center px-3 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            className="flex items-center px-4 py-3 text-sm font-medium text-red-400 hover:bg-red-500/20 hover:text-red-300 rounded-xl transition-all duration-300 group"
           >
-            <LogOut className="w-5 h-5 mr-3" />
+            <LogOut className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
             Logout
           </Link>
         </div>
       </div>
 
       {/* Main content */}
-      <div className="flex-1 lg:ml-0">
+      <div className="flex-1 lg:ml-0 flex flex-col min-h-screen">
         {/* Mobile header */}
-        <div className="lg:hidden bg-white shadow-sm border-b px-4 py-3">
+        <div className="lg:hidden bg-white shadow-sm border-b px-4 py-3 flex-shrink-0">
           <div className="flex items-center justify-between">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsMobileMenuOpen(true)}
+              className="text-gray-600 hover:text-gray-900"
             >
               <Menu className="w-5 h-5" />
             </Button>
@@ -109,8 +131,8 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
           </div>
         </div>
 
-        {/* Page content */}
-        <main className="p-4 sm:p-6 lg:p-8">
+        {/* Scrollable Page content */}
+        <main className="flex-1 overflow-y-auto">
           {children}
         </main>
       </div>
