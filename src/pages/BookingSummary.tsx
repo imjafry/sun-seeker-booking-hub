@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -72,48 +71,48 @@ const BookingSummary = () => {
       step={3} 
       totalSteps={4}
     >
-      <div className="space-y-6">
+      <div className="space-y-3 sm:space-y-6">
         {/* Full Booking Summary Header */}
         <Card className="border-2 border-blue-100 bg-gradient-to-r from-blue-50 to-cyan-50">
-          <CardContent className="p-6 text-center">
-            <h2 className="text-2xl font-bold text-blue-800 mb-2">
+          <CardContent className="p-3 sm:p-6 text-center">
+            <h2 className="text-base sm:text-2xl font-bold text-blue-800 mb-2 leading-tight">
               Full booking summary: time, lounger, add-ons, total price
             </h2>
-            <p className="text-blue-600">
+            <p className="text-xs sm:text-base text-blue-600 leading-relaxed">
               Add your name and room number • Choose how you want to pay • Accept the terms and you're done
             </p>
           </CardContent>
         </Card>
 
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid lg:grid-cols-2 gap-3 sm:gap-6">
           {/* Left Column - Booking Details & Extras */}
-          <div className="space-y-6">
+          <div className="space-y-3 sm:space-y-6">
             {/* Booking Details */}
             <Card className="border-2 border-blue-100">
-              <CardHeader>
-                <CardTitle className="text-blue-800 flex items-center gap-2">
+              <CardHeader className="pb-2 sm:pb-4 px-3 sm:px-6">
+                <CardTitle className="text-blue-800 flex items-center gap-2 text-sm sm:text-base">
                   📅 Booking Details
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6 pb-3 sm:pb-6">
                 <div>
-                  <Label className="text-sm font-medium text-gray-600">Date & Time</Label>
-                  <p className="font-semibold text-lg">{mockBookingData.date}</p>
-                  <p className="text-blue-600 font-medium">{mockBookingData.time}</p>
+                  <Label className="text-xs sm:text-sm font-medium text-gray-600">Date & Time</Label>
+                  <p className="font-semibold text-sm sm:text-lg break-words">{mockBookingData.date}</p>
+                  <p className="text-blue-600 font-medium text-xs sm:text-base">{mockBookingData.time}</p>
                 </div>
                 
                 <Separator />
                 
                 <div>
-                  <Label className="text-sm font-medium text-gray-600">Selected Loungers</Label>
-                  <div className="flex flex-wrap gap-2 mt-2">
+                  <Label className="text-xs sm:text-sm font-medium text-gray-600">Selected Loungers</Label>
+                  <div className="flex flex-wrap gap-1 sm:gap-2 mt-2">
                     {mockBookingData.seats.map(seat => (
-                      <Badge key={seat} className="bg-blue-100 text-blue-800 p-2">
+                      <Badge key={seat} className="bg-blue-100 text-blue-800 p-1 sm:p-2 text-xs break-words">
                         {seat}
                       </Badge>
                     ))}
                   </div>
-                  <p className="text-right font-bold text-xl mt-3 text-blue-700">
+                  <p className="text-right font-bold text-base sm:text-xl mt-3 text-blue-700">
                     ${mockBookingData.seatTotal}
                   </p>
                 </div>
@@ -122,45 +121,45 @@ const BookingSummary = () => {
 
             {/* Add Extras */}
             <Card className="border-2 border-purple-100">
-              <CardHeader>
-                <CardTitle className="text-purple-800">
+              <CardHeader className="pb-2 sm:pb-4 px-3 sm:px-6">
+                <CardTitle className="text-purple-800 text-sm sm:text-base leading-tight">
                   🍹 Want a cold Coke, a towel, or a parasol?
                 </CardTitle>
-                <p className="text-sm text-purple-600">
+                <p className="text-xs sm:text-sm text-purple-600 leading-relaxed">
                   Simply tap to add – prices shown clearly • Quantity selectors • Live price summary updates
                 </p>
               </CardHeader>
-              <CardContent>
-                <div className="grid gap-4">
+              <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                <div className="grid gap-2 sm:gap-4">
                   {extrasMenu.map(extra => (
-                    <div key={extra.id} className="flex items-center justify-between p-4 rounded-lg border-2 hover:bg-purple-50 transition-colors">
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">{extra.icon}</span>
-                        <div>
-                          <h4 className="font-medium">{extra.name}</h4>
-                          <p className="text-sm text-gray-500">${extra.price} each</p>
+                    <div key={extra.id} className="flex items-center justify-between p-2 sm:p-4 rounded-lg border-2 hover:bg-purple-50 transition-colors">
+                      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                        <span className="text-base sm:text-2xl flex-shrink-0">{extra.icon}</span>
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-medium text-xs sm:text-base break-words">{extra.name}</h4>
+                          <p className="text-xs sm:text-sm text-gray-500">${extra.price} each</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => updateExtra(extra.id, -1)}
                           disabled={!extras[extra.id]}
-                          className="w-8 h-8 p-0"
+                          className="w-6 h-6 sm:w-8 sm:h-8 p-0"
                         >
-                          <Minus className="w-4 h-4" />
+                          <Minus className="w-3 h-3 sm:w-4 sm:h-4" />
                         </Button>
-                        <span className="w-8 text-center font-bold text-lg">
+                        <span className="w-5 sm:w-8 text-center font-bold text-xs sm:text-lg">
                           {extras[extra.id] || 0}
                         </span>
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => updateExtra(extra.id, 1)}
-                          className="w-8 h-8 p-0"
+                          className="w-6 h-6 sm:w-8 sm:h-8 p-0"
                         >
-                          <Plus className="w-4 h-4" />
+                          <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
                         </Button>
                       </div>
                     </div>
@@ -168,8 +167,8 @@ const BookingSummary = () => {
                 </div>
                 
                 {getExtrasTotal() > 0 && (
-                  <div className="mt-6 pt-4 border-t-2">
-                    <div className="flex justify-between font-bold text-lg text-purple-700">
+                  <div className="mt-3 sm:mt-6 pt-2 sm:pt-4 border-t-2">
+                    <div className="flex justify-between font-bold text-sm sm:text-lg text-purple-700">
                       <span>Add-ons Total:</span>
                       <span>${getExtrasTotal()}</span>
                     </div>
@@ -180,43 +179,43 @@ const BookingSummary = () => {
           </div>
 
           {/* Right Column - Guest Info & Payment */}
-          <div className="space-y-6">
+          <div className="space-y-3 sm:space-y-6">
             {/* Guest Information */}
             <Card className="border-2 border-green-100">
-              <CardHeader>
-                <CardTitle className="text-green-800">👤 Add your name and room number</CardTitle>
+              <CardHeader className="pb-2 sm:pb-4 px-3 sm:px-6">
+                <CardTitle className="text-green-800 text-sm sm:text-base">👤 Add your name and room number</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6 pb-3 sm:pb-6">
                 <div>
-                  <Label htmlFor="guestName">Full Name *</Label>
+                  <Label htmlFor="guestName" className="text-xs sm:text-sm">Full Name *</Label>
                   <Input
                     id="guestName"
                     value={guestName}
                     onChange={(e) => setGuestName(e.target.value)}
                     placeholder="Enter your full name"
-                    className="mt-1 h-12 text-lg"
+                    className="mt-1 h-9 sm:h-12 text-sm sm:text-lg"
                   />
                 </div>
                 
                 <div>
-                  <Label htmlFor="roomNumber">Room Number *</Label>
+                  <Label htmlFor="roomNumber" className="text-xs sm:text-sm">Room Number *</Label>
                   <Input
                     id="roomNumber"
                     value={roomNumber}
                     onChange={(e) => setRoomNumber(e.target.value)}
                     placeholder="e.g., 205"
-                    className="mt-1 h-12 text-lg"
+                    className="mt-1 h-9 sm:h-12 text-sm sm:text-lg"
                   />
                 </div>
                 
                 <div>
-                  <Label htmlFor="specialRequests">Optional comment (e.g., "We have a toddler")</Label>
+                  <Label htmlFor="specialRequests" className="text-xs sm:text-sm">Optional comment (e.g., "We have a toddler")</Label>
                   <Textarea
                     id="specialRequests"
                     value={specialRequests}
                     onChange={(e) => setSpecialRequests(e.target.value)}
                     placeholder="Any special requirements..."
-                    className="mt-1"
+                    className="mt-1 text-sm sm:text-base"
                     rows={3}
                   />
                 </div>
@@ -225,36 +224,36 @@ const BookingSummary = () => {
 
             {/* Payment Method */}
             <Card className="border-2 border-orange-100">
-              <CardHeader>
-                <CardTitle className="text-orange-800">💳 Choose how you want to pay</CardTitle>
+              <CardHeader className="pb-2 sm:pb-4 px-3 sm:px-6">
+                <CardTitle className="text-orange-800 text-sm sm:text-base">💳 Choose how you want to pay</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
+              <CardContent className="space-y-2 sm:space-y-4 px-3 sm:px-6 pb-3 sm:pb-6">
+                <div className="space-y-2 sm:space-y-3">
                   <Button
                     variant={paymentMethod === 'stripe' ? 'default' : 'outline'}
                     onClick={() => setPaymentMethod('stripe')}
-                    className="w-full justify-start h-auto py-4 text-left"
+                    className="w-full justify-start h-auto py-2 sm:py-4 text-left"
                   >
-                    <div className="p-2 bg-blue-100 rounded mr-3">
-                      <CreditCard className="w-6 h-6 text-blue-600" />
+                    <div className="p-1 sm:p-2 bg-blue-100 rounded mr-2 sm:mr-3 flex-shrink-0">
+                      <CreditCard className="w-3 h-3 sm:w-6 sm:h-6 text-blue-600" />
                     </div>
-                    <div>
-                      <div className="font-medium">💳 Pay now (Stripe or in-app)</div>
-                      <div className="text-sm opacity-70">Secure payment with card</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-xs sm:text-base break-words">💳 Pay now (Stripe or in-app)</div>
+                      <div className="text-xs sm:text-sm opacity-70">Secure payment with card</div>
                     </div>
                   </Button>
                   
                   <Button
                     variant={paymentMethod === 'reception' ? 'default' : 'outline'}
                     onClick={() => setPaymentMethod('reception')}
-                    className="w-full justify-start h-auto py-4 text-left"
+                    className="w-full justify-start h-auto py-2 sm:py-4 text-left"
                   >
-                    <div className="p-2 bg-orange-100 rounded mr-3">
-                      <Building2 className="w-6 h-6 text-orange-600" />
+                    <div className="p-1 sm:p-2 bg-orange-100 rounded mr-2 sm:mr-3 flex-shrink-0">
+                      <Building2 className="w-3 h-3 sm:w-6 sm:h-6 text-orange-600" />
                     </div>
-                    <div>
-                      <div className="font-medium">🏨 Pay at the reception</div>
-                      <div className="text-sm opacity-70">Pay when you arrive</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-xs sm:text-base break-words">🏨 Pay at the reception</div>
+                      <div className="text-xs sm:text-sm opacity-70">Pay when you arrive</div>
                     </div>
                   </Button>
                 </div>
@@ -263,24 +262,24 @@ const BookingSummary = () => {
 
             {/* Final Summary & Confirmation */}
             <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50">
-              <CardContent className="p-6">
-                <div className="space-y-6">
+              <CardContent className="p-3 sm:p-6">
+                <div className="space-y-3 sm:space-y-6">
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-blue-800 mb-2">
+                    <div className="text-xl sm:text-4xl font-bold text-blue-800 mb-2">
                       ${getTotalAmount()}
                     </div>
-                    <p className="text-blue-600">Total Amount</p>
+                    <p className="text-blue-600 text-xs sm:text-base">Total Amount</p>
                   </div>
                   
-                  <div className="flex items-start gap-3 p-4 bg-white/80 rounded-lg">
+                  <div className="flex items-start gap-2 sm:gap-3 p-2 sm:p-4 bg-white/80 rounded-lg">
                     <input
                       type="checkbox"
                       id="terms"
                       checked={acceptedTerms}
                       onChange={(e) => setAcceptedTerms(e.target.checked)}
-                      className="mt-1"
+                      className="mt-1 flex-shrink-0"
                     />
-                    <Label htmlFor="terms" className="text-sm cursor-pointer">
+                    <Label htmlFor="terms" className="text-xs sm:text-sm cursor-pointer leading-relaxed break-words">
                       Accept the terms and you're done • I accept the terms and conditions and cancellation policy
                     </Label>
                   </div>
@@ -288,11 +287,11 @@ const BookingSummary = () => {
                   <Button
                     onClick={handleConfirmBooking}
                     disabled={!guestName || !roomNumber || !acceptedTerms}
-                    className="w-full py-6 text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:opacity-50"
+                    className="w-full py-3 sm:py-6 text-sm sm:text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:opacity-50"
                     size="lg"
                   >
-                    <CheckCircle className="w-6 h-6 mr-2" />
-                    Confirmation button with secure processing
+                    <CheckCircle className="w-3 h-3 sm:w-6 sm:h-6 mr-2" />
+                    Confirm Booking
                   </Button>
                 </div>
               </CardContent>

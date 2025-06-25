@@ -1,17 +1,22 @@
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Waves, Smartphone, Sun, ChevronRight, QrCode, Upload, Sparkles } from 'lucide-react';
+import { Waves, Smartphone, Sun, ChevronRight, QrCode, Upload, Sparkles, X, CheckCircle } from 'lucide-react';
+import { useLanguage } from '@/locales/index';
 
 const Welcome = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const { t, currentLanguage, setLanguage, getAvailableLanguages } = useLanguage();
   const [hotelId, setHotelId] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [isProcessingQR, setIsProcessingQR] = useState(false);
+  const [qrResult, setQrResult] = useState<string | null>(null);
+  const [qrError, setQrError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +38,54 @@ const Welcome = () => {
     }
   };
 
+  const processQRCode = async (file: File) => {
+    setIsProcessingQR(true);
+    setQrError(null);
+    setQrResult(null);
+
+    try {
+      // Create a canvas to process the image
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx?.drawImage(img, 0, 0);
+
+        // Get image data for QR processing
+        const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height);
+        
+        if (imageData) {
+          // Simulate QR code processing
+          // In a real implementation, you would use a QR code library like jsQR
+          setTimeout(() => {
+            // For demo purposes, we'll simulate finding a QR code
+            const simulatedQRResult = 'POOL001'; // This would be the actual QR code content
+            setQrResult(simulatedQRResult);
+            setHotelId(simulatedQRResult);
+            setIsProcessingQR(false);
+            
+            // Auto-proceed after successful QR scan
+            setTimeout(() => {
+              setIsVerifying(true);
+              setTimeout(() => {
+                navigate('/booking/datetime');
+              }, 1500);
+            }, 1000);
+          }, 2000);
+        }
+      };
+
+      img.src = URL.createObjectURL(file);
+      setUploadedImage(URL.createObjectURL(file));
+    } catch (error) {
+      setQrError('Failed to process QR code. Please try again.');
+      setIsProcessingQR(false);
+    }
+  };
+
   const handleQRScan = () => {
     if (isMobile) {
       // Mobile QR scanning functionality
@@ -45,27 +98,60 @@ const Welcome = () => {
       }, 1000);
     } else {
       // Desktop - file upload for QR image
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = (e) => {
-        const file = (e.target as HTMLInputElement).files?.[0];
-        if (file) {
-          setIsVerifying(true);
-          setTimeout(() => {
-            setHotelId('POOL001');
-            setTimeout(() => {
-              navigate('/booking/datetime');
-            }, 1000);
-          }, 1000);
-        }
-      };
-      input.click();
+      fileInputRef.current?.click();
+    }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setQrError('Please select a valid image file.');
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setQrError('Image file is too large. Please select an image smaller than 5MB.');
+        return;
+      }
+
+      processQRCode(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setUploadedImage(null);
+    setQrResult(null);
+    setQrError(null);
+    setHotelId('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleRetryQR = () => {
+    setQrError(null);
+    setQrResult(null);
+    setUploadedImage(null);
+    setHotelId('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+      {/* Hidden file input for QR upload */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileUpload}
+        className="hidden"
+      />
+
       {/* Premium Animated Background */}
       <div className="absolute inset-0">
         {/* Floating orbs */}
@@ -100,30 +186,31 @@ const Welcome = () => {
             
             <div className="space-y-3 mb-6">
               <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent animate-fade-in leading-tight">
-                Your Perfect Spot
+                {t('welcome.title')}
               </h1>
-              <h2 className="text-2xl font-semibold bg-gradient-to-r from-blue-200 to-cyan-300 bg-clip-text text-transparent">
-                Awaits in Paradise
+              {/* <h2 className="text-2xl font-semibold bg-gradient-to-r from-blue-200 to-cyan-300 bg-clip-text text-transparent">
+                {t('welcome.subtitle')}
               </h2>
-              <div className="w-16 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mx-auto rounded-full"></div>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mx-auto rounded-full"></div> */}
             </div>
             
             <p className="text-blue-100/90 text-lg leading-relaxed px-4">
-              Reserve your exclusive sunbed experience with just a few taps
+              {t('welcome.description')}
             </p>
           </div>
 
           {/* Premium Language Selector */}
           <div className="mb-6">
-            <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
+            <Select value={currentLanguage} onValueChange={setLanguage}>
               <SelectTrigger className="w-full bg-white/10 backdrop-blur-xl border border-white/20 text-white h-14 text-base hover:bg-white/15 transition-all duration-300 shadow-lg">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-800/95 backdrop-blur-xl border-white/20">
-                <SelectItem value="en" className="text-white hover:bg-white/10">🇺🇸 English</SelectItem>
-                <SelectItem value="es" className="text-white hover:bg-white/10">🇪🇸 Español</SelectItem>
-                <SelectItem value="fr" className="text-white hover:bg-white/10">🇫🇷 Français</SelectItem>
-                <SelectItem value="de" className="text-white hover:bg-white/10">🇩🇪 Deutsch</SelectItem>
+                {getAvailableLanguages().map((lang) => (
+                  <SelectItem key={lang.code} value={lang.code} className="text-white hover:bg-white/10">
+                    {lang.flag} {lang.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -131,50 +218,88 @@ const Welcome = () => {
           {/* Premium Main Action Card */}
           <Card className="bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl mb-6 transform transition-all duration-500 hover:scale-[1.02] hover:bg-white/15">
             <CardContent className="p-6 space-y-6">
-              {!isVerifying ? (
+              {!isVerifying && !isProcessingQR ? (
                 <>
-                  {/* Premium QR Scan Button */}
-                  <Button
-                    onClick={handleQRScan}
-                    variant="outline"
-                    className="w-full border-2 border-dashed border-cyan-400/50 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-sm py-8 px-6 hover:from-cyan-500/20 hover:to-blue-500/20 hover:border-cyan-400/70 transition-all duration-300 group text-white"
-                  >
-                    <div className="flex flex-col items-center space-y-3">
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
-                        <div className="relative p-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg group-hover:scale-110 transition-transform">
-                          {isMobile ? (
-                            <QrCode className="w-8 h-8 text-white" />
-                          ) : (
-                            <Upload className="w-8 h-8 text-white" />
-                          )}
+                  {/* QR Code Upload Section */}
+                  {!uploadedImage ? (
+                    <>
+                      {/* Premium QR Scan Button */}
+                      <Button
+                        onClick={handleQRScan}
+                        variant="outline"
+                        className="bg-transparent hover:bg-transparent min-h-[200px] w-full border-2 border-dashed border-cyan-400/50 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-sm py-8 px-6 hover:from-cyan-500/20 hover:to-blue-500/20 hover:border-cyan-400/70 transition-all duration-300 group text-white"
+                      >
+                        <div className="flex flex-col items-center space-y-3">
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
+                            <div className="relative p-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg group-hover:scale-110 transition-transform">
+                              {isMobile ? (
+                                <QrCode className="w-8 h-8 text-white" />
+                              ) : (
+                                <Upload className="w-8 h-8 text-white" />
+                              )}
+                            </div>
+                          </div>
+                          <div className="text-center">
+                            <div className="font-bold text-white text-base mb-1">
+                              {isMobile ? t('welcome.scanQR') : t('welcome.uploadQR')}
+                            </div>
+                            <div className="text-sm text-blue-200">
+                              {isMobile ? t('welcome.scanDescription') : t('welcome.uploadDescription')}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="text-center">
-                        <div className="font-bold text-white text-base mb-1">
-                          {isMobile ? 'SCAN QR CODE' : 'UPLOAD QR IMAGE'}
-                        </div>
-                        <div className="text-sm text-blue-200">
-                          {isMobile ? 'Tap to open camera scanner' : 'Select QR code image from your device'}
-                        </div>
-                      </div>
-                    </div>
-                  </Button>
+                      </Button>
 
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-white/20"></div>
+                      <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                          <div className="w-full border-t border-white/20"></div>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                          <span className="px-3 bg-slate-800/50 text-blue-200 font-medium">{t('welcome.orEnterManually')}</span>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    /* Uploaded Image Preview */
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <img 
+                          src={uploadedImage} 
+                          alt="Uploaded QR Code" 
+                          className="w-full h-48 object-cover rounded-lg border-2 border-cyan-400/30"
+                        />
+                        <Button
+                          onClick={handleRemoveImage}
+                          variant="ghost"
+                          size="sm"
+                          className="absolute top-2 right-2 bg-red-500/80 hover:bg-red-500 text-white rounded-full w-8 h-8 p-0"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      
+                      {qrError && (
+                        <div className="bg-red-500/20 border border-red-400/30 rounded-lg p-4 text-center">
+                          <p className="text-red-200 text-sm mb-3">{qrError}</p>
+                          <Button
+                            onClick={handleRetryQR}
+                            variant="outline"
+                            size="sm"
+                            className="border-red-400/50 text-red-200 hover:bg-red-500/20"
+                          >
+                            Try Again
+                          </Button>
+                        </div>
+                      )}
                     </div>
-                    <div className="relative flex justify-center text-sm">
-                      <span className="px-3 bg-slate-800/50 text-blue-200 font-medium">or enter manually</span>
-                    </div>
-                  </div>
+                  )}
 
                   {/* Premium Manual ID Input */}
                   <div className="space-y-4">
                     <div className="relative">
                       <Input
-                        placeholder="Enter your accommodation ID"
+                        placeholder={t('welcome.placeholder')}
                         value={hotelId}
                         onChange={(e) => setHotelId(e.target.value)}
                         className="text-center text-lg py-6 border-2 border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder:text-blue-200/70 focus:border-cyan-400/50 focus:bg-white/15 transition-all duration-300 shadow-lg"
@@ -189,12 +314,33 @@ const Welcome = () => {
                       size="lg"
                     >
                       <span className="flex items-center justify-center">
-                        Continue to Paradise
+                        {t('welcome.continueButton')}
                         <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                       </span>
                     </Button>
                   </div>
                 </>
+              ) : isProcessingQR ? (
+                /* QR Processing Animation */
+                <div className="text-center py-8">
+                  <div className="flex justify-center mb-6">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50"></div>
+                      <div className="relative animate-spin rounded-full h-16 w-16 border-4 border-white/20 border-t-cyan-400 shadow-lg"></div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 bg-gradient-to-r from-cyan-200 to-blue-200 bg-clip-text text-transparent">
+                    Processing QR Code
+                  </h3>
+                  <p className="text-blue-100/80 text-base px-4 mb-4">
+                    Scanning your QR code to extract accommodation details
+                  </p>
+                  <div className="mt-4">
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+                      <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full animate-pulse shadow-lg"></div>
+                    </div>
+                  </div>
+                </div>
               ) : (
                 /* Premium Verification Animation */
                 <div className="text-center py-8">
@@ -205,10 +351,10 @@ const Welcome = () => {
                     </div>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 bg-gradient-to-r from-cyan-200 to-blue-200 bg-clip-text text-transparent">
-                    Verifying Your Stay
+                    {t('welcome.verifying.title')}
                   </h3>
                   <p className="text-blue-100/80 text-base px-4 mb-4">
-                    Connecting you to your perfect poolside experience
+                    {t('welcome.verifying.description')}
                   </p>
                   <div className="mt-4">
                     <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
@@ -221,14 +367,14 @@ const Welcome = () => {
           </Card>
 
           {/* Premium Back Button */}
-          <div className="text-center">
+          {/* <div className="text-center">
             <Button
               variant="ghost"
               className="text-blue-200/80 hover:text-white hover:bg-white/10 transition-all duration-300 text-base backdrop-blur-sm px-6 py-3"
             >
-              ← Back
+              {t('welcome.backButton')}
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -43,46 +42,47 @@ const DateTime = () => {
       step={1} 
       totalSteps={4}
     >
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 w-full max-w-full">
         {/* Calendar */}
-        <Card className="border-2 border-blue-100">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-blue-800">
+        <Card className="border-2 border-blue-100 w-full">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="flex items-center gap-2 text-blue-800 text-lg sm:text-xl">
               📅 Select Date
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 sm:p-6">
             <Calendar
               mode="single"
               selected={selectedDate}
               onSelect={setSelectedDate}
               disabled={isPastDate}
-              className="rounded-md border w-full"
+              className="rounded-md border w-full max-w-full"
             />
-            <p className="text-sm text-gray-500 mt-4">
+            <p className="text-xs sm:text-sm text-gray-500 mt-3 sm:mt-4">
               * Maximum 2 bookings per day allowed
             </p>
           </CardContent>
         </Card>
 
         {/* Time Slots */}
-        <Card className="border-2 border-blue-100">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-blue-800">
-              <Clock className="w-5 h-5" />
-              Available Time Slots
+        <Card className="border-2 border-blue-100 w-full">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="flex items-center gap-2 text-blue-800 text-lg sm:text-xl">
+              <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">Available Time Slots</span>
+              <span className="sm:hidden">Time Slots</span>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 sm:p-6">
             {selectedDate ? (
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {timeSlots.map((slot) => (
                   <Button
                     key={slot.id}
                     variant={selectedTime === slot.id ? "default" : "outline"}
                     disabled={!slot.available}
                     onClick={() => setSelectedTime(slot.id)}
-                    className={`w-full justify-start py-6 text-left ${
+                    className={`w-full justify-start py-3 sm:py-6 text-left text-sm sm:text-base ${
                       selectedTime === slot.id 
                         ? 'bg-blue-600 hover:bg-blue-700' 
                         : slot.available 
@@ -90,8 +90,8 @@ const DateTime = () => {
                           : 'opacity-50 cursor-not-allowed'
                     }`}
                   >
-                    <span className="flex-1">{slot.label}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
+                    <span className="flex-1 truncate">{slot.label}</span>
+                    <span className={`px-2 py-1 rounded-full text-xs flex-shrink-0 ${
                       slot.available 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-red-100 text-red-800'
@@ -102,9 +102,9 @@ const DateTime = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-gray-500">
-                <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>Please select a date first</p>
+              <div className="text-center py-8 sm:py-12 text-gray-500">
+                <Clock className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 opacity-50" />
+                <p className="text-sm sm:text-base">Please select a date first</p>
               </div>
             )}
           </CardContent>
@@ -113,11 +113,11 @@ const DateTime = () => {
 
       {/* Selected Info & Continue */}
       {selectedDate && selectedTime && (
-        <div className="mt-8 p-6 bg-blue-50 rounded-xl border-2 border-blue-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-semibold text-blue-800 mb-1">Selected Booking</h3>
-              <p className="text-blue-600">
+        <div className="mt-6 sm:mt-8 p-4 sm:p-6 bg-blue-50 rounded-xl border-2 border-blue-200 w-full">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-blue-800 mb-1 text-sm sm:text-base">Selected Booking</h3>
+              <p className="text-blue-600 text-sm sm:text-base break-words">
                 {selectedDate.toLocaleDateString('en-US', { 
                   weekday: 'long', 
                   year: 'numeric', 
@@ -128,10 +128,11 @@ const DateTime = () => {
             </div>
             <Button 
               onClick={handleContinue}
-              className="bg-blue-600 hover:bg-blue-700 px-8"
+              className="bg-blue-600 hover:bg-blue-700 px-4 sm:px-8 w-full sm:w-auto"
               size="lg"
             >
-              Choose Seats →
+              <span className="hidden sm:inline">Choose Seats →</span>
+              <span className="sm:hidden">Choose Seats</span>
             </Button>
           </div>
         </div>
