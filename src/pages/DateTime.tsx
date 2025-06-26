@@ -4,14 +4,31 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useLanguage } from '@/locales';
-import { Calendar, Diamond } from 'lucide-react';
+import { Calendar, Diamond, Check, ChevronDown } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const DateTime = () => {
+  const [selectedDate, setSelectedDate] = useState<string>('Wednesday, June 25, 2025');
+  const [selectedZone, setSelectedZone] = useState<string>('');
+  const [showZoneDropdown, setShowZoneDropdown] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState<string>('');
+  const [selectedDuration, setSelectedDuration] = useState<string>('6 hour');
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const spots = [
+  const zones = [
+    { id: 'PGA', name: 'PG A', price: '$30,00', color: 'bg-blue-600', selected: false },
+    { id: 'PGB', name: 'PG B', price: '$55,00', color: 'bg-blue-500', selected: false },
+    { id: 'PGC', name: 'PG C', price: '$15,00', color: 'bg-teal-600', selected: false },
+    { id: 'PGD', name: 'PG D', price: '$39,00', color: 'bg-green-400', selected: false },
+    { id: 'PGE', name: 'PG E', price: '$15,00', color: 'bg-green-600', selected: false },
+    { id: 'PGF', name: 'PG F', price: '$40,00', color: 'bg-green-500', selected: true },
+    { id: 'PGG', name: 'PG G', price: '$10,00', color: 'bg-gray-600', selected: false },
+    { id: 'PGH', name: 'PG H', price: '$10,00', color: 'bg-gray-500', selected: true },
+    { id: 'PGI', name: 'PG I', price: '$10,00', color: 'bg-purple-600', selected: false },
+  ];
+
+  const availableSpots = [
     { id: 'A4', area: 'Family Area', time: 'Wednesday, June 25, 2025: 0:00 - 12:00', duration: '6 hour', price: '20$' },
     { id: 'A5', area: 'Family Area', time: 'Wednesday, June 25, 2025: 0:00 - 12:00', duration: 'Whole day', price: '35$' },
   ];
@@ -20,328 +37,217 @@ const DateTime = () => {
     navigate('/booking/poolmap');
   };
 
-  // Generate pool spots to match the exact image layout
   const generatePoolSpots = () => {
     const spots = [];
+    const centerX = 50;
+    const centerY = 50;
+    const radius = 35;
     
-    // Sun Area (top-left) - lighter blue dots
-    const sunAreaSpots = [
-      // Row 1 (topmost)
-      { x: 15, y: 25, number: null, opacity: 0.4 },
-      { x: 20, y: 25, number: null, opacity: 0.4 },
-      { x: 25, y: 25, number: null, opacity: 0.4 },
-      { x: 30, y: 25, number: null, opacity: 0.4 },
-      // Row 2
-      { x: 12, y: 30, number: null, opacity: 0.4 },
-      { x: 17, y: 30, number: null, opacity: 0.6 },
-      { x: 22, y: 30, number: null, opacity: 0.6 },
-      { x: 27, y: 30, number: null, opacity: 0.6 },
-      { x: 32, y: 30, number: null, opacity: 0.4 },
-      // Row 3
-      { x: 10, y: 35, number: null, opacity: 0.4 },
-      { x: 15, y: 35, number: null, opacity: 0.7 },
-      { x: 20, y: 35, number: null, opacity: 0.8 },
-      { x: 25, y: 35, number: null, opacity: 0.8 },
-      { x: 30, y: 35, number: null, opacity: 0.7 },
-      { x: 35, y: 35, number: null, opacity: 0.4 },
-      // Row 4
-      { x: 8, y: 40, number: 1, opacity: 0.8 },
-      { x: 13, y: 40, number: 2, opacity: 0.9 },
-      { x: 18, y: 40, number: 3, opacity: 1.0 },
-      { x: 23, y: 40, number: null, opacity: 1.0 },
-      { x: 28, y: 40, number: null, opacity: 1.0 },
-      { x: 33, y: 40, number: null, opacity: 0.9 },
-      { x: 38, y: 40, number: null, opacity: 0.8 },
-    ];
-
-    // VIP Poolside (top-right) - darker blue dots
-    const vipPoolsideSpots = [
-      // Top row
-      { x: 55, y: 25, number: null, opacity: 0.6 },
-      { x: 60, y: 25, number: null, opacity: 0.7 },
-      { x: 65, y: 25, number: null, opacity: 0.8 },
-      { x: 70, y: 25, number: null, opacity: 0.7 },
-      { x: 75, y: 25, number: null, opacity: 0.6 },
-      // Second row
-      { x: 58, y: 30, number: null, opacity: 0.7 },
-      { x: 63, y: 30, number: null, opacity: 0.9 },
-      { x: 68, y: 30, number: null, opacity: 1.0 },
-      { x: 73, y: 30, number: null, opacity: 0.9 },
-      { x: 78, y: 30, number: null, opacity: 0.7 },
-      // Third row
-      { x: 60, y: 35, number: 5, opacity: 0.8 },
-      { x: 65, y: 35, number: null, opacity: 1.0 },
-      { x: 70, y: 35, number: null, opacity: 1.0 },
-      { x: 75, y: 35, number: null, opacity: 1.0 },
-      { x: 80, y: 35, number: null, opacity: 0.8 },
-      // Fourth row
-      { x: 62, y: 40, number: null, opacity: 0.9 },
-      { x: 67, y: 40, number: null, opacity: 1.0 },
-      { x: 72, y: 40, number: null, opacity: 1.0 },
-      { x: 77, y: 40, number: null, opacity: 0.9 },
-      // Right side vertical
-      { x: 85, y: 45, number: 13, opacity: 1.0 },
-      { x: 87, y: 50, number: null, opacity: 1.0 },
-      { x: 85, y: 55, number: 10, opacity: 1.0 },
-    ];
-
-    // Family Area (bottom) - lighter blue dots  
-    const familyAreaSpots = [
-      // Bottom rows
-      { x: 8, y: 75, number: null, opacity: 0.4 },
-      { x: 13, y: 75, number: null, opacity: 0.6 },
-      { x: 18, y: 75, number: null, opacity: 0.7 },
-      { x: 23, y: 75, number: null, opacity: 0.8 },
-      { x: 28, y: 75, number: null, opacity: 0.8 },
-      { x: 33, y: 75, number: null, opacity: 0.7 },
-      { x: 38, y: 75, number: null, opacity: 0.6 },
-      { x: 43, y: 75, number: null, opacity: 0.4 },
-      // Second bottom row
-      { x: 10, y: 70, number: null, opacity: 0.5 },
-      { x: 15, y: 70, number: null, opacity: 0.7 },
-      { x: 20, y: 70, number: null, opacity: 0.8 },
-      { x: 25, y: 70, number: null, opacity: 0.9 },
-      { x: 30, y: 70, number: null, opacity: 0.9 },
-      { x: 35, y: 70, number: null, opacity: 0.8 },
-      { x: 40, y: 70, number: null, opacity: 0.7 },
-      { x: 45, y: 70, number: null, opacity: 0.5 },
-      // Third row
-      { x: 12, y: 65, number: null, opacity: 0.6 },
-      { x: 17, y: 65, number: null, opacity: 0.8 },
-      { x: 22, y: 65, number: null, opacity: 0.9 },
-      { x: 27, y: 65, number: null, opacity: 1.0 },
-      { x: 32, y: 65, number: null, opacity: 1.0 },
-      { x: 37, y: 65, number: null, opacity: 0.9 },
-      { x: 42, y: 65, number: null, opacity: 0.8 },
-      { x: 47, y: 65, number: null, opacity: 0.6 },
-      // Fourth row with numbers
-      { x: 15, y: 60, number: null, opacity: 0.9 },
-      { x: 20, y: 60, number: null, opacity: 1.0 },
-      { x: 25, y: 60, number: 6, opacity: 1.0 },
-      { x: 30, y: 60, number: null, opacity: 1.0 },
-      { x: 35, y: 60, number: 10, opacity: 1.0 },
-      { x: 40, y: 60, number: null, opacity: 1.0 },
-      { x: 45, y: 60, number: null, opacity: 0.9 },
-    ];
-
-    // Pool area (right side) - darker blue dots
-    const poolAreaSpots = [
-      { x: 60, y: 75, number: null, opacity: 0.6 },
-      { x: 65, y: 75, number: null, opacity: 0.7 },
-      { x: 70, y: 75, number: null, opacity: 0.8 },
-      { x: 75, y: 75, number: null, opacity: 0.7 },
-      { x: 80, y: 75, number: null, opacity: 0.6 },
-      // Second row
-      { x: 58, y: 70, number: null, opacity: 0.7 },
-      { x: 63, y: 70, number: null, opacity: 0.8 },
-      { x: 68, y: 70, number: null, opacity: 0.9 },
-      { x: 73, y: 70, number: null, opacity: 0.8 },
-      { x: 78, y: 70, number: null, opacity: 0.7 },
-      // Third row
-      { x: 60, y: 65, number: null, opacity: 0.8 },
-      { x: 65, y: 65, number: null, opacity: 0.9 },
-      { x: 70, y: 65, number: null, opacity: 1.0 },
-      { x: 75, y: 65, number: null, opacity: 0.9 },
-      { x: 80, y: 65, number: null, opacity: 0.8 },
-      // Fourth row
-      { x: 62, y: 60, number: null, opacity: 0.9 },
-      { x: 67, y: 60, number: null, opacity: 1.0 },
-      { x: 72, y: 60, number: null, opacity: 1.0 },
-      { x: 77, y: 60, number: null, opacity: 0.9 },
-    ];
-
-    return {
-      sunArea: sunAreaSpots,
-      vipPoolside: vipPoolsideSpots,
-      familyArea: familyAreaSpots,
-      poolArea: poolAreaSpots
-    };
+    // Generate circular arrangement of dots
+    for (let i = 0; i < 60; i++) {
+      const angle = (i * 6) * (Math.PI / 180); // 6 degrees apart
+      const x = centerX + (radius * Math.cos(angle));
+      const y = centerY + (radius * Math.sin(angle));
+      
+      spots.push({
+        id: i + 1,
+        x: `${x}%`,
+        y: `${y}%`,
+        opacity: 0.3 + (Math.random() * 0.7), // Random opacity for variation
+        color: 'bg-blue-400'
+      });
+    }
+    
+    return spots;
   };
 
   const poolSpots = generatePoolSpots();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
       <div className="container mx-auto px-4 py-6">
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="text-center mb-6">
             <div className="text-red-500 text-sm font-medium mb-2">Page 3</div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Select Your Spot</h1>
+            <p className="text-gray-600">Choose your perfect poolside location</p>
           </div>
 
-          {/* Top Navigation */}
-          <div className="flex justify-between items-center mb-6 bg-white rounded-lg p-4 shadow-sm">
+          {/* Navigation */}
+          <div className="flex justify-between items-center mb-6 bg-white rounded-xl p-4 shadow-lg border border-gray-100">
             <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
-              <span className="font-medium">Select Date</span>
+              <Calendar className="w-5 h-5 text-blue-600" />
+              <span className="font-medium text-gray-700">Select Date</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Diamond className="w-5 h-5" />
-              <span className="font-medium">Zone</span>
+            <div className="flex items-center gap-2 relative">
+              <Diamond className="w-5 h-5 text-blue-600" />
+              <button 
+                onClick={() => setShowZoneDropdown(!showZoneDropdown)}
+                className="font-medium text-gray-700 flex items-center gap-1"
+              >
+                Zone
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              <div className="text-xs text-red-500">
+                <div>Drop down info</div>
+                <div>Page 3</div>
+                <div className="text-red-600 underline cursor-pointer">click</div>
+              </div>
             </div>
           </div>
+
+          {/* Zone Selection Dropdown */}
+          {showZoneDropdown && (
+            <Card className="mb-6 bg-white shadow-xl border-0">
+              <CardContent className="p-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-3">
+                    {zones.slice(0, 5).map((zone) => (
+                      <div 
+                        key={zone.id} 
+                        className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 cursor-pointer"
+                        onClick={() => setSelectedZone(zone.id)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-6 h-6 ${zone.color} rounded-md shadow-sm`}></div>
+                          <span className="text-sm font-medium text-gray-700">
+                            {zone.selected && <Check className="w-3 h-3 inline mr-1 text-green-600" />}
+                            {zone.name}
+                          </span>
+                        </div>
+                        <span className="text-sm font-semibold text-gray-600">({zone.price})</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="space-y-3">
+                    {zones.slice(5).map((zone) => (
+                      <div 
+                        key={zone.id} 
+                        className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 cursor-pointer"
+                        onClick={() => setSelectedZone(zone.id)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-6 h-6 ${zone.color} rounded-md shadow-sm`}></div>
+                          <span className="text-sm font-medium text-gray-700">
+                            {zone.selected && <Check className="w-3 h-3 inline mr-1 text-green-600" />}
+                            {zone.name}
+                          </span>
+                        </div>
+                        <span className="text-sm font-semibold text-gray-600">({zone.price})</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Pool Layout */}
-          <Card className="mb-6 bg-white">
+          <Card className="mb-6 bg-white shadow-xl border-0">
             <CardContent className="p-6">
               <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">POOL</h3>
+                <h3 className="text-xl font-bold text-gray-800 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                  POOL
+                </h3>
               </div>
 
-              {/* Pool Container */}
-              <div className="relative w-full h-96 mx-auto mb-6 bg-gray-100 rounded-lg">
-                {/* Area Labels */}
-                <div className="absolute top-2 left-4 text-sm font-medium text-gray-600">Sun Area</div>
-                <div className="absolute top-2 right-4 text-sm font-medium text-gray-600">VIP Poolside</div>
-                <div className="absolute bottom-2 left-4 text-sm font-medium text-gray-600">Family Area</div>
-                <div className="absolute bottom-2 right-4 text-sm font-medium text-gray-600">Pool</div>
+              {/* Circular Pool Container */}
+              <div className="relative w-80 h-80 mx-auto mb-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-full border-4 border-blue-100 shadow-inner">
+                {/* Pool spots in circular arrangement */}
+                {poolSpots.map((spot, index) => (
+                  <div
+                    key={index}
+                    className={`absolute w-3 h-3 rounded-full ${spot.color} cursor-pointer hover:scale-125 transition-all duration-200 shadow-sm hover:shadow-md`}
+                    style={{ 
+                      left: spot.x, 
+                      top: spot.y, 
+                      opacity: spot.opacity,
+                      transform: 'translate(-50%, -50%)'
+                    }}
+                  />
+                ))}
 
-                {/* Center Pool - irregular oval shape */}
+                {/* Center Pool */}
                 <div 
-                  className="absolute bg-gradient-to-br from-blue-200 to-blue-300 flex items-center justify-center text-gray-700 font-medium"
+                  className="absolute bg-gradient-to-br from-blue-300 via-blue-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg"
                   style={{ 
-                    left: '35%', 
-                    top: '45%', 
-                    width: '120px',
-                    height: '60px',
-                    borderRadius: '60px 40px 50px 70px',
-                    transform: 'translate(-50%, -50%)'
+                    left: '50%', 
+                    top: '50%', 
+                    width: '140px',
+                    height: '100px',
+                    transform: 'translate(-50%, -50%)',
+                    clipPath: 'ellipse(70px 50px at center)'
                   }}
                 >
                   Pool
                 </div>
 
-                {/* Sun Area Spots */}
-                {poolSpots.sunArea.map((spot, index) => (
-                  <div
-                    key={`sun-${index}`}
-                    className="absolute w-3 h-3 bg-blue-400 rounded-full cursor-pointer hover:scale-110 transition-transform"
-                    style={{ 
-                      left: `${spot.x}%`, 
-                      top: `${spot.y}%`, 
-                      opacity: spot.opacity,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                  >
-                    {spot.number && (
-                      <span className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-600">
-                        {spot.number}
-                      </span>
-                    )}
-                  </div>
-                ))}
-
-                {/* VIP Poolside Spots */}
-                {poolSpots.vipPoolside.map((spot, index) => (
-                  <div
-                    key={`vip-${index}`}
-                    className="absolute w-3 h-3 bg-blue-600 rounded-full cursor-pointer hover:scale-110 transition-transform"
-                    style={{ 
-                      left: `${spot.x}%`, 
-                      top: `${spot.y}%`, 
-                      opacity: spot.opacity,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                  >
-                    {spot.number && (
-                      <span className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-600">
-                        {spot.number}
-                      </span>
-                    )}
-                  </div>
-                ))}
-
-                {/* Family Area Spots */}
-                {poolSpots.familyArea.map((spot, index) => (
-                  <div
-                    key={`family-${index}`}
-                    className="absolute w-3 h-3 bg-blue-300 rounded-full cursor-pointer hover:scale-110 transition-transform"
-                    style={{ 
-                      left: `${spot.x}%`, 
-                      top: `${spot.y}%`, 
-                      opacity: spot.opacity,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                  >
-                    {spot.number && (
-                      <span className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-600">
-                        {spot.number}
-                      </span>
-                    )}
-                  </div>
-                ))}
-
-                {/* Pool Area Spots */}
-                {poolSpots.poolArea.map((spot, index) => (
-                  <div
-                    key={`pool-${index}`}
-                    className="absolute w-3 h-3 bg-blue-500 rounded-full cursor-pointer hover:scale-110 transition-transform"
-                    style={{ 
-                      left: `${spot.x}%`, 
-                      top: `${spot.y}%`, 
-                      opacity: spot.opacity,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                  >
-                    {spot.number && (
-                      <span className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-600">
-                        {spot.number}
-                      </span>
-                    )}
-                  </div>
-                ))}
-
-                {/* Duration Selection Dropdown */}
-                <div className="absolute bottom-4 right-4 bg-white p-3 rounded-lg shadow-lg border">
-                  <div className="text-xs text-gray-600 mb-2 font-medium">Choose duration</div>
-                  <div className="text-xs space-y-1">
-                    <div className="text-gray-500">Item 4</div>
-                    <div className="text-gray-500">Item 3</div>
-                    <div className="font-medium text-blue-600">6 hours</div>
-                    <div className="text-gray-500">Item 5</div>
-                    <div className="text-gray-500">Item 6</div>
-                  </div>
+                {/* Area Labels */}
+                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-semibold text-gray-600 bg-white px-3 py-1 rounded-full shadow-sm">
+                  Sun Area
                 </div>
-
-                {/* Animation Zoom In indicator */}
-                <div className="absolute top-1/2 right-8 text-xs text-red-500 rotate-45">
-                  Animation Zoom In
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm font-semibold text-gray-600 bg-white px-3 py-1 rounded-full shadow-sm">
+                  VIP Poolside
+                </div>
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-sm font-semibold text-gray-600 bg-white px-3 py-1 rounded-full shadow-sm">
+                  Family Area
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Available Spots */}
-          <div className="space-y-3 mb-6">
-            {spots.map((spot) => (
-              <div 
-                key={spot.id}
-                className={`p-4 rounded-xl bg-blue-100 border-2 border-blue-200 cursor-pointer transition-colors ${
-                  selectedSpot === spot.id ? 'bg-blue-200 border-blue-400' : 'hover:bg-blue-150'
-                }`}
-                onClick={() => setSelectedSpot(spot.id)}
-              >
-                <div className="flex justify-between items-center">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-semibold text-gray-700">Spot {spot.id}</span>
-                      <span className="text-sm text-gray-600">{spot.area}</span>
+          {selectedZone && (
+            <div className="space-y-4 mb-6">
+              <h3 className="text-lg font-semibold text-gray-800 text-center">Available Spots</h3>
+              {availableSpots.map((spot) => (
+                <Card 
+                  key={spot.id}
+                  className={`cursor-pointer transition-all duration-200 border-2 ${
+                    selectedSpot === spot.id 
+                      ? 'border-blue-500 bg-blue-50 shadow-lg' 
+                      : 'border-gray-200 bg-white hover:border-blue-300 hover:shadow-md'
+                  }`}
+                  onClick={() => setSelectedSpot(spot.id)}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="font-bold text-gray-800">Spot {spot.id}</span>
+                          <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded-full">{spot.area}</span>
+                        </div>
+                        <div className="text-sm text-gray-600 mb-2">{spot.time}</div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-500">Choose duration:</span>
+                          <Select value={selectedDuration} onValueChange={setSelectedDuration}>
+                            <SelectTrigger className="w-32 h-8 text-xs">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="6 hour">6 hours</SelectItem>
+                              <SelectItem value="Whole day">Whole day</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      <div className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md">
+                        {selectedDuration}
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-600">{spot.time}</div>
-                  </div>
-                  <div className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {spot.duration}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
 
           {/* Confirm Button */}
           <Button 
             onClick={handleContinue}
             disabled={!selectedSpot}
-            className="w-full py-4 text-lg font-semibold bg-white text-gray-800 border-2 border-gray-800 hover:bg-gray-50 rounded-none"
+            className="w-full py-6 text-lg font-bold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border-0"
             size="lg"
           >
             Confirm your spot &nbsp;&nbsp;&nbsp; 20$

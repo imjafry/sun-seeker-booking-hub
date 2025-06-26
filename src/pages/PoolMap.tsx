@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/locales';
-import { Calendar, Diamond, Check } from 'lucide-react';
+import { Calendar, Diamond, Check, ChevronDown } from 'lucide-react';
 
 const PoolMap = () => {
   const [showAvailability, setShowAvailability] = useState(false);
@@ -33,50 +33,50 @@ const PoolMap = () => {
     { date: 'jul 26', time: 'fredag - 15:30', status: 'available' },
   ];
 
-  // Generate pool spots in exact circular layout
   const generatePoolSpots = () => {
     const spots = [];
-    const areas = [
-      { name: 'Sun Area', positions: 28, color: 'bg-blue-400', startAngle: -90, endAngle: 30, radius: 120 },
-      { name: 'VIP Poolside', positions: 20, color: 'bg-blue-500', startAngle: 30, endAngle: 150, radius: 100 },
-      { name: 'Family Area', positions: 25, color: 'bg-blue-300', startAngle: 150, endAngle: 270, radius: 120 },
-    ];
-
-    areas.forEach((area) => {
-      const angleStep = (area.endAngle - area.startAngle) / area.positions;
-      for (let i = 0; i < area.positions; i++) {
-        const angle = (area.startAngle + (i * angleStep)) * (Math.PI / 180);
-        const x = 50 + (area.radius * Math.cos(angle)) / 4;
-        const y = 50 + (area.radius * Math.sin(angle)) / 4;
-        
-        spots.push({
-          id: i + 1,
-          area: area.name,
-          x: `${x}%`,
-          y: `${y}%`,
-          color: area.color,
-        });
-      }
-    });
-
+    const centerX = 50;
+    const centerY = 50;
+    const radius = 35;
+    
+    for (let i = 0; i < 60; i++) {
+      const angle = (i * 6) * (Math.PI / 180);
+      const x = centerX + (radius * Math.cos(angle));
+      const y = centerY + (radius * Math.sin(angle));
+      
+      spots.push({
+        id: i + 1,
+        x: `${x}%`,
+        y: `${y}%`,
+        opacity: 0.3 + (Math.random() * 0.7),
+        color: 'bg-blue-400'
+      });
+    }
+    
     return spots;
   };
 
   const poolSpots = generatePoolSpots();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
       <div className="container mx-auto px-4 py-6">
         <div className="max-w-md mx-auto">
-          {/* Top Navigation */}
-          <div className="flex justify-between items-center mb-6 bg-white rounded-lg p-4 shadow-sm">
+          {/* Header */}
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Pool Zone Selection</h1>
+            <p className="text-gray-600">Choose your preferred area</p>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex justify-between items-center mb-6 bg-white rounded-xl p-4 shadow-lg border border-gray-100">
             <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
-              <span className="font-medium">Select Date</span>
+              <Calendar className="w-5 h-5 text-blue-600" />
+              <span className="font-medium text-gray-700">Select Date</span>
             </div>
             <div className="flex items-center gap-2">
-              <Diamond className="w-5 h-5" />
-              <span className="font-medium">Zone</span>
+              <Diamond className="w-5 h-5 text-blue-600" />
+              <span className="font-medium text-gray-700">Zone</span>
               <button 
                 onClick={() => setShowAvailability(!showAvailability)}
                 className="text-red-500 text-xs ml-2"
@@ -89,44 +89,44 @@ const PoolMap = () => {
           </div>
 
           {/* Pricing Grid */}
-          <Card className="mb-6 bg-white">
+          <Card className="mb-6 bg-white shadow-xl border-0">
             <CardContent className="p-6">
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="space-y-3">
                   {pricingZones.slice(0, 5).map((zone) => (
-                    <div key={zone.id} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className={`w-4 h-4 ${zone.color} rounded`}></div>
-                        <span className="text-sm font-medium">
-                          {zone.selected && <Check className="w-3 h-3 inline mr-1" />}
+                    <div key={zone.id} className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-6 h-6 ${zone.color} rounded-md shadow-sm`}></div>
+                        <span className="text-sm font-medium text-gray-700">
+                          {zone.selected && <Check className="w-3 h-3 inline mr-1 text-green-600" />}
                           {zone.name}
                         </span>
                       </div>
-                      <span className="text-sm font-semibold">({zone.price})</span>
+                      <span className="text-sm font-semibold text-gray-600">({zone.price})</span>
                     </div>
                   ))}
                 </div>
                 
                 <div className="space-y-3">
                   {pricingZones.slice(5).map((zone) => (
-                    <div key={zone.id} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className={`w-4 h-4 ${zone.color} rounded`}></div>
-                        <span className="text-sm font-medium">
-                          {zone.selected && <Check className="w-3 h-3 inline mr-1" />}
+                    <div key={zone.id} className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-6 h-6 ${zone.color} rounded-md shadow-sm`}></div>
+                        <span className="text-sm font-medium text-gray-700">
+                          {zone.selected && <Check className="w-3 h-3 inline mr-1 text-green-600" />}
                           {zone.name}
                         </span>
                       </div>
-                      <span className="text-sm font-semibold">({zone.price})</span>
+                      <span className="text-sm font-semibold text-gray-600">({zone.price})</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Pool Layout */}
-              <div className="bg-gray-100 rounded-2xl p-8">
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-8 border-2 border-blue-100">
                 <div className="text-center mb-4">
-                  <h3 className="text-lg font-semibold text-gray-800">POOL</h3>
+                  <h3 className="text-xl font-bold text-gray-800 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">POOL</h3>
                 </div>
                 
                 {/* Circular Pool Container */}
@@ -135,14 +135,19 @@ const PoolMap = () => {
                   {poolSpots.map((spot, index) => (
                     <div
                       key={index}
-                      className={`absolute w-3 h-3 rounded-full ${spot.color} opacity-70 hover:opacity-100 cursor-pointer transform -translate-x-1/2 -translate-y-1/2`}
-                      style={{ left: spot.x, top: spot.y }}
+                      className={`absolute w-3 h-3 rounded-full ${spot.color} cursor-pointer hover:scale-125 transition-all duration-200 shadow-sm`}
+                      style={{ 
+                        left: spot.x, 
+                        top: spot.y, 
+                        opacity: spot.opacity,
+                        transform: 'translate(-50%, -50%)'
+                      }}
                     />
                   ))}
 
                   {/* Center Pool */}
                   <div 
-                    className="absolute bg-gradient-to-br from-blue-200 to-blue-300 rounded-full flex items-center justify-center text-gray-700 font-medium"
+                    className="absolute bg-gradient-to-br from-blue-300 via-blue-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg"
                     style={{ 
                       left: '50%', 
                       top: '50%', 
@@ -155,10 +160,10 @@ const PoolMap = () => {
                   </div>
 
                   {/* Area Labels */}
-                  <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-gray-600">
+                  <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-semibold text-gray-600 bg-white px-3 py-1 rounded-full shadow-sm">
                     Sun Area
                   </div>
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm font-medium text-gray-600">
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm font-semibold text-gray-600 bg-white px-3 py-1 rounded-full shadow-sm">
                     VIP Poolside
                   </div>
                 </div>
@@ -168,7 +173,7 @@ const PoolMap = () => {
 
           {/* Availability Dropdown */}
           {showAvailability && (
-            <Card className="mb-6 bg-white animate-fade-in">
+            <Card className="mb-6 bg-white shadow-xl border-0 animate-fade-in">
               <CardContent className="p-6">
                 <div className="mb-4">
                   <span className="text-sm text-red-500 font-medium">Drop down availability page 3</span>
@@ -176,36 +181,36 @@ const PoolMap = () => {
                 
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
+                    <Calendar className="w-4 h-4 text-blue-600" />
                     <span className="text-sm font-medium">Select Date</span>
                     <span className="text-xs text-red-500">click</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Diamond className="w-4 h-4" />
+                    <Diamond className="w-4 h-4 text-blue-600" />
                     <span className="text-sm font-medium">Zone</span>
                   </div>
                 </div>
                 
                 <div className="text-center mb-4">
-                  <h3 className="text-lg font-semibold">July 2025</h3>
+                  <h3 className="text-lg font-bold text-gray-800">July 2025</h3>
                 </div>
                 
                 <div className="space-y-3">
                   {timeSlots.map((slot, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50">
+                    <div key={index} className="flex items-center justify-between p-3 rounded-xl border-2 border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all duration-200">
                       <div className="flex items-center gap-4">
                         <div className="text-center">
                           <div className="text-xs text-gray-500">{slot.date.split(' ')[0]}</div>
-                          <div className="text-lg font-bold">{slot.date.split(' ')[1] || slot.date.split(' ')[0].slice(-2)}</div>
+                          <div className="text-lg font-bold text-gray-800">{slot.date.split(' ')[1] || slot.date.split(' ')[0].slice(-2)}</div>
                         </div>
                         <div>
-                          <div className="text-sm font-medium">{slot.time}</div>
+                          <div className="text-sm font-medium text-gray-700">{slot.time}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge 
                           variant={slot.status === 'available' ? 'secondary' : 'outline'}
-                          className={slot.status === 'limited' ? 'bg-orange-100 text-orange-800' : 'bg-green-100 text-green-800'}
+                          className={`${slot.status === 'limited' ? 'bg-orange-100 text-orange-800 border-orange-200' : 'bg-green-100 text-green-800 border-green-200'} font-medium`}
                         >
                           {slot.status === 'limited' ? (
                             <>
@@ -227,7 +232,7 @@ const PoolMap = () => {
           {/* Continue Button */}
           <Button 
             onClick={() => navigate('/booking/summary')}
-            className="w-full py-3 text-lg font-semibold bg-white text-gray-800 border-2 border-gray-800 hover:bg-gray-50"
+            className="w-full py-6 text-lg font-bold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border-0"
             size="lg"
           >
             {t('booking.confirmSpot')} →
