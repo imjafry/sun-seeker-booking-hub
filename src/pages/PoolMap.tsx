@@ -1,258 +1,226 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookingLayout } from '@/components/BookingLayout';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/locales';
+import { ChevronDown } from 'lucide-react';
 
 const PoolMap = () => {
-  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const [showAvailability, setShowAvailability] = useState(false);
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
-  const loungerTypes = {
-    standard: { name: 'Standard', price: 25, color: 'bg-blue-400', icon: '🪑' },
-    premium: { name: 'Premium', price: 40, color: 'bg-purple-400', icon: '🛏️' },
-    vip: { name: 'VIP', price: 60, color: 'bg-yellow-400', icon: '👑' },
-    cabana: { name: 'Cabana', price: 100, color: 'bg-green-400', icon: '🏖️' },
-    shade: { name: 'Shade', price: 35, color: 'bg-gray-400', icon: '☂️' }
-  };
-
-  // More realistic pool layout based on the reference image
-  const poolLayout = [
-    // VIP Area (Front row near pool) - Row 1
-    { id: 'V1', type: 'vip', status: 'available', row: 1, col: 2 },
-    { id: 'V2', type: 'vip', status: 'available', row: 1, col: 3 },
-    { id: 'V3', type: 'vip', status: 'booked', row: 1, col: 4 },
-    { id: 'V4', type: 'vip', status: 'available', row: 1, col: 5 },
-    
-    // Premium Area - Row 2
-    { id: 'D1', type: 'premium', status: 'available', row: 2, col: 1 },
-    { id: 'D2', type: 'premium', status: 'available', row: 2, col: 2 },
-    { id: 'D3', type: 'premium', status: 'booked', row: 2, col: 3 },
-    { id: 'D4', type: 'premium', status: 'available', row: 2, col: 6 },
-    
-    // Standard Area - Row 3 (Main row)
-    { id: 'S1', type: 'standard', status: 'available', row: 3, col: 1 },
-    { id: 'S2', type: 'standard', status: 'available', row: 3, col: 2 },
-    { id: 'S3', type: 'standard', status: 'available', row: 3, col: 3 },
-    { id: 'S4', type: 'standard', status: 'available', row: 3, col: 4 },
-    { id: 'S5', type: 'standard', status: 'booked', row: 3, col: 5 },
-    { id: 'S6', type: 'standard', status: 'available', row: 3, col: 6 },
-    { id: 'S7', type: 'standard', status: 'available', row: 3, col: 7 },
-    { id: 'S8', type: 'standard', status: 'available', row: 3, col: 8 },
-    { id: 'S9', type: 'standard', status: 'available', row: 3, col: 9 },
-    
-    // Cabanas and Shade areas - Row 4
-    { id: 'C1', type: 'cabana', status: 'available', row: 4, col: 1 },
-    { id: 'SH1', type: 'shade', status: 'available', row: 4, col: 3 },
-    { id: 'SH2', type: 'shade', status: 'available', row: 4, col: 5 },
-    { id: 'C2', type: 'cabana', status: 'unavailable', row: 4, col: 7 },
-    { id: 'C3', type: 'cabana', status: 'available', row: 4, col: 9 },
+  const timeSlots = [
+    { time: 'Tue - 15:30', status: 'limited', date: 'JUL 22' },
+    { time: 'onsdag - 11:00', status: 'available', date: 'JUL 23' },
+    { time: '11:00 - 11:00', status: 'available', date: 'JUL 23' },
+    { time: 'onsdag - 15:30', status: 'available', date: 'JUL 24' },
+    { time: 'tirsdag - 11:00', status: 'available', date: 'JUL 25' },
+    { time: 'fredag - 15:30', status: 'available', date: 'JUL 26' },
   ];
 
-  const handleSeatSelect = (seatId: string, status: string) => {
-    if (status === 'booked' || status === 'unavailable') return;
-    
-    if (selectedSeats.includes(seatId)) {
-      setSelectedSeats(selectedSeats.filter(id => id !== seatId));
-    } else {
-      setSelectedSeats([...selectedSeats, seatId]);
-    }
-  };
-
-  const getSeatColor = (seat: any) => {
-    if (seat.status === 'booked') return 'bg-red-400 cursor-not-allowed opacity-75';
-    if (seat.status === 'unavailable') return 'bg-gray-300 cursor-not-allowed opacity-50';
-    if (selectedSeats.includes(seat.id)) return 'bg-green-500 shadow-xl scale-110 ring-4 ring-green-200';
-    return `${loungerTypes[seat.type as keyof typeof loungerTypes].color} hover:scale-105 cursor-pointer hover:shadow-lg`;
-  };
-
-  const getTotalPrice = () => {
-    return selectedSeats.reduce((total, seatId) => {
-      const seat = poolLayout.find(s => s.id === seatId);
-      if (seat) {
-        return total + loungerTypes[seat.type as keyof typeof loungerTypes].price;
-      }
-      return total;
-    }, 0);
-  };
-
-  const handleContinue = () => {
-    if (selectedSeats.length > 0) {
-      navigate('/booking/summary');
-    }
-  };
-
   return (
-    <BookingLayout 
-      title="Pick Your Spot" 
-      step={2} 
-      totalSteps={4}
-    >
-      <div className="space-y-4 sm:space-y-6">
-        {/* Interactive Pool Map Intro */}
-        <Card className="border-2 border-blue-100 bg-gradient-to-r from-blue-50 to-cyan-50">
-          <CardContent className="p-4 sm:p-6 text-center">
-            <h2 className="text-lg sm:text-2xl font-bold text-blue-800 mb-2">
-              🏊‍♂️ Pool Area Layout
-            </h2>
-            <p className="text-sm sm:text-base text-blue-600">
-              Color-coded availability • Tap to select loungers
-            </p>
-          </CardContent>
-        </Card>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 relative overflow-hidden">
+      {/* Floating orbs */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200/30 rounded-full blur-xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-cyan-200/30 rounded-full blur-xl animate-pulse delay-1000"></div>
 
-        {/* Legend */}
-        <Card className="border-2 border-blue-100">
-          <CardHeader className="pb-2 sm:pb-4">
-            <CardTitle className="text-blue-800 text-sm sm:text-lg">Lounger Types & Pricing</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-4 mb-3 sm:mb-6">
-              {Object.entries(loungerTypes).map(([key, type]) => (
-                <div key={key} className="flex items-center gap-2 p-2 sm:p-3 rounded-lg border hover:bg-gray-50 transition-colors">
-                  <div className={`w-4 h-4 sm:w-6 sm:h-6 rounded-lg ${type.color} flex items-center justify-center text-xs`}>
-                    <span className="hidden sm:inline">{type.icon}</span>
-                  </div>
-                  <div className="text-xs sm:text-sm">
-                    <div className="font-medium">{type.name}</div>
-                    <div className="text-gray-500">${type.price}/day</div>
-                  </div>
-                </div>
-              ))}
+      <div className="container mx-auto px-4 py-6 relative z-10">
+        <div className="max-w-md mx-auto">
+          {/* Header */}
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 mb-4 shadow-lg">
+              <span className="text-sm font-medium text-gray-600">Page 3</span>
             </div>
-            
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-6 pt-2 sm:pt-4 border-t text-xs sm:text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded bg-green-500"></div>
-                <span className="font-medium">Selected</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded bg-blue-400"></div>
-                <span className="font-medium">Available</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded bg-red-400"></div>
-                <span className="font-medium">Booked</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded bg-gray-300"></div>
-                <span className="font-medium">Unavailable</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Pool Map */}
-        <Card className="border-2 border-blue-200 overflow-hidden">
-          <CardContent className="p-2 sm:p-6">
-            <div className="relative bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-2 sm:p-6 w-full">
-              {/* Pool representation */}
-              <div className="absolute inset-x-1/4 top-4 sm:top-12 h-16 sm:h-32 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full opacity-80 flex items-center justify-center shadow-2xl w-24 sm:w-auto">
-                <span className="text-white font-bold text-xs sm:text-xl animate-pulse">POOL</span>
-              </div>
-              
-              {/* Zone Labels */}
-              <div className="absolute top-0 sm:top-2 left-1 sm:left-4 text-xs font-semibold text-blue-600 bg-white/80 px-1 sm:px-2 py-0.5 sm:py-1 rounded">VIP</div>
-              <div className="absolute top-8 sm:top-20 left-1 sm:left-4 text-xs font-semibold text-purple-600 bg-white/80 px-1 sm:px-2 py-0.5 sm:py-1 rounded">PREMIUM</div>
-              <div className="absolute top-16 sm:top-36 left-1 sm:left-4 text-xs font-semibold text-gray-600 bg-white/80 px-1 sm:px-2 py-0.5 sm:py-1 rounded">STANDARD</div>
-              <div className="absolute bottom-8 sm:bottom-20 left-1 sm:left-4 text-xs font-semibold text-green-600 bg-white/80 px-1 sm:px-2 py-0.5 sm:py-1 rounded">CABANA & SHADE</div>
-              
-              {/* Loungers grid */}
-              <div className="pt-24 sm:pt-48 pb-4 sm:pb-8 w-full">
-                <div className="grid grid-cols-9 gap-0.5 sm:gap-3 w-full">
-                  {Array.from({length: 4}, (_, rowIndex) => (
-                    <div key={rowIndex} className="contents">
-                      {Array.from({length: 9}, (_, colIndex) => {
-                        const seat = poolLayout.find(s => s.row === rowIndex + 1 && s.col === colIndex + 1);
-                        if (!seat) {
-                          return <div key={`${rowIndex}-${colIndex}`} className="aspect-square"></div>;
-                        }
-                        
-                        return (
-                          <div
-                            key={seat.id}
-                            className={`
-                              relative rounded-md sm:rounded-xl p-0.5 sm:p-3 transition-all duration-300 
-                              ${getSeatColor(seat)}
-                              flex flex-col items-center justify-center text-white font-bold
-                              border border-white/20 sm:border-2
-                              aspect-square cursor-pointer
-                              min-h-[32px] sm:min-h-[60px]
-                            `}
-                            onClick={() => handleSeatSelect(seat.id, seat.status)}
-                          >
-                            <div className="text-xs sm:text-lg mb-0 sm:mb-1 hidden sm:block">
-                              {loungerTypes[seat.type as keyof typeof loungerTypes].icon}
-                            </div>
-                            <div className="font-bold text-[10px] sm:text-sm">{seat.id}</div>
-                            
-                            {seat.status === 'booked' && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-red-500/80 rounded-md sm:rounded-xl">
-                                <span className="text-xs sm:text-lg">❌</span>
-                              </div>
-                            )}
-                            {seat.status === 'unavailable' && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-gray-500/80 rounded-md sm:rounded-xl">
-                                <span className="text-xs sm:text-lg">🚫</span>
-                              </div>
-                            )}
-                            {selectedSeats.includes(seat.id) && (
-                              <div className="absolute -top-0.5 -right-0.5 sm:-top-2 sm:-right-2 bg-white rounded-full p-0.5 sm:p-1">
-                                <span className="text-green-600 text-xs sm:text-lg">✅</span>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ))}
+          {/* Zone Selection Bar */}
+          <Card className="mb-6 border-0 shadow-2xl bg-white/90 backdrop-blur-sm">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium">{t('booking.selectDate')}</span>
                 </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Selection Summary */}
-        {selectedSeats.length > 0 && (
-          <Card className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 animate-fade-in">
-            <CardContent className="p-3 sm:p-6">
-              <div className="flex flex-col gap-3 sm:gap-4">
-                <div>
-                  <h3 className="font-bold text-green-800 mb-2 sm:mb-3 text-sm sm:text-lg">Selected Seats</h3>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
-                    {selectedSeats.map(seatId => {
-                      const seat = poolLayout.find(s => s.id === seatId);
-                      const type = seat ? loungerTypes[seat.type as keyof typeof loungerTypes] : null;
-                      return (
-                        <Badge key={seatId} className="bg-green-200 text-green-800 hover:bg-green-300 p-1.5 sm:p-2 text-xs">
-                          {type?.icon} {seatId} - {type?.name} (${type?.price})
-                        </Badge>
-                      );
-                    })}
-                  </div>
-                  <div className="text-xl sm:text-3xl font-bold text-green-700">
-                    Total: ${getTotalPrice()}
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium">{t('booking.zone')}</span>
                   <Button 
-                    onClick={handleContinue}
-                    size="lg"
-                    className="w-full bg-green-600 hover:bg-green-700 px-4 sm:px-8 py-3 sm:py-6 text-sm sm:text-lg font-semibold animate-pulse"
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => setShowAvailability(!showAvailability)}
+                    className="text-red-500"
                   >
-                    Confirm Selection →
+                    Drop down info
+                    <ChevronDown className="w-4 h-4 ml-1" />
                   </Button>
-                  <p className="text-xs sm:text-sm text-green-600 text-center">
-                    {selectedSeats.length} seat{selectedSeats.length > 1 ? 's' : ''} selected
-                  </p>
                 </div>
               </div>
             </CardContent>
           </Card>
-        )}
+
+          {/* Zone Pricing */}
+          <Card className="mb-6 border-0 shadow-2xl bg-white/90 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded"></div>
+                      <span className="text-sm">PG A</span>
+                    </div>
+                    <span className="text-sm font-semibold">($30,00)</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-teal-600 rounded"></div>
+                      <span className="text-sm">PG C</span>
+                    </div>
+                    <span className="text-sm font-semibold">($15,00)</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-green-600 rounded"></div>
+                      <span className="text-sm">PG E</span>
+                    </div>
+                    <span className="text-sm font-semibold">($15,00)</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-gray-600 rounded"></div>
+                      <span className="text-sm">PG G</span>
+                    </div>
+                    <span className="text-sm font-semibold">($10,00)</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-purple-600 rounded"></div>
+                      <span className="text-sm">PG I</span>
+                    </div>
+                    <span className="text-sm font-semibold">($10,00)</span>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-blue-400 rounded"></div>
+                      <span className="text-sm">PG B</span>
+                    </div>
+                    <span className="text-sm font-semibold">($55,00)</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-green-400 rounded"></div>
+                      <span className="text-sm">PG D</span>
+                    </div>
+                    <span className="text-sm font-semibold">($39,00)</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-green-500 rounded"></div>
+                      <span className="text-sm">✓ PG F</span>
+                    </div>
+                    <span className="text-sm font-semibold">($40,00)</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-gray-500 rounded"></div>
+                      <span className="text-sm">✓ PG H</span>
+                    </div>
+                    <span className="text-sm font-semibold">($10,00)</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pool Layout */}
+              <div className="relative bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl p-8">
+                <div className="text-center mb-4">
+                  <h3 className="font-medium text-gray-700">{t('booking.pool')}</h3>
+                </div>
+                
+                {/* Circular Pool Layout */}
+                <div className="relative w-48 h-48 mx-auto">
+                  {/* Center Pool */}
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-20 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-white text-xs font-bold">{t('booking.pool')}</span>
+                  </div>
+                  
+                  {/* Zone dots around pool */}
+                  <div className="absolute inset-0">
+                    {/* Sun Area - Top */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 text-center">
+                      <div className="grid grid-cols-5 gap-1 mb-2">
+                        {Array.from({length: 15}).map((_, i) => (
+                          <div key={i} className="w-2 h-2 bg-blue-400 rounded-full opacity-70 hover:opacity-100 cursor-pointer"></div>
+                        ))}
+                      </div>
+                      <span className="text-xs text-gray-600">{t('booking.sunArea')}</span>
+                    </div>
+                    
+                    {/* VIP Poolside - Right */}
+                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 text-center">
+                      <div className="grid grid-cols-2 gap-1 mb-2">
+                        {Array.from({length: 8}).map((_, i) => (
+                          <div key={i} className="w-2 h-2 bg-purple-400 rounded-full opacity-70 hover:opacity-100 cursor-pointer"></div>
+                        ))}
+                      </div>
+                      <span className="text-xs text-gray-600 transform rotate-90 origin-center block mt-4">{t('booking.vipPoolside')}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Availability Dropdown */}
+          {showAvailability && (
+            <Card className="mb-6 border-0 shadow-2xl bg-white/90 backdrop-blur-sm animate-fade-in">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium">{t('booking.availabilityInfo')}</span>
+                </div>
+                
+                <div className="text-center mb-4">
+                  <h3 className="text-lg font-semibold">July 2025</h3>
+                </div>
+                
+                <div className="space-y-3">
+                  {timeSlots.map((slot, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50">
+                      <div className="flex items-center gap-3">
+                        <div className="text-center">
+                          <div className="text-xs text-gray-500">{slot.date.split(' ')[0]}</div>
+                          <div className="text-sm font-semibold">{slot.date.split(' ')[1]}</div>
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium">{slot.time}</div>
+                        </div>
+                      </div>
+                      <Badge 
+                        variant={slot.status === 'available' ? 'secondary' : 'outline'}
+                        className={slot.status === 'limited' ? 'bg-orange-100 text-orange-800' : 'bg-green-100 text-green-800'}
+                      >
+                        {slot.status === 'limited' ? t('booking.limitedAvailability') : t('booking.available')}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Continue Button */}
+          <Button 
+            onClick={() => navigate('/booking/summary')}
+            className="w-full py-6 text-lg font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-xl"
+            size="lg"
+          >
+            {t('booking.confirmSpot')} →
+          </Button>
+        </div>
       </div>
-    </BookingLayout>
+    </div>
   );
 };
 

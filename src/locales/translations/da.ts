@@ -1,3 +1,4 @@
+
 export default {
   welcome: {
     title: "Dit sted i solen – booket før morgenmad.",
@@ -15,5 +16,47 @@ export default {
       title: "Verificerer dit ophold",
       description: "Forbinder dig til din perfekte poolside-oplevelse"
     }
+  },
+  booking: {
+    selectDate: "Vælg Dato",
+    zone: "Zone",
+    pool: "Pool",
+    sunArea: "Sol Område",
+    vipPoolside: "VIP Poolside",
+    familyArea: "Familie Område",
+    chooseDuration: "Vælg varighed",
+    hours: "timer",
+    confirmSpot: "Bekræft dit sted",
+    availabilityInfo: "Dropdown tilgængelighed side 3",
+    limitedAvailability: "Begrænset tilgængelighed",
+    available: "Tilgængelig",
+    wantExtras: "Vil du have et håndklæde eller en parasol?",
+    luxuryTowel: "Luksus Håndklæde",
+    premiumParasol: "Premium Parasol",
+    each: "hver",
+    onlyOptions: "Kun 2 muligheder",
+    skip: "Spring over",
+    bookingConfirmed: "Booking Bekræftet!",
+    seatsReserved: "Dine pladser er blevet reserveret med succes",
+    bookingQRCode: "Din Booking QR Kode",
+    showAtEntrance: "Vis dette ved pool indgangen",
+    bookingDetails: "Booking Detaljer",
+    reservedSeats: "Reserverede Pladser",
+    guest: "Gæst",
+    room: "Værelse",
+    paymentSummary: "Betalings Oversigt",
+    addOns: "Tilføjelser",
+    totalPaid: "Total betalt",
+    importantInfo: "Vigtig Information",
+    beforeVisit: "Før Dit Besøg",
+    arriveEarly: "Ankom 15 minutter før dit tidsrum",
+    bringQR: "Medbring din booking QR kode",
+    validKey: "Gyldig værelses nøgle påkrævet",
+    towelsAvailable: "Håndklæder tilgængelige ved pool service",
+    cancellationPolicy: "Aflysningspolitik",
+    freeCancellation: "Gratis aflysning 2 timer før",
+    halfRefund: "50% refundering 1 time før",
+    noRefund: "Ingen refundering ved ikke-opvisning",
+    contactReception: "Kontakt reception for ændringer"
   }
-}; 
+};

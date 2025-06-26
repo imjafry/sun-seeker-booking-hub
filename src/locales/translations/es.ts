@@ -1,3 +1,4 @@
+
 export default {
   welcome: {
     title: "Tu lugar al sol – reservado antes del desayuno.",
@@ -15,5 +16,47 @@ export default {
       title: "Verificando tu Estancia",
       description: "Conectándote a tu experiencia perfecta junto a la piscina"
     }
+  },
+  booking: {
+    selectDate: "Seleccionar Fecha",
+    zone: "Zona",
+    pool: "Piscina",
+    sunArea: "Área de Sol",
+    vipPoolside: "VIP Junto a la Piscina",
+    familyArea: "Área Familiar",
+    chooseDuration: "Elegir duración",
+    hours: "horas",
+    confirmSpot: "Confirmar tu lugar",
+    availabilityInfo: "Página de disponibilidad desplegable 3",
+    limitedAvailability: "Disponibilidad limitada",
+    available: "Disponible",
+    wantExtras: "¿Quieres una toalla o una sombrilla?",
+    luxuryTowel: "Toalla de Lujo",
+    premiumParasol: "Sombrilla Premium",
+    each: "cada uno",
+    onlyOptions: "Solo 2 opciones",
+    skip: "Saltar",
+    bookingConfirmed: "¡Reserva Confirmada!",
+    seatsReserved: "Tus asientos han sido reservados exitosamente",
+    bookingQRCode: "Tu Código QR de Reserva",
+    showAtEntrance: "Muestra esto en la entrada de la piscina",
+    bookingDetails: "Detalles de la Reserva",
+    reservedSeats: "Asientos Reservados",
+    guest: "Huésped",
+    room: "Habitación",
+    paymentSummary: "Resumen de Pago",
+    addOns: "Extras",
+    totalPaid: "Total pagado",
+    importantInfo: "Información Importante",
+    beforeVisit: "Antes de tu Visita",
+    arriveEarly: "Llega 15 minutos antes de tu horario",
+    bringQR: "Trae tu código QR de reserva",
+    validKey: "Se requiere llave de habitación válida",
+    towelsAvailable: "Toallas disponibles en el servicio de piscina",
+    cancellationPolicy: "Política de Cancelación",
+    freeCancellation: "Cancelación gratuita 2 horas antes",
+    halfRefund: "50% de reembolso 1 hora antes",
+    noRefund: "Sin reembolso por no presentarse",
+    contactReception: "Contacta recepción para cambios"
   }
-}; 
+};

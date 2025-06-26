@@ -5,455 +5,339 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Save, Settings as SettingsIcon, Globe, DollarSign, Clock, Users } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Settings as SettingsIcon, Pool, Clock, DollarSign, Users, Bell, Shield, Palette } from 'lucide-react';
 
 const Settings = () => {
-  const [settings, setSettings] = useState({
-    // General Settings
-    hotelName: 'Sunset Resort & Spa',
-    defaultLanguage: 'en',
-    currency: 'USD',
-    timezone: 'America/New_York',
-    
-    // Booking Settings
+  const [poolSettings, setPoolSettings] = useState({
     maxBookingsPerDay: 2,
-    advanceBookingDays: 7,
-    cancellationDeadline: 24,
-    enableQRBooking: true,
-    enableManualBooking: true,
-    
-    // Time Slot Settings
-    openingTime: '08:00',
-    closingTime: '20:00',
-    timeSlotDuration: 2,
-    breakBetweenSlots: 30,
-    
-    // Pricing Settings
-    standardPrice: 25,
-    premiumPrice: 40,
-    vipPrice: 60,
-    cabanaPrice: 100,
-    shadePrice: 35,
-    
-    // Extra Services
-    enableExtras: true,
-    cokePrice: 5,
-    waterPrice: 3,
-    cocktailPrice: 12,
-    towelPrice: 10,
-    parasolPrice: 15,
-    snacksPrice: 8,
-    
-    // Notifications
+    bookingWindow: 7,
+    cancellationPolicy: 2,
+    autoConfirm: true,
     emailNotifications: true,
     smsNotifications: false,
-    adminNotifications: true,
-    
-    // Payment Settings
-    enableStripe: true,
-    enableReceptionPayment: true,
-    stripeKey: '',
-    
-    // Terms and Policies
-    termsAndConditions: 'By booking a lounger, you agree to our terms and conditions...',
-    cancellationPolicy: 'Free cancellation up to 24 hours before your booking...',
-    privacyPolicy: 'We respect your privacy and protect your personal data...'
   });
 
-  const handleSave = () => {
-    console.log('Saving settings:', settings);
-    // In real app, this would save to database
-  };
-
-  const updateSetting = (key: string, value: any) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
-  };
+  const [priceSettings, setPriceSettings] = useState({
+    standardSeat: 25,
+    premiumSeat: 40,
+    vipSeat: 60,
+    cabana: 100,
+    shadeSeat: 35,
+    towelPrice: 10,
+    parasolPrice: 15,
+    cocktailPrice: 12,
+  });
 
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Settings</h1>
-          <Button onClick={handleSave} className="bg-green-600 hover:bg-green-700">
-            <Save className="w-4 h-4 mr-2" />
-            Save All Settings
-          </Button>
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-lg">
+            <SettingsIcon className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+            <p className="text-gray-600">Configure pool booking system settings</p>
+          </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* General Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Globe className="w-5 h-5" />
-                General Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="hotelName">Hotel Name</Label>
-                <Input
-                  id="hotelName"
-                  value={settings.hotelName}
-                  onChange={(e) => updateSetting('hotelName', e.target.value)}
-                />
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
+        <Tabs defaultValue="pool" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4 lg:w-[400px]">
+            <TabsTrigger value="pool" className="flex items-center gap-2">
+              <Pool className="w-4 h-4" />
+              <span className="hidden sm:inline">Pool</span>
+            </TabsTrigger>
+            <TabsTrigger value="pricing" className="flex items-center gap-2">
+              <DollarSign className="w-4 h-4" />
+              <span className="hidden sm:inline">Pricing</span>
+            </TabsTrigger>
+            <TabsTrigger value="notifications" className="flex items-center gap-2">
+              <Bell className="w-4 h-4" />
+              <span className="hidden sm:inline">Alerts</span>
+            </TabsTrigger>
+            <TabsTrigger value="system" className="flex items-center gap-2">
+              <Shield className="w-4 h-4" />
+              <span className="hidden sm:inline">System</span>
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Pool Settings */}
+          <TabsContent value="pool" className="space-y-6">
+            <Card className="border-0 shadow-xl bg-gradient-to-br from-blue-50 to-cyan-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-blue-800">
+                  <Pool className="w-5 h-5" />
+                  Pool Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="maxBookings">Max Bookings Per Day</Label>
+                    <Input
+                      id="maxBookings"
+                      type="number"
+                      value={poolSettings.maxBookingsPerDay}
+                      onChange={(e) => setPoolSettings({...poolSettings, maxBookingsPerDay: parseInt(e.target.value)})}
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="bookingWindow">Booking Window (days)</Label>
+                    <Input
+                      id="bookingWindow"
+                      type="number"
+                      value={poolSettings.bookingWindow}
+                      onChange={(e) => setPoolSettings({...poolSettings, bookingWindow: parseInt(e.target.value)})}
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="cancellation">Cancellation Hours</Label>
+                    <Input
+                      id="cancellation"
+                      type="number"
+                      value={poolSettings.cancellationPolicy}
+                      onChange={(e) => setPoolSettings({...poolSettings, cancellationPolicy: parseInt(e.target.value)})}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Pool Layout</Label>
+                    <Select defaultValue="circular">
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="circular">Circular Layout</SelectItem>
+                        <SelectItem value="rectangular">Rectangular Layout</SelectItem>
+                        <SelectItem value="custom">Custom Layout</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Label>Auto-confirm bookings</Label>
+                      <p className="text-sm text-gray-500">Automatically confirm bookings without manual approval</p>
+                    </div>
+                    <Switch
+                      checked={poolSettings.autoConfirm}
+                      onCheckedChange={(checked) => setPoolSettings({...poolSettings, autoConfirm: checked})}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Pricing Settings */}
+          <TabsContent value="pricing" className="space-y-6">
+            <Card className="border-0 shadow-xl bg-gradient-to-br from-green-50 to-emerald-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-green-800">
+                  <DollarSign className="w-5 h-5" />
+                  Pricing Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-gray-700">Seat Prices</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Label>Standard Seat</Label>
+                        <div className="flex items-center gap-2">
+                          <span>$</span>
+                          <Input
+                            type="number"
+                            value={priceSettings.standardSeat}
+                            onChange={(e) => setPriceSettings({...priceSettings, standardSeat: parseInt(e.target.value)})}
+                            className="w-20"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label>Premium Seat</Label>
+                        <div className="flex items-center gap-2">
+                          <span>$</span>
+                          <Input
+                            type="number"
+                            value={priceSettings.premiumSeat}
+                            onChange={(e) => setPriceSettings({...priceSettings, premiumSeat: parseInt(e.target.value)})}
+                            className="w-20"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label>VIP Seat</Label>
+                        <div className="flex items-center gap-2">
+                          <span>$</span>
+                          <Input
+                            type="number"
+                            value={priceSettings.vipSeat}
+                            onChange={(e) => setPriceSettings({...priceSettings, vipSeat: parseInt(e.target.value)})}
+                            className="w-20"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label>Cabana</Label>
+                        <div className="flex items-center gap-2">
+                          <span>$</span>
+                          <Input
+                            type="number"
+                            value={priceSettings.cabana}
+                            onChange={(e) => setPriceSettings({...priceSettings, cabana: parseInt(e.target.value)})}
+                            className="w-20"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-gray-700">Extra Prices</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Label>Luxury Towel</Label>
+                        <div className="flex items-center gap-2">
+                          <span>$</span>
+                          <Input
+                            type="number"
+                            value={priceSettings.towelPrice}
+                            onChange={(e) => setPriceSettings({...priceSettings, towelPrice: parseInt(e.target.value)})}
+                            className="w-20"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label>Premium Parasol</Label>
+                        <div className="flex items-center gap-2">
+                          <span>$</span>
+                          <Input
+                            type="number"
+                            value={priceSettings.parasolPrice}
+                            onChange={(e) => setPriceSettings({...priceSettings, parasolPrice: parseInt(e.target.value)})}
+                            className="w-20"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label>Pool Cocktail</Label>
+                        <div className="flex items-center gap-2">
+                          <span>$</span>
+                          <Input
+                            type="number"
+                            value={priceSettings.cocktailPrice}
+                            onChange={(e) => setPriceSettings({...priceSettings, cocktailPrice: parseInt(e.target.value)})}
+                            className="w-20"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Notifications */}
+          <TabsContent value="notifications" className="space-y-6">
+            <Card className="border-0 shadow-xl bg-gradient-to-br from-orange-50 to-yellow-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-orange-800">
+                  <Bell className="w-5 h-5" />
+                  Notification Settings
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label>Email Notifications</Label>
+                    <p className="text-sm text-gray-500">Receive booking confirmations via email</p>
+                  </div>
+                  <Switch
+                    checked={poolSettings.emailNotifications}
+                    onCheckedChange={(checked) => setPoolSettings({...poolSettings, emailNotifications: checked})}
+                  />
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label>SMS Notifications</Label>
+                    <p className="text-sm text-gray-500">Receive booking alerts via SMS</p>
+                  </div>
+                  <Switch
+                    checked={poolSettings.smsNotifications}
+                    onCheckedChange={(checked) => setPoolSettings({...poolSettings, smsNotifications: checked})}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* System Settings */}
+          <TabsContent value="system" className="space-y-6">
+            <Card className="border-0 shadow-xl bg-gradient-to-br from-purple-50 to-pink-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-purple-800">
+                  <Shield className="w-5 h-5" />
+                  System Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="timezone">Timezone</Label>
+                  <Select defaultValue="utc">
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="utc">UTC</SelectItem>
+                      <SelectItem value="est">Eastern Time</SelectItem>
+                      <SelectItem value="pst">Pacific Time</SelectItem>
+                      <SelectItem value="cet">Central European Time</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
                   <Label htmlFor="language">Default Language</Label>
-                  <Select value={settings.defaultLanguage} onValueChange={(value) => updateSetting('defaultLanguage', value)}>
+                  <Select defaultValue="en">
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="en">English</SelectItem>
-                      <SelectItem value="es">Español</SelectItem>
-                      <SelectItem value="fr">Français</SelectItem>
-                      <SelectItem value="de">Deutsch</SelectItem>
+                      <SelectItem value="es">Spanish</SelectItem>
+                      <SelectItem value="fr">French</SelectItem>
+                      <SelectItem value="de">German</SelectItem>
+                      <SelectItem value="da">Danish</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                
-                <div>
-                  <Label htmlFor="currency">Currency</Label>
-                  <Select value={settings.currency} onValueChange={(value) => updateSetting('currency', value)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="USD">USD ($)</SelectItem>
-                      <SelectItem value="EUR">EUR (€)</SelectItem>
-                      <SelectItem value="GBP">GBP (£)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
 
-          {/* Booking Rules */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="w-5 h-5" />
-                Booking Rules
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="maxBookings">Max Bookings/Day</Label>
-                  <Input
-                    id="maxBookings"
-                    type="number"
-                    value={settings.maxBookingsPerDay}
-                    onChange={(e) => updateSetting('maxBookingsPerDay', Number(e.target.value))}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="advanceDays">Advance Booking Days</Label>
-                  <Input
-                    id="advanceDays"
-                    type="number"
-                    value={settings.advanceBookingDays}
-                    onChange={(e) => updateSetting('advanceBookingDays', Number(e.target.value))}
-                  />
-                </div>
-              </div>
-              
-              <div>
-                <Label htmlFor="cancellation">Cancellation Deadline (hours)</Label>
-                <Input
-                  id="cancellation"
-                  type="number"
-                  value={settings.cancellationDeadline}
-                  onChange={(e) => updateSetting('cancellationDeadline', Number(e.target.value))}
-                />
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <Label htmlFor="qrBooking">Enable QR Code Booking</Label>
-                <Switch
-                  id="qrBooking"
-                  checked={settings.enableQRBooking}
-                  onCheckedChange={(checked) => updateSetting('enableQRBooking', checked)}
-                />
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <Label htmlFor="manualBooking">Enable Manual ID Booking</Label>
-                <Switch
-                  id="manualBooking"
-                  checked={settings.enableManualBooking}
-                  onCheckedChange={(checked) => updateSetting('enableManualBooking', checked)}
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Time Slots */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="w-5 h-5" />
-                Time Slot Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="openingTime">Opening Time</Label>
-                  <Input
-                    id="openingTime"
-                    type="time"
-                    value={settings.openingTime}
-                    onChange={(e) => updateSetting('openingTime', e.target.value)}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="closingTime">Closing Time</Label>
-                  <Input
-                    id="closingTime"
-                    type="time"
-                    value={settings.closingTime}
-                    onChange={(e) => updateSetting('closingTime', e.target.value)}
-                  />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="slotDuration">Slot Duration (hours)</Label>
-                  <Input
-                    id="slotDuration"
-                    type="number"
-                    value={settings.timeSlotDuration}
-                    onChange={(e) => updateSetting('timeSlotDuration', Number(e.target.value))}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="breakTime">Break Between Slots (minutes)</Label>
-                  <Input
-                    id="breakTime"
-                    type="number"
-                    value={settings.breakBetweenSlots}
-                    onChange={(e) => updateSetting('breakBetweenSlots', Number(e.target.value))}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Pricing */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5" />
-                Pricing Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="standardPrice">Standard Lounger</Label>
-                  <Input
-                    id="standardPrice"
-                    type="number"
-                    value={settings.standardPrice}
-                    onChange={(e) => updateSetting('standardPrice', Number(e.target.value))}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="premiumPrice">Premium Lounger</Label>
-                  <Input
-                    id="premiumPrice"
-                    type="number"
-                    value={settings.premiumPrice}
-                    onChange={(e) => updateSetting('premiumPrice', Number(e.target.value))}
-                  />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="vipPrice">VIP Lounger</Label>
-                  <Input
-                    id="vipPrice"
-                    type="number"
-                    value={settings.vipPrice}
-                    onChange={(e) => updateSetting('vipPrice', Number(e.target.value))}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="cabanaPrice">Cabana</Label>
-                  <Input
-                    id="cabanaPrice"
-                    type="number"
-                    value={settings.cabanaPrice}
-                    onChange={(e) => updateSetting('cabanaPrice', Number(e.target.value))}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="shadePrice">Shade Area</Label>
-                  <Input
-                    id="shadePrice"
-                    type="number"
-                    value={settings.shadePrice}
-                    onChange={(e) => updateSetting('shadePrice', Number(e.target.value))}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Extra Services */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Extra Services Pricing</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between mb-4">
-                <Label htmlFor="enableExtras">Enable Extra Services</Label>
-                <Switch
-                  id="enableExtras"
-                  checked={settings.enableExtras}
-                  onCheckedChange={(checked) => updateSetting('enableExtras', checked)}
-                />
-              </div>
-              
-              {settings.enableExtras && (
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="cokePrice">Cold Coke</Label>
-                    <Input
-                      id="cokePrice"
-                      type="number"
-                      value={settings.cokePrice}
-                      onChange={(e) => updateSetting('cokePrice', Number(e.target.value))}
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="waterPrice">Premium Water</Label>
-                    <Input
-                      id="waterPrice"
-                      type="number"
-                      value={settings.waterPrice}
-                      onChange={(e) => updateSetting('waterPrice', Number(e.target.value))}
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="cocktailPrice">Pool Cocktail</Label>
-                    <Input
-                      id="cocktailPrice"
-                      type="number"
-                      value={settings.cocktailPrice}
-                      onChange={(e) => updateSetting('cocktailPrice', Number(e.target.value))}
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="towelPrice">Luxury Towel</Label>
-                    <Input
-                      id="towelPrice"
-                      type="number"
-                      value={settings.towelPrice}
-                      onChange={(e) => updateSetting('towelPrice', Number(e.target.value))}
-                    />
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Payment Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Payment Settings</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="enableStripe">Enable Stripe Payments</Label>
-                <Switch
-                  id="enableStripe"
-                  checked={settings.enableStripe}
-                  onCheckedChange={(checked) => updateSetting('enableStripe', checked)}
-                />
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <Label htmlFor="enableReception">Enable Reception Payment</Label>
-                <Switch
-                  id="enableReception"
-                  checked={settings.enableReceptionPayment}
-                  onCheckedChange={(checked) => updateSetting('enableReceptionPayment', checked)}
-                />
-              </div>
-              
-              {settings.enableStripe && (
-                <div>
-                  <Label htmlFor="stripeKey">Stripe API Key</Label>
-                  <Input
-                    id="stripeKey"
-                    type="password"
-                    placeholder="sk_test_..."
-                    value={settings.stripeKey}
-                    onChange={(e) => updateSetting('stripeKey', e.target.value)}
-                  />
-                </div>
-              )}
-            </CardContent>
-          </Card>
+        {/* Save Button */}
+        <div className="flex justify-end">
+          <Button 
+            size="lg"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8"
+          >
+            Save All Settings
+          </Button>
         </div>
-
-        {/* Terms and Policies */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Terms and Policies</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <Label htmlFor="terms">Terms and Conditions</Label>
-              <Textarea
-                id="terms"
-                rows={4}
-                value={settings.termsAndConditions}
-                onChange={(e) => updateSetting('termsAndConditions', e.target.value)}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="cancellation">Cancellation Policy</Label>
-              <Textarea
-                id="cancellation"
-                rows={3}
-                value={settings.cancellationPolicy}
-                onChange={(e) => updateSetting('cancellationPolicy', e.target.value)}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="privacy">Privacy Policy</Label>
-              <Textarea
-                id="privacy"
-                rows={3}
-                value={settings.privacyPolicy}
-                onChange={(e) => updateSetting('privacyPolicy', e.target.value)}
-              />
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </AdminLayout>
   );

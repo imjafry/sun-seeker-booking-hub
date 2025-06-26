@@ -1,305 +1,140 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { BookingLayout } from '@/components/BookingLayout';
-import { Plus, Minus, CreditCard, Building2, CheckCircle } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { useLanguage } from '@/locales';
+import { Plus, Minus } from 'lucide-react';
 
 const BookingSummary = () => {
-  const [guestName, setGuestName] = useState('');
-  const [roomNumber, setRoomNumber] = useState('');
-  const [specialRequests, setSpecialRequests] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'reception'>('stripe');
-  const [extras, setExtras] = useState<Record<string, number>>({});
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-  
+  const [towelCount, setTowelCount] = useState(0);
+  const [parasolCount, setParasolCount] = useState(0);
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
-  const extrasMenu = [
-    { id: 'coke', name: 'Cold Coke', price: 5, icon: '🥤' },
-    { id: 'water', name: 'Premium Water', price: 3, icon: '💧' },
-    { id: 'cocktail', name: 'Pool Cocktail', price: 12, icon: '🍹' },
-    { id: 'towel', name: 'Luxury Towel', price: 10, icon: '🏖️' },
-    { id: 'parasol', name: 'Premium Parasol', price: 15, icon: '☂️' },
-    { id: 'snacks', name: 'Pool Snacks', price: 8, icon: '🍿' },
-  ];
-
-  const mockBookingData = {
-    date: 'Saturday, June 29, 2024',
-    time: '12:00 - 14:00',
-    seats: ['V1 - VIP Lounger', 'S2 - Standard Lounger'],
-    seatTotal: 85
-  };
-
-  const updateExtra = (extraId: string, change: number) => {
-    setExtras(prev => {
-      const current = prev[extraId] || 0;
-      const newValue = Math.max(0, current + change);
-      if (newValue === 0) {
-        const { [extraId]: removed, ...rest } = prev;
-        return rest;
-      }
-      return { ...prev, [extraId]: newValue };
-    });
-  };
-
-  const getExtrasTotal = () => {
-    return Object.entries(extras).reduce((total, [extraId, quantity]) => {
-      const extra = extrasMenu.find(e => e.id === extraId);
-      return total + (extra ? extra.price * quantity : 0);
-    }, 0);
-  };
-
-  const getTotalAmount = () => {
-    return mockBookingData.seatTotal + getExtrasTotal();
-  };
-
-  const handleConfirmBooking = () => {
-    if (guestName && roomNumber && acceptedTerms) {
-      navigate('/booking/confirmation');
-    }
+  const handleContinue = () => {
+    navigate('/booking/confirmation');
   };
 
   return (
-    <BookingLayout 
-      title="Review & Confirm" 
-      step={3} 
-      totalSteps={4}
-    >
-      <div className="space-y-3 sm:space-y-6">
-        {/* Full Booking Summary Header */}
-        <Card className="border-2 border-blue-100 bg-gradient-to-r from-blue-50 to-cyan-50">
-          <CardContent className="p-3 sm:p-6 text-center">
-            <h2 className="text-base sm:text-2xl font-bold text-blue-800 mb-2 leading-tight">
-              Full booking summary: time, lounger, add-ons, total price
-            </h2>
-            <p className="text-xs sm:text-base text-blue-600 leading-relaxed">
-              Add your name and room number • Choose how you want to pay • Accept the terms and you're done
-            </p>
-          </CardContent>
-        </Card>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 relative overflow-hidden">
+      {/* Floating orbs */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200/30 rounded-full blur-xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-cyan-200/30 rounded-full blur-xl animate-pulse delay-1000"></div>
 
-        <div className="grid lg:grid-cols-2 gap-3 sm:gap-6">
-          {/* Left Column - Booking Details & Extras */}
-          <div className="space-y-3 sm:space-y-6">
-            {/* Booking Details */}
-            <Card className="border-2 border-blue-100">
-              <CardHeader className="pb-2 sm:pb-4 px-3 sm:px-6">
-                <CardTitle className="text-blue-800 flex items-center gap-2 text-sm sm:text-base">
-                  📅 Booking Details
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6 pb-3 sm:pb-6">
-                <div>
-                  <Label className="text-xs sm:text-sm font-medium text-gray-600">Date & Time</Label>
-                  <p className="font-semibold text-sm sm:text-lg break-words">{mockBookingData.date}</p>
-                  <p className="text-blue-600 font-medium text-xs sm:text-base">{mockBookingData.time}</p>
-                </div>
-                
-                <Separator />
-                
-                <div>
-                  <Label className="text-xs sm:text-sm font-medium text-gray-600">Selected Loungers</Label>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mt-2">
-                    {mockBookingData.seats.map(seat => (
-                      <Badge key={seat} className="bg-blue-100 text-blue-800 p-1 sm:p-2 text-xs break-words">
-                        {seat}
-                      </Badge>
-                    ))}
-                  </div>
-                  <p className="text-right font-bold text-base sm:text-xl mt-3 text-blue-700">
-                    ${mockBookingData.seatTotal}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Add Extras */}
-            <Card className="border-2 border-purple-100">
-              <CardHeader className="pb-2 sm:pb-4 px-3 sm:px-6">
-                <CardTitle className="text-purple-800 text-sm sm:text-base leading-tight">
-                  🍹 Want a cold Coke, a towel, or a parasol?
-                </CardTitle>
-                <p className="text-xs sm:text-sm text-purple-600 leading-relaxed">
-                  Simply tap to add – prices shown clearly • Quantity selectors • Live price summary updates
-                </p>
-              </CardHeader>
-              <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
-                <div className="grid gap-2 sm:gap-4">
-                  {extrasMenu.map(extra => (
-                    <div key={extra.id} className="flex items-center justify-between p-2 sm:p-4 rounded-lg border-2 hover:bg-purple-50 transition-colors">
-                      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                        <span className="text-base sm:text-2xl flex-shrink-0">{extra.icon}</span>
-                        <div className="min-w-0 flex-1">
-                          <h4 className="font-medium text-xs sm:text-base break-words">{extra.name}</h4>
-                          <p className="text-xs sm:text-sm text-gray-500">${extra.price} each</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => updateExtra(extra.id, -1)}
-                          disabled={!extras[extra.id]}
-                          className="w-6 h-6 sm:w-8 sm:h-8 p-0"
-                        >
-                          <Minus className="w-3 h-3 sm:w-4 sm:h-4" />
-                        </Button>
-                        <span className="w-5 sm:w-8 text-center font-bold text-xs sm:text-lg">
-                          {extras[extra.id] || 0}
-                        </span>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => updateExtra(extra.id, 1)}
-                          className="w-6 h-6 sm:w-8 sm:h-8 p-0"
-                        >
-                          <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                {getExtrasTotal() > 0 && (
-                  <div className="mt-3 sm:mt-6 pt-2 sm:pt-4 border-t-2">
-                    <div className="flex justify-between font-bold text-sm sm:text-lg text-purple-700">
-                      <span>Add-ons Total:</span>
-                      <span>${getExtrasTotal()}</span>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+      <div className="container mx-auto px-4 py-6 relative z-10">
+        <div className="max-w-md mx-auto">
+          {/* Header */}
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 mb-4 shadow-lg">
+              <span className="text-sm font-medium text-gray-600">Page 4</span>
+            </div>
           </div>
 
-          {/* Right Column - Guest Info & Payment */}
-          <div className="space-y-3 sm:space-y-6">
-            {/* Guest Information */}
-            <Card className="border-2 border-green-100">
-              <CardHeader className="pb-2 sm:pb-4 px-3 sm:px-6">
-                <CardTitle className="text-green-800 text-sm sm:text-base">👤 Add your name and room number</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6 pb-3 sm:pb-6">
-                <div>
-                  <Label htmlFor="guestName" className="text-xs sm:text-sm">Full Name *</Label>
-                  <Input
-                    id="guestName"
-                    value={guestName}
-                    onChange={(e) => setGuestName(e.target.value)}
-                    placeholder="Enter your full name"
-                    className="mt-1 h-9 sm:h-12 text-sm sm:text-lg"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="roomNumber" className="text-xs sm:text-sm">Room Number *</Label>
-                  <Input
-                    id="roomNumber"
-                    value={roomNumber}
-                    onChange={(e) => setRoomNumber(e.target.value)}
-                    placeholder="e.g., 205"
-                    className="mt-1 h-9 sm:h-12 text-sm sm:text-lg"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="specialRequests" className="text-xs sm:text-sm">Optional comment (e.g., "We have a toddler")</Label>
-                  <Textarea
-                    id="specialRequests"
-                    value={specialRequests}
-                    onChange={(e) => setSpecialRequests(e.target.value)}
-                    placeholder="Any special requirements..."
-                    className="mt-1 text-sm sm:text-base"
-                    rows={3}
-                  />
-                </div>
-              </CardContent>
-            </Card>
+          {/* Extras Selection */}
+          <Card className="mb-6 border-0 shadow-2xl bg-white/90 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="text-center mb-6">
+                <div className="text-2xl mb-2">🔷</div>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">{t('booking.wantExtras')}</h2>
+              </div>
 
-            {/* Payment Method */}
-            <Card className="border-2 border-orange-100">
-              <CardHeader className="pb-2 sm:pb-4 px-3 sm:px-6">
-                <CardTitle className="text-orange-800 text-sm sm:text-base">💳 Choose how you want to pay</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2 sm:space-y-4 px-3 sm:px-6 pb-3 sm:pb-6">
-                <div className="space-y-2 sm:space-y-3">
-                  <Button
-                    variant={paymentMethod === 'stripe' ? 'default' : 'outline'}
-                    onClick={() => setPaymentMethod('stripe')}
-                    className="w-full justify-start h-auto py-2 sm:py-4 text-left"
-                  >
-                    <div className="p-1 sm:p-2 bg-blue-100 rounded mr-2 sm:mr-3 flex-shrink-0">
-                      <CreditCard className="w-3 h-3 sm:w-6 sm:h-6 text-blue-600" />
+              <div className="space-y-6">
+                {/* Luxury Towel */}
+                <div className="flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:border-purple-200 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-purple-100 rounded-xl">
+                      <span className="text-2xl">🏖️</span>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="font-medium text-xs sm:text-base break-words">💳 Pay now (Stripe or in-app)</div>
-                      <div className="text-xs sm:text-sm opacity-70">Secure payment with card</div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">{t('booking.luxuryTowel')}</h3>
+                      <p className="text-sm text-gray-500">$10 {t('booking.each')}</p>
                     </div>
-                  </Button>
-                  
-                  <Button
-                    variant={paymentMethod === 'reception' ? 'default' : 'outline'}
-                    onClick={() => setPaymentMethod('reception')}
-                    className="w-full justify-start h-auto py-2 sm:py-4 text-left"
-                  >
-                    <div className="p-1 sm:p-2 bg-orange-100 rounded mr-2 sm:mr-3 flex-shrink-0">
-                      <Building2 className="w-3 h-3 sm:w-6 sm:h-6 text-orange-600" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="font-medium text-xs sm:text-base break-words">🏨 Pay at the reception</div>
-                      <div className="text-xs sm:text-sm opacity-70">Pay when you arrive</div>
-                    </div>
-                  </Button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setTowelCount(Math.max(0, towelCount - 1))}
+                      disabled={towelCount === 0}
+                      className="w-8 h-8 p-0 rounded-full"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </Button>
+                    <span className="w-8 text-center font-bold text-lg">{towelCount}</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setTowelCount(towelCount + 1)}
+                      className="w-8 h-8 p-0 rounded-full"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
 
-            {/* Final Summary & Confirmation */}
-            <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50">
-              <CardContent className="p-3 sm:p-6">
-                <div className="space-y-3 sm:space-y-6">
-                  <div className="text-center">
-                    <div className="text-xl sm:text-4xl font-bold text-blue-800 mb-2">
-                      ${getTotalAmount()}
+                {/* Premium Parasol */}
+                <div className="flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:border-purple-200 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-pink-100 rounded-xl">
+                      <span className="text-2xl">🏖️</span>
                     </div>
-                    <p className="text-blue-600 text-xs sm:text-base">Total Amount</p>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">{t('booking.premiumParasol')}</h3>
+                      <p className="text-sm text-gray-500">$8 {t('booking.each')}</p>
+                    </div>
                   </div>
-                  
-                  <div className="flex items-start gap-2 sm:gap-3 p-2 sm:p-4 bg-white/80 rounded-lg">
-                    <input
-                      type="checkbox"
-                      id="terms"
-                      checked={acceptedTerms}
-                      onChange={(e) => setAcceptedTerms(e.target.checked)}
-                      className="mt-1 flex-shrink-0"
-                    />
-                    <Label htmlFor="terms" className="text-xs sm:text-sm cursor-pointer leading-relaxed break-words">
-                      Accept the terms and you're done • I accept the terms and conditions and cancellation policy
-                    </Label>
+                  <div className="flex items-center gap-3">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setParasolCount(Math.max(0, parasolCount - 1))}
+                      disabled={parasolCount === 0}
+                      className="w-8 h-8 p-0 rounded-full"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </Button>
+                    <span className="w-8 text-center font-bold text-lg">{parasolCount}</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setParasolCount(parasolCount + 1)}
+                      className="w-8 h-8 p-0 rounded-full"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </Button>
                   </div>
-                  
-                  <Button
-                    onClick={handleConfirmBooking}
-                    disabled={!guestName || !roomNumber || !acceptedTerms}
-                    className="w-full py-3 sm:py-6 text-sm sm:text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:opacity-50"
-                    size="lg"
-                  >
-                    <CheckCircle className="w-3 h-3 sm:w-6 sm:h-6 mr-2" />
-                    Confirm Booking
-                  </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+
+              <div className="mt-6 p-3 bg-red-50 rounded-lg">
+                <p className="text-sm text-red-600 text-center">{t('booking.onlyOptions')}</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Action Buttons */}
+          <div className="space-y-4">
+            <Button 
+              onClick={handleContinue}
+              className="w-full py-6 text-lg font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-xl"
+              size="lg"
+            >
+              Continue →
+            </Button>
+            
+            <Button 
+              onClick={handleContinue}
+              variant="outline"
+              className="w-full py-4 text-lg font-medium border-2 hover:bg-gray-50"
+              size="lg"
+            >
+              {t('booking.skip')}
+            </Button>
           </div>
         </div>
       </div>
-    </BookingLayout>
+    </div>
   );
 };
 

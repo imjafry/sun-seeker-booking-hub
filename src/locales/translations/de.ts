@@ -1,3 +1,4 @@
+
 export default {
   welcome: {
     title: "Ihr Platz in der Sonne – vor dem Frühstück gebucht.",
@@ -15,5 +16,47 @@ export default {
       title: "Überprüfung Ihres Aufenthalts",
       description: "Verbinde Sie mit Ihrer perfekten Pool-Erfahrung"
     }
+  },
+  booking: {
+    selectDate: "Datum Auswählen",
+    zone: "Zone",
+    pool: "Pool",
+    sunArea: "Sonnenbereich",
+    vipPoolside: "VIP Poolside",
+    familyArea: "Familienbereich",
+    chooseDuration: "Dauer wählen",
+    hours: "Stunden",
+    confirmSpot: "Platz bestätigen",
+    availabilityInfo: "Dropdown Verfügbarkeit Seite 3",
+    limitedAvailability: "Begrenzte Verfügbarkeit",
+    available: "Verfügbar",
+    wantExtras: "Möchten Sie ein Handtuch oder einen Sonnenschirm?",
+    luxuryTowel: "Luxus Handtuch",
+    premiumParasol: "Premium Sonnenschirm",
+    each: "jeweils",
+    onlyOptions: "Nur 2 Optionen",
+    skip: "Überspringen",
+    bookingConfirmed: "Buchung Bestätigt!",
+    seatsReserved: "Ihre Plätze wurden erfolgreich reserviert",
+    bookingQRCode: "Ihr Buchungs-QR-Code",
+    showAtEntrance: "Zeigen Sie dies am Pool-Eingang",
+    bookingDetails: "Buchungsdetails",
+    reservedSeats: "Reservierte Plätze",
+    guest: "Gast",
+    room: "Zimmer",
+    paymentSummary: "Zahlungsübersicht",
+    addOns: "Zusatzleistungen",
+    totalPaid: "Gesamtbetrag gezahlt",
+    importantInfo: "Wichtige Informationen",
+    beforeVisit: "Vor Ihrem Besuch",
+    arriveEarly: "Kommen Sie 15 Minuten vor Ihrem Zeitfenster an",
+    bringQR: "Bringen Sie Ihren Buchungs-QR-Code mit",
+    validKey: "Gültiger Zimmerschlüssel erforderlich",
+    towelsAvailable: "Handtücher am Pool-Service verfügbar",
+    cancellationPolicy: "Stornierungsrichtlinie",
+    freeCancellation: "Kostenlose Stornierung 2 Stunden vorher",
+    halfRefund: "50% Rückerstattung 1 Stunde vorher",
+    noRefund: "Keine Rückerstattung bei Nichterscheinen",
+    contactReception: "Kontaktieren Sie die Rezeption für Änderungen"
   }
-}; 
+};

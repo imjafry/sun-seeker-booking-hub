@@ -1,3 +1,4 @@
+
 export default {
   welcome: {
     title: "Your spot in the sun – booked before breakfast.",
@@ -15,5 +16,47 @@ export default {
       title: "Verifying Your Stay",
       description: "Connecting you to your perfect poolside experience"
     }
+  },
+  booking: {
+    selectDate: "Select Date",
+    zone: "Zone",
+    pool: "Pool",
+    sunArea: "Sun Area",
+    vipPoolside: "VIP Poolside",
+    familyArea: "Family Area",
+    chooseDuration: "Choose duration",
+    hours: "hours",
+    confirmSpot: "Confirm your spot",
+    availabilityInfo: "Drop down availability page 3",
+    limitedAvailability: "Limited availability",
+    available: "Available",
+    wantExtras: "Want a towel, or a parasol?",
+    luxuryTowel: "Luxury Towel",
+    premiumParasol: "Premium Parasol",
+    each: "each",
+    onlyOptions: "Only 2 options",
+    skip: "Skip",
+    bookingConfirmed: "Booking Confirmed!",
+    seatsReserved: "Your seats have been reserved successfully",
+    bookingQRCode: "Your Booking QR Code",
+    showAtEntrance: "Show this at the pool entrance",
+    bookingDetails: "Booking Details",
+    reservedSeats: "Reserved Seats",
+    guest: "Guest",
+    room: "Room",
+    paymentSummary: "Payment Summary",
+    addOns: "Add-ons",
+    totalPaid: "Total paid",
+    importantInfo: "Important Information",
+    beforeVisit: "Before Your Visit",
+    arriveEarly: "Arrive 15 minutes before your time slot",
+    bringQR: "Bring your booking QR code",
+    validKey: "Valid room key required",
+    towelsAvailable: "Towels available at pool service",
+    cancellationPolicy: "Cancellation Policy",
+    freeCancellation: "Free cancellation 2 hours before",
+    halfRefund: "50% refund 1 hour before",
+    noRefund: "No refund for no-shows",
+    contactReception: "Contact reception for changes"
   }
-}; 
+};

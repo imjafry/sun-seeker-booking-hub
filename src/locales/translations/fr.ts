@@ -1,3 +1,4 @@
+
 export default {
   welcome: {
     title: "Votre place au soleil – réservée avant le petit-déjeuner.",
@@ -15,5 +16,47 @@ export default {
       title: "Vérification de votre Séjour",
       description: "Connexion à votre expérience parfaite au bord de la piscine"
     }
+  },
+  booking: {
+    selectDate: "Sélectionner la Date",
+    zone: "Zone",
+    pool: "Piscine",
+    sunArea: "Zone Soleil",
+    vipPoolside: "VIP Bord de Piscine",
+    familyArea: "Zone Famille",
+    chooseDuration: "Choisir la durée",
+    hours: "heures",
+    confirmSpot: "Confirmer votre place",
+    availabilityInfo: "Page de disponibilité déroulante 3",
+    limitedAvailability: "Disponibilité limitée",
+    available: "Disponible",
+    wantExtras: "Voulez-vous une serviette ou un parasol?",
+    luxuryTowel: "Serviette de Luxe",
+    premiumParasol: "Parasol Premium",
+    each: "chacun",
+    onlyOptions: "Seulement 2 options",
+    skip: "Passer",
+    bookingConfirmed: "Réservation Confirmée!",
+    seatsReserved: "Vos places ont été réservées avec succès",
+    bookingQRCode: "Votre Code QR de Réservation",
+    showAtEntrance: "Montrez ceci à l'entrée de la piscine",
+    bookingDetails: "Détails de la Réservation",
+    reservedSeats: "Places Réservées",
+    guest: "Invité",
+    room: "Chambre",
+    paymentSummary: "Résumé du Paiement",
+    addOns: "Suppléments",
+    totalPaid: "Total payé",
+    importantInfo: "Informations Importantes",
+    beforeVisit: "Avant votre Visite",
+    arriveEarly: "Arrivez 15 minutes avant votre créneau",
+    bringQR: "Apportez votre code QR de réservation",
+    validKey: "Clé de chambre valide requise",
+    towelsAvailable: "Serviettes disponibles au service piscine",
+    cancellationPolicy: "Politique d'Annulation",
+    freeCancellation: "Annulation gratuite 2 heures avant",
+    halfRefund: "Remboursement 50% 1 heure avant",
+    noRefund: "Aucun remboursement en cas d'absence",
+    contactReception: "Contactez la réception pour les changements"
   }
-}; 
+};
