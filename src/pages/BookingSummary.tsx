@@ -17,56 +17,50 @@ const BookingSummary = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 relative overflow-hidden">
-      {/* Floating orbs */}
-      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200/30 rounded-full blur-xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-40 h-40 bg-cyan-200/30 rounded-full blur-xl animate-pulse delay-1000"></div>
-
-      <div className="container mx-auto px-4 py-6 relative z-10">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-6">
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 mb-4 shadow-lg">
-              <span className="text-sm font-medium text-gray-600">Page 4</span>
-            </div>
+            <div className="text-red-500 text-sm font-medium mb-4">Page 4</div>
           </div>
 
-          {/* Extras Selection */}
-          <Card className="mb-6 border-0 shadow-2xl bg-white/90 backdrop-blur-sm">
+          {/* Main Content */}
+          <Card className="mb-6 bg-white shadow-sm">
             <CardContent className="p-6">
-              <div className="text-center mb-6">
-                <div className="text-2xl mb-2">🔷</div>
-                <h2 className="text-xl font-bold text-gray-900 mb-2">{t('booking.wantExtras')}</h2>
+              <div className="text-center mb-8">
+                <div className="text-3xl mb-4">🔷</div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                  Want a towel, or a parasol?
+                </h2>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4 mb-8">
                 {/* Luxury Towel */}
-                <div className="flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:border-purple-200 transition-colors">
+                <div className="flex items-center justify-between p-4 border-2 border-gray-100 rounded-xl">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 bg-purple-100 rounded-xl">
-                      <span className="text-2xl">🏖️</span>
-                    </div>
+                    <div className="text-3xl">🏖️</div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{t('booking.luxuryTowel')}</h3>
-                      <p className="text-sm text-gray-500">$10 {t('booking.each')}</p>
+                      <h3 className="font-semibold text-gray-900 text-lg">Luxury Towel</h3>
+                      <p className="text-gray-600">$10 each</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setTowelCount(Math.max(0, towelCount - 1))}
                       disabled={towelCount === 0}
-                      className="w-8 h-8 p-0 rounded-full"
+                      className="w-10 h-10 p-0 rounded-full border-2"
                     >
                       <Minus className="w-4 h-4" />
                     </Button>
-                    <span className="w-8 text-center font-bold text-lg">{towelCount}</span>
+                    <span className="w-8 text-center font-bold text-xl">{towelCount}</span>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setTowelCount(towelCount + 1)}
-                      className="w-8 h-8 p-0 rounded-full"
+                      className="w-10 h-10 p-0 rounded-full border-2"
                     >
                       <Plus className="w-4 h-4" />
                     </Button>
@@ -74,32 +68,30 @@ const BookingSummary = () => {
                 </div>
 
                 {/* Premium Parasol */}
-                <div className="flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:border-purple-200 transition-colors">
+                <div className="flex items-center justify-between p-4 border-2 border-gray-100 rounded-xl">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 bg-pink-100 rounded-xl">
-                      <span className="text-2xl">🏖️</span>
-                    </div>
+                    <div className="text-3xl">🏖️</div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{t('booking.premiumParasol')}</h3>
-                      <p className="text-sm text-gray-500">$8 {t('booking.each')}</p>
+                      <h3 className="font-semibold text-gray-900 text-lg">Premium Parasol</h3>
+                      <p className="text-gray-600">$8 each</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setParasolCount(Math.max(0, parasolCount - 1))}
                       disabled={parasolCount === 0}
-                      className="w-8 h-8 p-0 rounded-full"
+                      className="w-10 h-10 p-0 rounded-full border-2"
                     >
                       <Minus className="w-4 h-4" />
                     </Button>
-                    <span className="w-8 text-center font-bold text-lg">{parasolCount}</span>
+                    <span className="w-8 text-center font-bold text-xl">{parasolCount}</span>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setParasolCount(parasolCount + 1)}
-                      className="w-8 h-8 p-0 rounded-full"
+                      className="w-10 h-10 p-0 rounded-full border-2"
                     >
                       <Plus className="w-4 h-4" />
                     </Button>
@@ -107,8 +99,8 @@ const BookingSummary = () => {
                 </div>
               </div>
 
-              <div className="mt-6 p-3 bg-red-50 rounded-lg">
-                <p className="text-sm text-red-600 text-center">{t('booking.onlyOptions')}</p>
+              <div className="text-center mb-8">
+                <p className="text-red-600 font-medium">Only 2 options</p>
               </div>
             </CardContent>
           </Card>
@@ -117,7 +109,7 @@ const BookingSummary = () => {
           <div className="space-y-4">
             <Button 
               onClick={handleContinue}
-              className="w-full py-6 text-lg font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-xl"
+              className="w-full py-4 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
               size="lg"
             >
               Continue →
@@ -125,11 +117,10 @@ const BookingSummary = () => {
             
             <Button 
               onClick={handleContinue}
-              variant="outline"
-              className="w-full py-4 text-lg font-medium border-2 hover:bg-gray-50"
+              className="w-full py-4 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
               size="lg"
             >
-              {t('booking.skip')}
+              Skip
             </Button>
           </div>
         </div>
