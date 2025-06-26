@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { AdminLayout } from '@/components/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Settings as SettingsIcon, Pool, Clock, DollarSign, Users, Bell, Shield, Palette } from 'lucide-react';
+import { Settings as SettingsIcon, Waves, Clock, DollarSign, Users, Bell, Shield, Palette } from 'lucide-react';
 
 const Settings = () => {
   const [poolSettings, setPoolSettings] = useState({
@@ -49,7 +48,7 @@ const Settings = () => {
         <Tabs defaultValue="pool" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4 lg:w-[400px]">
             <TabsTrigger value="pool" className="flex items-center gap-2">
-              <Pool className="w-4 h-4" />
+              <Waves className="w-4 h-4" />
               <span className="hidden sm:inline">Pool</span>
             </TabsTrigger>
             <TabsTrigger value="pricing" className="flex items-center gap-2">
@@ -71,7 +70,7 @@ const Settings = () => {
             <Card className="border-0 shadow-xl bg-gradient-to-br from-blue-50 to-cyan-50">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-blue-800">
-                  <Pool className="w-5 h-5" />
+                  <Waves className="w-5 h-5" />
                   Pool Configuration
                 </CardTitle>
               </CardHeader>
