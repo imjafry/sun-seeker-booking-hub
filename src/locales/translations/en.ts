@@ -36,6 +36,8 @@ export default {
     each: "each",
     onlyOptions: "Only 2 options",
     skip: "Skip",
+    total: "Total",
+    addOns: "Add-ons",
     bookingConfirmed: "Booking Confirmed!",
     seatsReserved: "Your seats have been reserved successfully",
     bookingQRCode: "Your Booking QR Code",
@@ -45,7 +47,6 @@ export default {
     guest: "Guest",
     room: "Room",
     paymentSummary: "Payment Summary",
-    addOns: "Add-ons",
     totalPaid: "Total paid",
     importantInfo: "Important Information",
     beforeVisit: "Before Your Visit",
@@ -57,6 +58,18 @@ export default {
     freeCancellation: "Free cancellation 2 hours before",
     halfRefund: "50% refund 1 hour before",
     noRefund: "No refund for no-shows",
-    contactReception: "Contact reception for changes"
+    contactReception: "Contact reception for changes",
+    summary: {
+      title: "Booking Summary",
+      subtitle: "Review your selection",
+      spotDetails: "Spot Details",
+      spot: "Spot",
+      duration: "Duration",
+      spots: "Spots",
+      confirmButton: "Confirm Booking"
+    },
+    confirmation: {
+      backHome: "Back to Home"
+    }
   }
 };

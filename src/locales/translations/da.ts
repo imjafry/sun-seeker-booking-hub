@@ -36,6 +36,8 @@ export default {
     each: "hver",
     onlyOptions: "Kun 2 muligheder",
     skip: "Spring over",
+    total: "Total",
+    addOns: "Tilføjelser",
     bookingConfirmed: "Booking Bekræftet!",
     seatsReserved: "Dine pladser er blevet reserveret med succes",
     bookingQRCode: "Din Booking QR Kode",
@@ -45,7 +47,6 @@ export default {
     guest: "Gæst",
     room: "Værelse",
     paymentSummary: "Betalings Oversigt",
-    addOns: "Tilføjelser",
     totalPaid: "Total betalt",
     importantInfo: "Vigtig Information",
     beforeVisit: "Før Dit Besøg",
@@ -57,6 +58,18 @@ export default {
     freeCancellation: "Gratis aflysning 2 timer før",
     halfRefund: "50% refundering 1 time før",
     noRefund: "Ingen refundering ved ikke-opvisning",
-    contactReception: "Kontakt reception for ændringer"
+    contactReception: "Kontakt reception for ændringer",
+    summary: {
+      title: "Booking Oversigt",
+      subtitle: "Gennemgå dit valg",
+      spotDetails: "Plads Detaljer",
+      spot: "Plads",
+      duration: "Varighed",
+      spots: "Pladser",
+      confirmButton: "Bekræft Booking"
+    },
+    confirmation: {
+      backHome: "Tilbage til Hjem"
+    }
   }
 };
