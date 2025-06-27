@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +14,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Reservations from "./pages/admin/Reservations";
 import PoolMapEditor from "./pages/admin/PoolMapEditor";
+import PoolLayout from "./pages/admin/PoolLayout";
 import Orders from "./pages/admin/Orders";
 import Settings from "./pages/admin/Settings";
 import NotFound from "./pages/NotFound";
@@ -36,6 +38,7 @@ const App = () => (
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/reservations" element={<Reservations />} />
             <Route path="/admin/pool-editor" element={<PoolMapEditor />} />
+            <Route path="/admin/pool-layout" element={<PoolLayout />} />
             <Route path="/admin/orders" element={<Orders />} />
             <Route path="/admin/settings" element={<Settings />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

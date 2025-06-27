@@ -2,7 +2,7 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { LayoutDashboard, Calendar, Map, Package, Settings, LogOut, Menu, X, User } from 'lucide-react';
+import { LayoutDashboard, Calendar, Map, Package, Settings, LogOut, Menu, X, User, Eye } from 'lucide-react';
 import { useState } from 'react';
 
 interface AdminLayoutProps {
@@ -16,6 +16,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Reservations', href: '/admin/reservations', icon: Calendar },
+    { name: 'Pool Layout', href: '/admin/pool-layout', icon: Eye },
     { name: 'Pool Editor', href: '/admin/pool-editor', icon: Map },
     { name: 'Orders', href: '/admin/orders', icon: Package },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
