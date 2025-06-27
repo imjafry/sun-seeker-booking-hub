@@ -17,6 +17,23 @@ export default {
       description: "Forbinder dig til din perfekte poolside-oplevelse"
     }
   },
+  dateTime: {
+    selectDate: "Vælg Dato",
+    selectTime: "Vælg Tid",
+    duration: "Varighed",
+    hours: "timer",
+    availableSpots: "Tilgængelige Pladser",
+    spotsLeft: "pladser tilbage",
+    selectSpots: "Vælg antal pladser",
+    spots: "pladser",
+    continueButton: "Fortsæt",
+    backButton: "← Tilbage",
+    morningSlots: "Morgen Tider",
+    afternoonSlots: "Eftermiddag Tider",
+    eveningSlots: "Aften Tider",
+    fullyBooked: "Fuldt Booket",
+    limitedAvailability: "Begrænset Tilgængelighed"
+  },
   booking: {
     selectDate: "Vælg Dato",
     zone: "Zone",

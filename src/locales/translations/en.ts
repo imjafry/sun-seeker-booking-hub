@@ -17,6 +17,23 @@ export default {
       description: "Connecting you to your perfect poolside experience"
     }
   },
+  dateTime: {
+    selectDate: "Select Date",
+    selectTime: "Select Time",
+    duration: "Duration",
+    hours: "hours",
+    availableSpots: "Available Spots",
+    spotsLeft: "spots left",
+    selectSpots: "Select number of spots",
+    spots: "spots",
+    continueButton: "Continue",
+    backButton: "← Back",
+    morningSlots: "Morning Slots",
+    afternoonSlots: "Afternoon Slots",
+    eveningSlots: "Evening Slots",
+    fullyBooked: "Fully Booked",
+    limitedAvailability: "Limited Availability"
+  },
   booking: {
     selectDate: "Select Date",
     zone: "Zone",

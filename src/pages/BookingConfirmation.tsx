@@ -150,12 +150,12 @@ const BookingConfirmation = () => {
           {/* Important Information */}
           <Card className="mb-8 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur-lg border-yellow-400/30 rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-[1.02]">
             <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4 text-yellow-200">⚠️ {t('booking.importantInfo')}</h2>
+              <h2 className="text-lg font-semibold mb-4 text-yellow-100">⚠️ {t('booking.importantInfo')}</h2>
               
               <div className="space-y-4 text-sm">
                 <div>
-                  <h4 className="font-semibold mb-2 text-yellow-100">{t('booking.beforeVisit')}:</h4>
-                  <ul className="space-y-1 text-yellow-200">
+                  <h4 className="font-semibold mb-2 text-yellow-50">{t('booking.beforeVisit')}:</h4>
+                  <ul className="space-y-1 text-yellow-50">
                     <li>• {t('booking.arriveEarly')}</li>
                     <li>• {t('booking.bringQR')}</li>
                     <li>• {t('booking.validKey')}</li>
@@ -164,8 +164,8 @@ const BookingConfirmation = () => {
                 </div>
                 
                 <div>
-                  <h4 className="font-semibold mb-2 text-yellow-100">{t('booking.cancellationPolicy')}:</h4>
-                  <ul className="space-y-1 text-yellow-200">
+                  <h4 className="font-semibold mb-2 text-yellow-50">{t('booking.cancellationPolicy')}:</h4>
+                  <ul className="space-y-1 text-yellow-50">
                     <li>• {t('booking.freeCancellation')}</li>
                     <li>• {t('booking.halfRefund')}</li>
                     <li>• {t('booking.noRefund')}</li>
