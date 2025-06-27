@@ -63,7 +63,19 @@ export default {
     freeCancellation: "Kostenlose Stornierung 2 Stunden vorher",
     halfRefund: "50% Rückerstattung 1 Stunde vorher",
     noRefund: "Keine Rückerstattung bei Nichterscheinen",
-    contactReception: "Kontaktieren Sie die Rezeption für Änderungen"
+    contactReception: "Kontaktieren Sie die Rezeption für Änderungen",
+    summary: {
+      title: "Buchungsübersicht",
+      subtitle: "Überprüfen Sie Ihre Auswahl",
+      spotDetails: "Platzdetails",
+      spot: "Platz",
+      duration: "Dauer",
+      spots: "Plätze",
+      confirmButton: "Buchung bestätigen"
+    },
+    confirmation: {
+      backHome: "Zurück zur Startseite"
+    }
   },
   dateTime: {
     stepIndicator: "Schritt 3 von 4",

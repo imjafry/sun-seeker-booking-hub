@@ -56,7 +56,19 @@ export default {
     freeCancellation: "Cancelación gratuita 2 horas antes",
     halfRefund: "50% de reembolso 1 hora antes",
     noRefund: "Sin reembolso por no presentarse",
-    contactReception: "Contacta recepción para cambios"
+    contactReception: "Contacta recepción para cambios",
+    summary: {
+      title: "Resumen de Reserva",
+      subtitle: "Revisa tu selección",
+      spotDetails: "Detalles del Lugar",
+      spot: "Lugar",
+      duration: "Duración",
+      spots: "Lugares",
+      confirmButton: "Confirmar Reserva"
+    },
+    confirmation: {
+      backHome: "Volver a Inicio"
+    }
   },
   dateTime: {
     stepIndicator: "Paso 3 de 4",

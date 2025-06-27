@@ -218,7 +218,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Premium Quick Actions */}
-          <Card className="border-0 bg-white/5 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-300">
+          {/* <Card className="border-0 bg-white/5 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-300">
             <CardHeader className="bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 text-white rounded-t-3xl p-8">
               <CardTitle className="flex items-center gap-3 text-2xl">
                 <div className="w-10 h-10 bg-white/20 rounded-2xl flex items-center justify-center">
@@ -255,7 +255,7 @@ const AdminDashboard = () => {
                 </Button>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </AdminLayout>

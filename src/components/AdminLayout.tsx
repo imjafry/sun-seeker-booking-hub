@@ -1,4 +1,3 @@
-
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
@@ -42,6 +41,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
       <div className={`
         fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:fixed lg:inset-y-0 lg:left-0 lg:w-64
       `}>
         {/* Admin Profile */}
         <div className="p-6 border-b border-gray-700">
@@ -96,7 +96,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 lg:ml-0 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col min-h-screen lg:ml-64">
         {/* Mobile header */}
         <div className="lg:hidden bg-white shadow-sm border-b px-4 py-3 flex-shrink-0">
           <div className="flex items-center justify-between">
