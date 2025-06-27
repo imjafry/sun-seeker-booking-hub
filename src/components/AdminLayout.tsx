@@ -2,7 +2,7 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { LayoutDashboard, Calendar, Map, Package, Settings, LogOut, Menu, X, User, Eye } from 'lucide-react';
+import { LayoutDashboard, Calendar, Package, Settings, LogOut, Menu, X, User, Eye } from 'lucide-react';
 import { useState } from 'react';
 
 interface AdminLayoutProps {
@@ -17,7 +17,6 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Reservations', href: '/admin/reservations', icon: Calendar },
     { name: 'Pool Layout', href: '/admin/pool-layout', icon: Eye },
-    { name: 'Pool Editor', href: '/admin/pool-editor', icon: Map },
     { name: 'Orders', href: '/admin/orders', icon: Package },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
@@ -44,24 +43,6 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
         fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        {/* Sidebar Header */}
-        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-700 bg-gradient-to-r from-blue-600 to-cyan-600">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-              <span className="text-blue-600 font-bold text-lg">P</span>
-            </div>
-            <h1 className="text-xl font-bold text-white">Pool Admin</h1>
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="lg:hidden text-white hover:bg-white/20"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            <X className="w-5 h-5" />
-          </Button>
-        </div>
-
         {/* Admin Profile */}
         <div className="p-6 border-b border-gray-700">
           <div className="flex items-center gap-3">
