@@ -30,7 +30,6 @@ const DateTime = () => {
     { id: 'PGF', name: 'PG F', price: '$40,00', color: 'bg-green-500' },
     { id: 'PGG', name: 'PG G', price: '$10,00', color: 'bg-gray-600' },
     { id: 'PGH', name: 'PG H', price: '$10,00', color: 'bg-gray-500' },
-    { id: 'PGI', name: 'PG I', price: '$10,00', color: 'bg-purple-600' },
   ];
 
   const durationOptions = [
@@ -68,33 +67,28 @@ const DateTime = () => {
     const spots = [];
     const centerX = 50;
     const centerY = 50;
-    const radius = 35;
+    const numRows = 6;
     const spotsPerRow = 3;
-    const numRows = 8;
     
-    let spotNumber = 1;
+    let spotId = 1;
     
     for (let row = 0; row < numRows; row++) {
-      const rowRadius = radius - (row * 3);
-      const spotsInThisRow = Math.max(spotsPerRow, Math.floor((2 * Math.PI * rowRadius) / 8));
+      const radius = 35 - (row * 4);
       
-      for (let spot = 0; spot < spotsInThisRow; spot++) {
-        const angle = (spot * (360 / spotsInThisRow)) * (Math.PI / 180);
-        const x = centerX + (rowRadius * Math.cos(angle));
-        const y = centerY + (rowRadius * Math.sin(angle));
+      for (let spot = 0; spot < spotsPerRow; spot++) {
+        const angle = (spot * (360 / spotsPerRow) + (row * 20)) * (Math.PI / 180);
+        const x = centerX + (radius * Math.cos(angle));
+        const y = centerY + (radius * Math.sin(angle));
         
         spots.push({
-          id: spotNumber,
+          id: spotId,
           x: `${x}%`,
           y: `${y}%`,
-          opacity: 0.4 + (Math.random() * 0.6),
-          color: 'bg-blue-400'
+          opacity: 0.6 + (Math.random() * 0.4),
         });
         
-        spotNumber++;
-        if (spotNumber > 60) break;
+        spotId++;
       }
-      if (spotNumber > 60) break;
     }
     
     return spots;
@@ -104,7 +98,7 @@ const DateTime = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.03\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
       
       <div className="relative container mx-auto px-4 py-8">
         <div className="max-w-md mx-auto">
@@ -162,7 +156,7 @@ const DateTime = () => {
           {showZoneDropdown && (
             <Card className="mb-8 bg-white/10 backdrop-blur-lg border-white/20 animate-fade-in">
               <CardContent className="p-6">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-4 gap-4">
                   {zones.map((zone) => (
                     <div 
                       key={zone.id} 
@@ -171,7 +165,7 @@ const DateTime = () => {
                     >
                       <div className="relative">
                         {selectedZones.includes(zone.id) && (
-                          <Check className="absolute -top-2 -right-2 w-4 h-4 text-green-400 bg-green-400/20 rounded-full p-0.5" />
+                          <Check className="absolute -top-2 -left-1 w-4 h-4 text-green-400 bg-green-400/20 rounded-full p-0.5" />
                         )}
                         <div className={`w-8 h-8 ${zone.color} rounded-lg shadow-lg`}></div>
                       </div>
@@ -201,7 +195,7 @@ const DateTime = () => {
                 {poolSpots.map((spot, index) => (
                   <div
                     key={index}
-                    className={`absolute w-3 h-3 rounded-full ${spot.color} shadow-sm transition-all duration-200 hover:scale-125 hover:shadow-lg cursor-pointer`}
+                    className="absolute w-3 h-3 bg-blue-400 rounded-full shadow-sm transition-all duration-200 hover:scale-125 hover:shadow-lg cursor-pointer"
                     style={{ 
                       left: spot.x, 
                       top: spot.y, 
@@ -211,7 +205,7 @@ const DateTime = () => {
                   />
                 ))}
 
-                {/* Center Pool - Irregular Shape */}
+                {/* Center Pool */}
                 <div 
                   className="absolute bg-gradient-to-br from-blue-400/30 via-cyan-400/30 to-blue-500/30 backdrop-blur-sm flex items-center justify-center text-white font-bold shadow-2xl border border-blue-300/30"
                   style={{ 
@@ -264,7 +258,6 @@ const DateTime = () => {
                           </span>
                         </div>
                         <div className="text-sm text-blue-200 mb-4">{spot.time}</div>
-                        <div className="text-xs text-blue-300 mb-2">Choose duration:</div>
                       </div>
                       
                       {/* Duration Selection */}
