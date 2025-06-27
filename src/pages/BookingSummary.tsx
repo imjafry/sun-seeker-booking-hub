@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -38,8 +37,8 @@ const BookingSummary = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
-      <div className="container mx-auto px-4 py-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+      <div className="relative container mx-auto px-4 py-8">
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="text-center mb-6">
@@ -48,51 +47,49 @@ const BookingSummary = () => {
           </div>
 
           {/* Booking Details */}
-          <Card className="mb-6 bg-white shadow-xl border-0">
+          <Card className="mb-6 bg-white/10 backdrop-blur-lg border-white/20 rounded-2xl shadow-xl">
             <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-blue-600" />
+              <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-blue-400" />
                 Spot Details
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-100">
+              <div className="bg-white/10 backdrop-blur-lg p-4 rounded-xl border border-white/20">
                 <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-xl text-gray-800">Spot {bookingDetails.spot}</span>
-                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                    <span className="font-bold text-xl text-white">Spot {bookingDetails.spot}</span>
+                    <span className="bg-blue-500/30 text-blue-100 px-2 py-1 rounded-full text-xs font-medium border border-blue-400/30">
                       {bookingDetails.area}
                     </span>
                   </div>
-                  <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">
+                  <span className="bg-green-400/20 text-green-200 px-3 py-1 rounded-full text-sm font-bold border border-green-400/30">
                     Zone {bookingDetails.zone}
                   </span>
                 </div>
-                
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-blue-600" />
-                    <span className="text-gray-600">{bookingDetails.date}</span>
+                    <Calendar className="w-4 h-4 text-blue-400" />
+                    <span className="text-blue-200">{bookingDetails.date}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-blue-600" />
-                    <span className="text-gray-600">{bookingDetails.time}</span>
+                    <Clock className="w-4 h-4 text-blue-400" />
+                    <span className="text-blue-200">{bookingDetails.time}</span>
                   </div>
                 </div>
-                
                 <div className="mt-3 flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Duration: {bookingDetails.duration}</span>
-                  <span className="font-bold text-lg text-blue-600">${bookingDetails.price}</span>
+                  <span className="text-sm text-blue-200">Duration: {bookingDetails.duration}</span>
+                  <span className="font-bold text-lg text-blue-200">${bookingDetails.price}</span>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Add-ons */}
-          <Card className="mb-6 bg-white shadow-xl border-0">
+          <Card className="mb-6 bg-white/10 backdrop-blur-lg border-white/20 rounded-2xl shadow-xl">
             <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                <Plus className="w-5 h-5 text-blue-600" />
+              <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
+                <Plus className="w-5 h-5 text-blue-400" />
                 Add-ons
               </CardTitle>
             </CardHeader>
@@ -100,28 +97,30 @@ const BookingSummary = () => {
               {addOns.map((addon) => {
                 const Icon = addon.icon;
                 return (
-                  <div key={addon.id} className="flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:border-blue-200 transition-colors">
+                  <div
+                    key={addon.id}
+                    className="flex items-center justify-between p-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-lg hover:border-blue-400/30 transition-colors"
+                  >
                     <div className="flex items-center gap-3">
-                      <div className="bg-blue-100 p-2 rounded-lg">
-                        <Icon className="w-5 h-5 text-blue-600" />
+                      <div className="bg-blue-500/30 p-2 rounded-lg">
+                        <Icon className="w-5 h-5 text-blue-400" />
                       </div>
                       <div>
-                        <span className="font-medium text-gray-800">{addon.name}</span>
-                        <div className="text-sm text-gray-600">${addon.price} each</div>
+                        <span className="font-medium text-white">{addon.name}</span>
+                        <div className="text-sm text-blue-200">${addon.price} each</div>
                       </div>
                     </div>
-                    
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => addon.setQuantity(Math.max(0, addon.quantity - 1))}
-                        className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                        className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-blue-500/20 transition-colors"
                       >
-                        <Minus className="w-4 h-4 text-gray-600" />
+                        <Minus className="w-4 h-4 text-blue-200" />
                       </button>
-                      <span className="font-bold text-lg min-w-[2rem] text-center">{addon.quantity}</span>
+                      <span className="font-bold text-lg min-w-[2rem] text-center text-white">{addon.quantity}</span>
                       <button
                         onClick={() => addon.setQuantity(addon.quantity + 1)}
-                        className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-700 transition-colors"
+                        className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center hover:from-blue-600 hover:to-cyan-600 transition-colors"
                       >
                         <Plus className="w-4 h-4 text-white" />
                       </button>

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,18 +7,78 @@ import { Calendar, Diamond, Check, ChevronDown } from 'lucide-react';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
+import React from "react";
+
+const PoolSVGLayout = () => {
+  const cx = 160, cy = 160;
+  const arcs = [
+    { start: 210, end: 330, radius: 120, count: 16, color: "#b3dafe" },
+    { start: 330, end: 390, radius: 120, count: 8, color: "#7ec3f7" },
+    { start: 390, end: 510, radius: 120, count: 16, color: "#4fa3e3" },
+    { start: 510, end: 570, radius: 120, count: 8, color: "#7ec3f7" },
+    { start: 210, end: 330, radius: 90, count: 14, color: "#b3dafe" },
+    { start: 330, end: 390, radius: 90, count: 7, color: "#7ec3f7" },
+    { start: 390, end: 510, radius: 90, count: 14, color: "#4fa3e3" },
+    { start: 510, end: 570, radius: 90, count: 7, color: "#7ec3f7" },
+    { start: 210, end: 330, radius: 60, count: 12, color: "#b3dafe" },
+    { start: 330, end: 390, radius: 60, count: 6, color: "#7ec3f7" },
+    { start: 390, end: 510, radius: 60, count: 12, color: "#4fa3e3" },
+    { start: 510, end: 570, radius: 60, count: 6, color: "#7ec3f7" },
+  ];
+  function polarToCartesian(cx, cy, r, angle) {
+    const rad = (angle - 90) * (Math.PI / 180);
+    return {
+      x: cx + r * Math.cos(rad),
+      y: cy + r * Math.sin(rad),
+    };
+  }
+  return (
+    <svg width={450} height={450}>
+      <path
+        d={`
+          M ${cx - 35},${cy}
+          Q ${cx - 40},${cy - 28} ${cx},${cy - 32}
+          Q ${cx + 50},${cy - 28} ${cx + 28},${cy}
+          Q ${cx + 40},${cy + 28} ${cx},${cy + 30}
+          Q ${cx - 40},${cy + 28} ${cx - 35},${cy}
+          Z
+        `}
+        fill="#b3e0fc"
+        opacity={0.7}
+      />
+      <text x={cx} y={cy} textAnchor="middle" dy="0.3em" fontSize={20} fill="#223">Pool</text>
+      {arcs.map((arc, i) => {
+        const dots = [];
+        const step = (arc.end - arc.start) / (arc.count - 1);
+        for (let j = 0; j < arc.count; j++) {
+          const angle = arc.start + j * step;
+          const { x, y } = polarToCartesian(cx, cy, arc.radius, angle);
+          dots.push(
+            <circle key={`${i}-${j}`} cx={x} cy={y} r={6} fill={arc.color} opacity={0.9} />
+          );
+        }
+        return dots;
+      })}
+      <text x={cx-100} y={cy - 110} textAnchor="middle" fontSize={14} fill="#A7CCF1">Sun Area</text>
+      <text x={cx + 70} y={cy - 110} textAnchor="start" fontSize={14} fill="#A7CCF1">VIP Poolside</text>
+      <text x={cx - 80} y={cy + 120} textAnchor="end" fontSize={14} fill="#A7CCF1">Family Area</text>
+      <text x={cx + 100} y={cy + 120} textAnchor="start" fontSize={14} fill="#A7CCF1">Pool</text>
+    </svg>
+  );
+};
 
 const DateTime = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(2025, 5, 25)); // June 25, 2025
   const [selectedZones, setSelectedZones] = useState<string[]>(['PGF', 'PGH']);
   const [showZoneDropdown, setShowZoneDropdown] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState<string>('');
-  const [spotDurations, setSpotDurations] = useState<{[key: string]: string}>({
+  const [spotDurations, setSpotDurations] = useState<{ [key: string]: string }>({
     'A4': '6 hour',
     'A5': '6 hour'
   });
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const [openPopover, setOpenPopover] = useState<string | null>(null);
 
   const zones = [
     { id: 'PGA', name: 'PG A', price: '$30,00', color: 'bg-blue-600' },
@@ -45,8 +104,8 @@ const DateTime = () => {
   ];
 
   const handleZoneToggle = (zoneId: string) => {
-    setSelectedZones(prev => 
-      prev.includes(zoneId) 
+    setSelectedZones(prev =>
+      prev.includes(zoneId)
         ? prev.filter(id => id !== zoneId)
         : [...prev, zoneId]
     );
@@ -63,43 +122,82 @@ const DateTime = () => {
     navigate('/booking/poolmap');
   };
 
+  const NUM_SEATS = 16; // adjust as needed for each arc
+  const ARC_RADIUS = [140, 120, 100, 80]; // radii for each arc
+
+  const arcAngles = [
+    { start: -120, end: -60, label: "Sun Area" },
+    { start: -60, end: 0, label: "VIP Poolside" },
+    { start: 0, end: 60, label: "Pool" },
+    { start: 60, end: 120, label: "Family Area" },
+  ];
+
+  function polarToCartesian(cx, cy, r, angle) {
+    const rad = (angle - 90) * (Math.PI / 180);
+    return {
+      x: cx + r * Math.cos(rad),
+      y: cy + r * Math.sin(rad),
+    };
+  }
+
   const generatePoolLayout = () => {
     const spots = [];
     const centerX = 50;
     const centerY = 50;
     const numRows = 6;
     const spotsPerRow = 3;
-    
+
     let spotId = 1;
-    
+
     for (let row = 0; row < numRows; row++) {
       const radius = 35 - (row * 4);
-      
+
       for (let spot = 0; spot < spotsPerRow; spot++) {
         const angle = (spot * (360 / spotsPerRow) + (row * 20)) * (Math.PI / 180);
         const x = centerX + (radius * Math.cos(angle));
         const y = centerY + (radius * Math.sin(angle));
-        
+
         spots.push({
           id: spotId,
           x: `${x}%`,
           y: `${y}%`,
           opacity: 0.6 + (Math.random() * 0.4),
         });
-        
+
         spotId++;
       }
     }
-    
+
     return spots;
   };
 
   const poolSpots = generatePoolLayout();
 
+  const arcs = [
+    // Each arc: { startAngle, endAngle, radius, count, color }
+    { start: 210, end: 330, radius: 150, count: 16, color: "#b3dafe" }, // Sun Area
+    { start: 330, end: 390, radius: 150, count: 8, color: "#7ec3f7" },  // VIP Poolside
+    { start: 390, end: 510, radius: 150, count: 16, color: "#4fa3e3" }, // Pool
+    { start: 510, end: 570, radius: 150, count: 8, color: "#7ec3f7" },  // Family Area
+    // Inner arcs (closer to pool)
+    { start: 210, end: 330, radius: 120, count: 14, color: "#b3dafe" },
+    { start: 330, end: 390, radius: 120, count: 7, color: "#7ec3f7" },
+    { start: 390, end: 510, radius: 120, count: 14, color: "#4fa3e3" },
+    { start: 510, end: 570, radius: 120, count: 7, color: "#7ec3f7" },
+    // Even more inner arcs if you want
+  ];
+
+  const labels = [
+    { text: "Sun Area", x: 200, y: 40, anchor: "middle" },
+    { text: "VIP Poolside", x: 340, y: 120, anchor: "start" },
+    { text: "Family Area", x: 60, y: 360, anchor: "end" },
+    { text: "Pool", x: 340, y: 340, anchor: "start" },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.03\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
-      
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] opacity-20"></div>
+
       <div className="relative container mx-auto px-4 py-8">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
@@ -134,10 +232,10 @@ const DateTime = () => {
                 />
               </PopoverContent>
             </Popover>
-            
+
             <div className="flex items-center gap-3 relative">
               <Diamond className="w-5 h-5 text-blue-400" />
-              <button 
+              <button
                 onClick={() => setShowZoneDropdown(!showZoneDropdown)}
                 className="flex items-center gap-2 text-white hover:text-blue-200 transition-colors"
               >
@@ -155,8 +253,8 @@ const DateTime = () => {
               <CardContent className="p-6">
                 <div className="grid grid-cols-4 gap-4">
                   {zones.map((zone) => (
-                    <div 
-                      key={zone.id} 
+                    <div
+                      key={zone.id}
                       className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-white/10 cursor-pointer transition-all duration-200"
                       onClick={() => handleZoneToggle(zone.id)}
                     >
@@ -186,42 +284,7 @@ const DateTime = () => {
               </div>
 
               <div className="relative w-80 h-80 mx-auto mb-6">
-                {poolSpots.map((spot, index) => (
-                  <div
-                    key={index}
-                    className="absolute w-3 h-3 bg-blue-400 rounded-full shadow-sm transition-all duration-200 hover:scale-125 hover:shadow-lg cursor-pointer"
-                    style={{ 
-                      left: spot.x, 
-                      top: spot.y, 
-                      opacity: spot.opacity,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                  />
-                ))}
-
-                <div 
-                  className="absolute bg-gradient-to-br from-blue-400/30 via-cyan-400/30 to-blue-500/30 backdrop-blur-sm flex items-center justify-center text-white font-bold shadow-2xl border border-blue-300/30"
-                  style={{ 
-                    left: '50%', 
-                    top: '50%', 
-                    width: '140px',
-                    height: '100px',
-                    transform: 'translate(-50%, -50%)',
-                    borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%'
-                  }}
-                >
-                  Pool
-                </div>
-
-                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-semibold text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/30">
-                  Sun Area
-                </div>
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm font-semibold text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/30">
-                  VIP Poolside
-                </div>
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-sm font-semibold text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/30">
-                  Family Area
-                </div>
+                <PoolSVGLayout />
               </div>
             </CardContent>
           </Card>
@@ -230,13 +293,12 @@ const DateTime = () => {
             <div className="space-y-4 mb-8">
               <h3 className="text-xl font-semibold text-white text-center">Available Spots</h3>
               {availableSpots.map((spot) => (
-                <Card 
+                <Card
                   key={spot.id}
-                  className={`cursor-pointer transition-all duration-300 border-2 ${
-                    selectedSpot === spot.id 
-                      ? 'border-blue-400 bg-blue-500/20 backdrop-blur-lg shadow-xl shadow-blue-500/20' 
+                  className={`cursor-pointer transition-all duration-300 border-2 ${selectedSpot === spot.id
+                      ? 'border-blue-400 bg-blue-500/20 backdrop-blur-lg shadow-xl shadow-blue-500/20'
                       : 'border-white/20 bg-white/10 backdrop-blur-lg hover:border-blue-300/50 hover:shadow-lg'
-                  }`}
+                    }`}
                   onClick={() => setSelectedSpot(spot.id)}
                 >
                   <CardContent className="p-6">
@@ -250,25 +312,49 @@ const DateTime = () => {
                         </div>
                         <div className="text-sm text-blue-200 mb-4">{spot.time}</div>
                       </div>
-                      
+
                       <div className="flex flex-col gap-2">
-                        {durationOptions.map((option) => (
-                          <button
-                            key={option.value}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleSpotDurationChange(spot.id, option.value);
-                            }}
-                            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                              spotDurations[spot.id] === option.value
-                                ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg transform scale-105'
-                                : 'bg-white/20 text-blue-200 hover:bg-white/30 border border-white/30'
-                            }`}
-                          >
-                            <div>{option.label}</div>
-                            <div className="text-xs opacity-80">${option.price}</div>
-                          </button>
-                        ))}
+                        <Popover
+                          open={openPopover === spot.id}
+                          onOpenChange={open => setOpenPopover(open ? spot.id : null)}
+                        >
+                          <PopoverTrigger asChild>
+                            <button
+                              className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
+                              onClick={e => {
+                                e.stopPropagation();
+                                setOpenPopover(spot.id);
+                              }}
+                            >
+                              <div>
+                                {durationOptions.find(opt => opt.value === spotDurations[spot.id])?.label}
+                              </div>
+                              <div className="text-xs opacity-80">
+                                ${durationOptions.find(opt => opt.value === spotDurations[spot.id])?.price}
+                              </div>
+                            </button>
+                          </PopoverTrigger>
+                          <PopoverContent className="p-0 w-40" align="end" side="bottom">
+                            <div className="flex flex-col">
+                              {durationOptions
+                                .filter(opt => opt.value !== spotDurations[spot.id])
+                                .map(option => (
+                                  <button
+                                    key={option.value}
+                                    onClick={e => {
+                                      e.stopPropagation();
+                                      handleSpotDurationChange(spot.id, option.value);
+                                      setOpenPopover(null);
+                                    }}
+                                    className="flex justify-between items-center px-4 py-2 text-left hover:bg-blue-100 text-blue-900"
+                                  >
+                                    <div>{option.label}</div>
+                                    <div className="text-xs opacity-80">${option.price}</div>
+                                  </button>
+                                ))}
+                            </div>
+                          </PopoverContent>
+                        </Popover>
                       </div>
                     </div>
                   </CardContent>
@@ -277,7 +363,7 @@ const DateTime = () => {
             </div>
           )}
 
-          <Button 
+          <Button
             onClick={handleContinue}
             disabled={!selectedSpot}
             className="w-full py-6 text-lg font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 hover:from-blue-700 hover:via-cyan-700 hover:to-blue-800 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-0 disabled:opacity-50 disabled:cursor-not-allowed"
