@@ -148,7 +148,7 @@ const BookingConfirmation = () => {
           </Card>
 
           {/* Important Information */}
-          <Card className="mb-8 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur-lg border-yellow-400/30 rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-[1.02]">
+          <Card className="mb-8 bg-white/10 backdrop-blur-lg border-white/20 rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-[1.02] hover:bg-white/15">
             <CardContent className="p-6">
               <h2 className="text-lg font-semibold mb-4 text-yellow-100">⚠️ {t('booking.importantInfo')}</h2>
               

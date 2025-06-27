@@ -119,7 +119,7 @@ const DateTime = () => {
   };
 
   const handleContinue = () => {
-    navigate('/booking/poolmap');
+    navigate('/booking/summary');
   };
 
   const NUM_SEATS = 16; // adjust as needed for each arc
@@ -201,14 +201,14 @@ const DateTime = () => {
       <div className="relative container mx-auto px-4 py-8">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-4">
+            {/* <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-4">
               <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
-              <span className="text-amber-400 text-sm font-medium">Step 3 of 4</span>
-            </div>
+              <span className="text-amber-400 text-sm font-medium">{t('dateTime.stepIndicator') || 'Step 3 of 4'}</span>
+            </div> */}
             <h1 className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-              Select Your Perfect Spot
+              {t('dateTime.selectSpotTitle') || 'Select Your Perfect Spot'}
             </h1>
-            <p className="text-blue-200">Choose your ideal poolside experience</p>
+            <p className="text-blue-200">{t('dateTime.selectSpotSubtitle') || 'Choose your ideal poolside experience'}</p>
           </div>
 
           <div className="flex justify-between items-center mb-8 bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20">
@@ -217,7 +217,7 @@ const DateTime = () => {
                 <button className="flex items-center gap-3 text-white hover:text-blue-200 transition-colors">
                   <Calendar className="w-5 h-5 text-blue-400" />
                   <div className="text-left">
-                    <div className="text-xs text-blue-200">Select Date</div>
+                    <div className="text-xs text-blue-200">{t('dateTime.selectDate')}</div>
                     <div className="font-medium">{format(selectedDate, "MMM dd, yyyy")}</div>
                   </div>
                 </button>
@@ -240,8 +240,8 @@ const DateTime = () => {
                 className="flex items-center gap-2 text-white hover:text-blue-200 transition-colors"
               >
                 <div className="text-left">
-                  <div className="text-xs text-blue-200">Zones</div>
-                  <div className="font-medium">{selectedZones.length} Selected</div>
+                  <div className="text-xs text-blue-200">{t('dateTime.zones') || 'Zones'}</div>
+                  <div className="font-medium">{selectedZones.length} {t('dateTime.selected') || 'Selected'}</div>
                 </div>
                 <ChevronDown className={`w-4 h-4 transition-transform ${showZoneDropdown ? 'rotate-180' : ''}`} />
               </button>
@@ -279,7 +279,7 @@ const DateTime = () => {
             <CardContent className="p-8">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  POOL LAYOUT
+                  {t('dateTime.poolLayoutTitle') || 'POOL LAYOUT'}
                 </h3>
               </div>
 
@@ -291,7 +291,7 @@ const DateTime = () => {
 
           {selectedZones.length > 0 && (
             <div className="space-y-4 mb-8">
-              <h3 className="text-xl font-semibold text-white text-center">Available Spots</h3>
+              <h3 className="text-xl font-semibold text-white text-center">{t('dateTime.availableSpots')}</h3>
               {availableSpots.map((spot) => (
                 <Card
                   key={spot.id}
@@ -305,7 +305,7 @@ const DateTime = () => {
                     <div className="flex justify-between items-center">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-3">
-                          <span className="font-bold text-xl text-white">Spot {spot.id}</span>
+                          <span className="font-bold text-xl text-white">{t('dateTime.spot')} {spot.id}</span>
                           <span className="text-sm text-blue-200 bg-blue-500/30 px-3 py-1 rounded-full border border-blue-400/30">
                             {spot.area}
                           </span>

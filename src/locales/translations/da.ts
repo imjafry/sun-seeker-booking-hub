@@ -1,4 +1,3 @@
-
 export default {
   welcome: {
     title: "Dit sted i solen – booket før morgenmad.",
@@ -32,7 +31,14 @@ export default {
     afternoonSlots: "Eftermiddag Tider",
     eveningSlots: "Aften Tider",
     fullyBooked: "Fuldt Booket",
-    limitedAvailability: "Begrænset Tilgængelighed"
+    limitedAvailability: "Begrænset Tilgængelighed",
+    stepIndicator: "Trin 3 af 4",
+    selectSpotTitle: "Vælg din perfekte plads",
+    selectSpotSubtitle: "Vælg din ideelle poolside-oplevelse",
+    zones: "Zoner",
+    selected: "Valgt",
+    poolLayoutTitle: "POOL LAYOUT",
+    spot: "Plads"
   },
   booking: {
     selectDate: "Vælg Dato",

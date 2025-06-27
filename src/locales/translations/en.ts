@@ -1,4 +1,3 @@
-
 export default {
   welcome: {
     title: "Your spot in the sun – booked before breakfast.",
@@ -32,7 +31,14 @@ export default {
     afternoonSlots: "Afternoon Slots",
     eveningSlots: "Evening Slots",
     fullyBooked: "Fully Booked",
-    limitedAvailability: "Limited Availability"
+    limitedAvailability: "Limited Availability",
+    stepIndicator: "Step 3 of 4",
+    selectSpotTitle: "Select Your Perfect Spot",
+    selectSpotSubtitle: "Choose your ideal poolside experience",
+    zones: "Zones",
+    selected: "Selected",
+    poolLayoutTitle: "POOL LAYOUT",
+    spot: "Spot"
   },
   booking: {
     selectDate: "Select Date",

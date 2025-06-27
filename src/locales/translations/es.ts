@@ -1,4 +1,3 @@
-
 export default {
   welcome: {
     title: "Tu lugar al sol – reservado antes del desayuno.",
@@ -58,5 +57,14 @@ export default {
     halfRefund: "50% de reembolso 1 hora antes",
     noRefund: "Sin reembolso por no presentarse",
     contactReception: "Contacta recepción para cambios"
+  },
+  dateTime: {
+    stepIndicator: "Paso 3 de 4",
+    selectSpotTitle: "Selecciona tu lugar perfecto",
+    selectSpotSubtitle: "Elige tu experiencia ideal junto a la piscina",
+    zones: "Zonas",
+    selected: "Seleccionado",
+    poolLayoutTitle: "DISEÑO DE LA PISCINA",
+    spot: "Lugar"
   }
 };

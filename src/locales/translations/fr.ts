@@ -1,4 +1,3 @@
-
 export default {
   welcome: {
     title: "Votre place au soleil – réservée avant le petit-déjeuner.",
@@ -58,5 +57,14 @@ export default {
     halfRefund: "Remboursement 50% 1 heure avant",
     noRefund: "Aucun remboursement en cas d'absence",
     contactReception: "Contactez la réception pour les changements"
+  },
+  dateTime: {
+    stepIndicator: "Étape 3 sur 4",
+    selectSpotTitle: "Sélectionnez votre place parfaite",
+    selectSpotSubtitle: "Choisissez votre expérience au bord de la piscine idéale",
+    zones: "Zones",
+    selected: "Sélectionné",
+    poolLayoutTitle: "PLAN DE LA PISCINE",
+    spot: "Place"
   }
 };

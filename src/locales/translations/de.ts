@@ -1,4 +1,3 @@
-
 export default {
   welcome: {
     title: "Ihr Platz in der Sonne – vor dem Frühstück gebucht.",
@@ -29,6 +28,13 @@ export default {
     confirmSpot: "Platz bestätigen",
     availabilityInfo: "Dropdown Verfügbarkeit Seite 3",
     limitedAvailability: "Begrenzte Verfügbarkeit",
+    stepIndicator: "Schritt 3 von 4",
+    selectSpotTitle: "Wählen Sie Ihren perfekten Platz",
+    selectSpotSubtitle: "Wählen Sie Ihre ideale Poolseite",
+    zones: "Zonen",
+    selected: "Ausgewählt",
+    poolLayoutTitle: "POOL LAYOUT",
+    spot: "Platz",
     available: "Verfügbar",
     wantExtras: "Möchten Sie ein Handtuch oder einen Sonnenschirm?",
     luxuryTowel: "Luxus Handtuch",
@@ -58,5 +64,14 @@ export default {
     halfRefund: "50% Rückerstattung 1 Stunde vorher",
     noRefund: "Keine Rückerstattung bei Nichterscheinen",
     contactReception: "Kontaktieren Sie die Rezeption für Änderungen"
+  },
+  dateTime: {
+    stepIndicator: "Schritt 3 von 4",
+    selectSpotTitle: "Wählen Sie Ihren perfekten Platz",
+    selectSpotSubtitle: "Wählen Sie Ihr ideales Pool-Erlebnis",
+    zones: "Zonen",
+    selected: "Ausgewählt",
+    poolLayoutTitle: "POOL LAYOUT",
+    spot: "Platz"
   }
 };
