@@ -102,7 +102,6 @@ const DateTime = () => {
       
       <div className="relative container mx-auto px-4 py-8">
         <div className="max-w-md mx-auto">
-          {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-4">
               <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
@@ -114,7 +113,6 @@ const DateTime = () => {
             <p className="text-blue-200">Choose your ideal poolside experience</p>
           </div>
 
-          {/* Date & Zone Selection */}
           <div className="flex justify-between items-center mb-8 bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20">
             <Popover>
               <PopoverTrigger asChild>
@@ -152,7 +150,6 @@ const DateTime = () => {
             </div>
           </div>
 
-          {/* Zone Selection Dropdown */}
           {showZoneDropdown && (
             <Card className="mb-8 bg-white/10 backdrop-blur-lg border-white/20 animate-fade-in">
               <CardContent className="p-6">
@@ -180,7 +177,6 @@ const DateTime = () => {
             </Card>
           )}
 
-          {/* Pool Layout */}
           <Card className="mb-8 bg-white/10 backdrop-blur-lg border-white/20">
             <CardContent className="p-8">
               <div className="text-center mb-6">
@@ -189,9 +185,7 @@ const DateTime = () => {
                 </h3>
               </div>
 
-              {/* Circular Pool Container */}
               <div className="relative w-80 h-80 mx-auto mb-6">
-                {/* Pool spots in circular arrangement */}
                 {poolSpots.map((spot, index) => (
                   <div
                     key={index}
@@ -205,7 +199,6 @@ const DateTime = () => {
                   />
                 ))}
 
-                {/* Center Pool */}
                 <div 
                   className="absolute bg-gradient-to-br from-blue-400/30 via-cyan-400/30 to-blue-500/30 backdrop-blur-sm flex items-center justify-center text-white font-bold shadow-2xl border border-blue-300/30"
                   style={{ 
@@ -220,7 +213,6 @@ const DateTime = () => {
                   Pool
                 </div>
 
-                {/* Area Labels */}
                 <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-semibold text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/30">
                   Sun Area
                 </div>
@@ -234,7 +226,6 @@ const DateTime = () => {
             </CardContent>
           </Card>
 
-          {/* Available Spots */}
           {selectedZones.length > 0 && (
             <div className="space-y-4 mb-8">
               <h3 className="text-xl font-semibold text-white text-center">Available Spots</h3>
@@ -260,7 +251,6 @@ const DateTime = () => {
                         <div className="text-sm text-blue-200 mb-4">{spot.time}</div>
                       </div>
                       
-                      {/* Duration Selection */}
                       <div className="flex flex-col gap-2">
                         {durationOptions.map((option) => (
                           <button
@@ -287,7 +277,6 @@ const DateTime = () => {
             </div>
           )}
 
-          {/* Confirm Button */}
           <Button 
             onClick={handleContinue}
             disabled={!selectedSpot}
