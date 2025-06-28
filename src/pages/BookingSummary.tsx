@@ -188,18 +188,18 @@ const BookingSummary = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => decrementService('towel')}
-                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30"
+                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30 bg-transparent"
                   >
-                    <Minus className="w-4 h-4" />
+                    <Minus className="w-4 h-4 text-white" />
                   </Button>
                   <span className="text-white text-lg font-bold w-8 text-center">{luxuryTowel}</span>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => incrementService('towel')}
-                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30"
+                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30 bg-transparent"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-4 h-4 text-white" />
                   </Button>
                 </div>
               </div>
@@ -220,18 +220,18 @@ const BookingSummary = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => decrementService('parasol')}
-                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30"
+                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30 bg-transparent"
                   >
-                    <Minus className="w-4 h-4" />
+                    <Minus className="w-4 h-4 text-white" />
                   </Button>
                   <span className="text-white text-lg font-bold w-8 text-center">{premiumParasol}</span>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => incrementService('parasol')}
-                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30"
+                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30 bg-transparent"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-4 h-4 text-white" />
                   </Button>
                 </div>
               </div>
