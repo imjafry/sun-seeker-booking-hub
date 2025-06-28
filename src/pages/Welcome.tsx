@@ -33,7 +33,7 @@ const Welcome = () => {
     if (hotelId.trim()) {
       setIsVerifying(true);
       setTimeout(() => {
-        navigate('/booking/datetime');
+        navigate('/booking/location-details');
       }, 1500);
     }
   };
@@ -71,7 +71,7 @@ const Welcome = () => {
             setTimeout(() => {
               setIsVerifying(true);
               setTimeout(() => {
-                navigate('/booking/datetime');
+                navigate('/booking/location-details');
               }, 1500);
             }, 1000);
           }, 2000);
@@ -93,7 +93,7 @@ const Welcome = () => {
       setTimeout(() => {
         setHotelId('POOL001');
         setTimeout(() => {
-          navigate('/booking/datetime');
+          navigate('/booking/location-details');
         }, 1000);
       }, 1000);
     } else {
