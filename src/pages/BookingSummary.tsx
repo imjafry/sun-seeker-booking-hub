@@ -6,11 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/locales';
-import { Calendar, Clock, MapPin, Users, CreditCard, ArrowLeft, Mail, Phone } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, CreditCard, ArrowLeft, Mail, Phone, Plus, Minus, Umbrella } from 'lucide-react';
 
 const BookingSummary = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const [luxuryTowel, setLuxuryTowel] = useState(0);
+  const [premiumParasol, setPremiumParasol] = useState(0);
 
   // Mock booking data - in real app this would come from context/state
   const bookingData = {
@@ -26,12 +28,33 @@ const BookingSummary = () => {
     phone: '+1 234 567 8900'
   };
 
+  const luxuryTowelPrice = 10;
+  const premiumParasolPrice = 8;
+  const servicesTotal = (luxuryTowel * luxuryTowelPrice) + (premiumParasol * premiumParasolPrice);
+  const finalTotal = bookingData.totalPrice + servicesTotal;
+
   const handleConfirmBooking = () => {
     navigate('/booking/payment');
   };
 
   const handleBack = () => {
     navigate(-1);
+  };
+
+  const incrementService = (service: 'towel' | 'parasol') => {
+    if (service === 'towel') {
+      setLuxuryTowel(prev => prev + 1);
+    } else {
+      setPremiumParasol(prev => prev + 1);
+    }
+  };
+
+  const decrementService = (service: 'towel' | 'parasol') => {
+    if (service === 'towel') {
+      setLuxuryTowel(prev => Math.max(0, prev - 1));
+    } else {
+      setPremiumParasol(prev => Math.max(0, prev - 1));
+    }
   };
 
   return (
@@ -140,6 +163,81 @@ const BookingSummary = () => {
             </CardContent>
           </Card>
 
+          {/* Optional Services */}
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20 mb-8">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <Umbrella className="w-5 h-5 text-blue-400" />
+                {t('bookingSummary.optionalServices') || 'Want a towel, or a parasol?'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Luxury Towel */}
+              <div className="flex items-center justify-between bg-blue-500/20 rounded-lg p-4 border border-blue-400/30">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+                    <Umbrella className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium">{t('bookingSummary.luxuryTowel') || 'Luxury Towel'}</p>
+                    <p className="text-blue-200 text-sm">${luxuryTowelPrice} {t('bookingSummary.each') || 'each'}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => decrementService('towel')}
+                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </Button>
+                  <span className="text-white text-lg font-bold w-8 text-center">{luxuryTowel}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => incrementService('towel')}
+                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Premium Parasol */}
+              <div className="flex items-center justify-between bg-blue-500/20 rounded-lg p-4 border border-blue-400/30">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
+                    <Umbrella className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium">{t('bookingSummary.premiumParasol') || 'Premium Parasol'}</p>
+                    <p className="text-blue-200 text-sm">${premiumParasolPrice} {t('bookingSummary.each') || 'each'}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => decrementService('parasol')}
+                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </Button>
+                  <span className="text-white text-lg font-bold w-8 text-center">{premiumParasol}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => incrementService('parasol')}
+                    className="w-8 h-8 p-0 border-blue-400/50 text-white hover:bg-blue-500/30"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Price Summary */}
           <Card className="bg-white/10 backdrop-blur-lg border-white/20 mb-8">
             <CardContent className="p-6">
@@ -148,6 +246,12 @@ const BookingSummary = () => {
                   <span className="text-blue-200">{t('bookingSummary.subtotal') || 'Subtotal'}</span>
                   <span className="text-white">${bookingData.totalPrice}</span>
                 </div>
+                {servicesTotal > 0 && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-blue-200">{t('bookingSummary.services') || 'Services'}</span>
+                    <span className="text-white">${servicesTotal}</span>
+                  </div>
+                )}
                 <div className="flex items-center justify-between">
                   <span className="text-blue-200">{t('bookingSummary.serviceFee') || 'Service Fee'}</span>
                   <span className="text-white">$0</span>
@@ -155,7 +259,7 @@ const BookingSummary = () => {
                 <Separator className="bg-white/20" />
                 <div className="flex items-center justify-between text-lg font-bold">
                   <span className="text-white">{t('bookingSummary.total') || 'Total'}</span>
-                  <span className="text-white">${bookingData.totalPrice}</span>
+                  <span className="text-white">${finalTotal}</span>
                 </div>
               </div>
             </CardContent>

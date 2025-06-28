@@ -1,3 +1,4 @@
+
 export default {
   welcome: {
     title: "Votre place au soleil – réservée avant le petit-déjeuner.",
@@ -78,6 +79,11 @@ export default {
     phone: 'Téléphone',
     selectedSpots: 'Places Sélectionnées',
     spot: 'Place',
+    optionalServices: 'Voulez-vous une serviette ou un parasol?',
+    luxuryTowel: 'Serviette de Luxe',
+    premiumParasol: 'Parasol Premium',
+    each: 'chacun',
+    services: 'Services',
     subtotal: 'Sous-total',
     serviceFee: 'Frais de Service',
     total: 'Total',

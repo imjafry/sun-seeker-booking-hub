@@ -1,3 +1,4 @@
+
 export default {
   welcome: {
     title: "Dit sted i solen – booket før morgenmad.",
@@ -91,6 +92,11 @@ export default {
     phone: 'Telefon',
     selectedSpots: 'Valgte Pladser',
     spot: 'Plads',
+    optionalServices: 'Vil du have et håndklæde eller en parasol?',
+    luxuryTowel: 'Luksus Håndklæde',
+    premiumParasol: 'Premium Parasol',
+    each: 'hver',
+    services: 'Tjenester',
     subtotal: 'Subtotal',
     serviceFee: 'Servicegebyr',
     total: 'Total',

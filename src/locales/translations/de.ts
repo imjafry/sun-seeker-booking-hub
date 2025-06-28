@@ -1,3 +1,4 @@
+
 export default {
   welcome: {
     title: "Ihr Platz in der Sonne – vor dem Frühstück gebucht.",
@@ -78,6 +79,11 @@ export default {
     phone: 'Telefon',
     selectedSpots: 'Ausgewählte Plätze',
     spot: 'Platz',
+    optionalServices: 'Möchten Sie ein Handtuch oder einen Sonnenschirm?',
+    luxuryTowel: 'Luxus-Handtuch',
+    premiumParasol: 'Premium-Sonnenschirm',
+    each: 'jeweils',
+    services: 'Dienstleistungen',
     subtotal: 'Zwischensumme',
     serviceFee: 'Servicegebühr',
     total: 'Gesamt',

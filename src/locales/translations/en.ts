@@ -1,3 +1,4 @@
+
 export default {
   welcome: {
     title: "Your spot in the sun – booked before breakfast.",
@@ -78,6 +79,11 @@ export default {
     phone: 'Phone',
     selectedSpots: 'Selected Spots',
     spot: 'Spot',
+    optionalServices: 'Want a towel, or a parasol?',
+    luxuryTowel: 'Luxury Towel',
+    premiumParasol: 'Premium Parasol',
+    each: 'each',
+    services: 'Services',
     subtotal: 'Subtotal',
     serviceFee: 'Service Fee',
     total: 'Total',
