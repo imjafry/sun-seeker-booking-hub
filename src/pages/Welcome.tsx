@@ -81,7 +81,7 @@ const Welcome = () => {
       img.src = URL.createObjectURL(file);
       setUploadedImage(URL.createObjectURL(file));
     } catch (error) {
-      setQrError('Failed to process QR code. Please try again.');
+      setQrError(t('welcome.errors.qrProcessingFailed'));
       setIsProcessingQR(false);
     }
   };
@@ -107,13 +107,13 @@ const Welcome = () => {
     if (file) {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        setQrError('Please select a valid image file.');
+        setQrError(t('welcome.errors.invalidImageFile'));
         return;
       }
       
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setQrError('Image file is too large. Please select an image smaller than 5MB.');
+        setQrError(t('welcome.errors.imageTooLarge'));
         return;
       }
 
@@ -195,7 +195,7 @@ const Welcome = () => {
             </div>
             
             <p className="text-blue-100/90 text-lg leading-relaxed px-4">
-              {t('welcome.description')}
+              {t('welcome.subtitle')}
             </p>
           </div>
 
@@ -288,7 +288,7 @@ const Welcome = () => {
                             size="sm"
                             className="border-red-400/50 text-red-200 hover:bg-red-500/20"
                           >
-                            Try Again
+                            {t('welcome.errors.tryAgain')}
                           </Button>
                         </div>
                       )}
@@ -330,10 +330,10 @@ const Welcome = () => {
                     </div>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 bg-gradient-to-r from-cyan-200 to-blue-200 bg-clip-text text-transparent">
-                    Processing QR Code
+                    {t('welcome.processing.title')}
                   </h3>
                   <p className="text-blue-100/80 text-base px-4 mb-4">
-                    Scanning your QR code to extract accommodation details
+                    {t('welcome.processing.description')}
                   </p>
                   <div className="mt-4">
                     <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">

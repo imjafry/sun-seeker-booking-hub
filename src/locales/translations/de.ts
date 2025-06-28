@@ -1,7 +1,6 @@
-
 export default {
   welcome: {
-    title: "Willkommen bei Sun Seeker",
+    title: "Ihr Platz in der Sonne – vor dem Frühstück gebucht.",
     subtitle: "Ihr Premium-Poolside-Erlebnis wartet auf Sie",
     verifyStay: "Ihren Aufenthalt Verifizieren",
     confirmationCode: "Bestätigungscode",
@@ -20,6 +19,16 @@ export default {
     verifying: {
       title: "Verifizierung Ihres Aufenthalts",
       description: "Verbindung zu Ihrem perfekten Poolside-Erlebnis"
+    },
+    processing: {
+      title: "QR-Code wird verarbeitet",
+      description: "Ihr QR-Code wird gescannt, um Unterkunftsdetails zu extrahieren"
+    },
+    errors: {
+      qrProcessingFailed: "QR-Code konnte nicht verarbeitet werden. Bitte versuchen Sie es erneut.",
+      invalidImageFile: "Bitte wählen Sie eine gültige Bilddatei aus.",
+      imageTooLarge: "Bilddatei ist zu groß. Bitte wählen Sie ein Bild kleiner als 5MB aus.",
+      tryAgain: "Erneut Versuchen"
     }
   },
   locationDetails: {
@@ -73,5 +82,36 @@ export default {
     serviceFee: 'Servicegebühr',
     total: 'Gesamt',
     confirmBooking: 'Buchung Bestätigen'
+  },
+  booking: {
+    bookingConfirmed: 'Buchung Bestätigt!',
+    seatsReserved: 'Ihre Plätze wurden erfolgreich reserviert',
+    bookingQRCode: 'Ihr Buchungs-QR-Code',
+    showAtEntrance: 'Zeigen Sie dies am Pool-Eingang',
+    bookingDetails: 'Buchungsdetails',
+    reservedSeats: 'Reservierte Plätze',
+    guest: 'Gast',
+    room: 'Zimmer',
+    paymentSummary: 'Zahlungsübersicht',
+    totalPaid: 'Gesamt Bezahlt',
+    importantInfo: 'Wichtige Informationen',
+    beforeVisit: 'Vor Ihrem Besuch',
+    arriveEarly: 'Kommen Sie 15 Minuten vor Ihrem Zeitslot',
+    bringQR: 'Bringen Sie Ihren Buchungs-QR-Code mit',
+    validKey: 'Gültiger Zimmerschlüssel erforderlich',
+    towelsAvailable: 'Handtücher am Pool-Service verfügbar',
+    cancellationPolicy: 'Stornierungsrichtlinie',
+    freeCancellation: 'Kostenlose Stornierung 2 Stunden vorher',
+    halfRefund: '50% Rückerstattung 1 Stunde vorher',
+    noRefund: 'Keine Rückerstattung bei Nichterscheinen',
+    contactReception: 'Kontaktieren Sie die Rezeption für Änderungen',
+    addOns: 'Zusätze',
+    premiumParasol: 'Premium-Sonnenschirm',
+    summary: {
+      spots: 'Plätze'
+    },
+    confirmation: {
+      backHome: 'Zurück zum Start'
+    }
   }
 };

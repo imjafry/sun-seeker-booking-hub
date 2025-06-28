@@ -1,6 +1,6 @@
 export default {
   welcome: {
-    title: "Velkommen til Sun Seeker",
+    title: "Dit sted i solen – booket før morgenmad.",
     subtitle: "Din premium poolside-oplevelse venter",
     verifyStay: "Verificer Dit Ophold",
     confirmationCode: "Bekræftelseskode",
@@ -19,6 +19,16 @@ export default {
     verifying: {
       title: "Verificerer dit ophold",
       description: "Forbinder dig til din perfekte poolside-oplevelse"
+    },
+    processing: {
+      title: "Behandler QR-kode",
+      description: "Scanner din QR-kode for at udtrække indkvarteringsdetaljer"
+    },
+    errors: {
+      qrProcessingFailed: "Kunne ikke behandle QR-kode. Prøv venligst igen.",
+      invalidImageFile: "Vælg venligst en gyldig billedfil.",
+      imageTooLarge: "Billedfilen er for stor. Vælg venligst et billede mindre end 5MB.",
+      tryAgain: "Prøv Igen"
     }
   },
   locationDetails: {

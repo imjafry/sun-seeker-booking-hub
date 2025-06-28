@@ -1,7 +1,6 @@
-
 export default {
   welcome: {
-    title: "Bienvenido a Sun Seeker",
+    title: "Tu lugar al sol – reservado antes del desayuno.",
     subtitle: "Tu experiencia premium junto a la piscina te espera",
     verifyStay: "Verificar tu Estancia",
     confirmationCode: "Código de Confirmación",
@@ -20,6 +19,16 @@ export default {
     verifying: {
       title: "Verificando tu estancia",
       description: "Conectándote a tu experiencia perfecta junto a la piscina"
+    },
+    processing: {
+      title: "Procesando Código QR",
+      description: "Escaneando tu código QR para extraer detalles de alojamiento"
+    },
+    errors: {
+      qrProcessingFailed: "Error al procesar el código QR. Por favor, inténtalo de nuevo.",
+      invalidImageFile: "Por favor, selecciona un archivo de imagen válido.",
+      imageTooLarge: "El archivo de imagen es demasiado grande. Por favor, selecciona una imagen menor a 5MB.",
+      tryAgain: "Intentar de Nuevo"
     }
   },
   locationDetails: {
@@ -73,5 +82,36 @@ export default {
     serviceFee: 'Tarifa de Servicio',
     total: 'Total',
     confirmBooking: 'Confirmar Reserva'
+  },
+  booking: {
+    bookingConfirmed: '¡Reserva Confirmada!',
+    seatsReserved: 'Tus asientos han sido reservados exitosamente',
+    bookingQRCode: 'Tu Código QR de Reserva',
+    showAtEntrance: 'Muestra esto en la entrada de la piscina',
+    bookingDetails: 'Detalles de la Reserva',
+    reservedSeats: 'Asientos Reservados',
+    guest: 'Huésped',
+    room: 'Habitación',
+    paymentSummary: 'Resumen de Pago',
+    totalPaid: 'Total Pagado',
+    importantInfo: 'Información Importante',
+    beforeVisit: 'Antes de tu Visita',
+    arriveEarly: 'Llega 15 minutos antes de tu horario',
+    bringQR: 'Trae tu código QR de reserva',
+    validKey: 'Llave de habitación válida requerida',
+    towelsAvailable: 'Toallas disponibles en el servicio de piscina',
+    cancellationPolicy: 'Política de Cancelación',
+    freeCancellation: 'Cancelación gratuita 2 horas antes',
+    halfRefund: '50% de reembolso 1 hora antes',
+    noRefund: 'Sin reembolso por no presentarse',
+    contactReception: 'Contacta recepción para cambios',
+    addOns: 'Adicionales',
+    premiumParasol: 'Sombrilla Premium',
+    summary: {
+      spots: 'Lugares'
+    },
+    confirmation: {
+      backHome: 'Volver al Inicio'
+    }
   }
 };
