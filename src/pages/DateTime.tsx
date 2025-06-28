@@ -181,6 +181,14 @@ const DateTime = () => {
     navigate('/booking/summary');
   };
 
+  const calculateTotalPrice = () => {
+    return selectedSeats.reduce((total, seatId) => {
+      const duration = spotDurations[seatId] || '6 hour';
+      const price = durationOptions.find(opt => opt.value === duration)?.price || 20;
+      return total + price;
+    }, 0);
+  };
+
   const NUM_SEATS = 16; // adjust as needed for each arc
   const ARC_RADIUS = [140, 120, 100, 80]; // radii for each arc
 
@@ -359,15 +367,11 @@ const DateTime = () => {
 
           {availableSpots.length > 0 && (
             <div className="space-y-4 mb-8">
-              <h3 className="text-xl font-semibold text-white text-center">{t('dateTime.availableSpots') || 'Available Spots'}</h3>
+              <h3 className="text-xl font-semibold text-white text-center">{t('dateTime.availableSpots') || 'Selected Spots'}</h3>
               {availableSpots.map((spot) => (
                 <Card
                   key={spot.id}
-                  className={`cursor-pointer transition-all duration-300 border-2 ${selectedSpot === spot.id
-                      ? 'border-blue-400 bg-blue-500/20 backdrop-blur-lg shadow-xl shadow-blue-500/20'
-                      : 'border-white/20 bg-white/10 backdrop-blur-lg hover:border-blue-300/50 hover:shadow-lg'
-                    }`}
-                  onClick={() => setSelectedSpot(spot.id)}
+                  className="border-2 border-blue-400/50 bg-blue-500/20 backdrop-blur-lg shadow-xl shadow-blue-500/20"
                 >
                   <CardContent className="p-6">
                     <div className="flex justify-between items-center">
@@ -433,14 +437,14 @@ const DateTime = () => {
 
           <Button
             onClick={handleContinue}
-            disabled={!selectedSpot}
+            disabled={selectedSeats.length === 0}
             className="w-full py-6 text-lg font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 hover:from-blue-700 hover:via-cyan-700 hover:to-blue-800 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-0 disabled:opacity-50 disabled:cursor-not-allowed"
             size="lg"
           >
             <span className="flex items-center gap-3">
-              Confirm Your Spot
+              Confirm All Spots ({selectedSeats.length})
               <div className="bg-white/20 px-3 py-1 rounded-full text-sm">
-                ${durationOptions.find(opt => opt.value === (spotDurations[selectedSpot] || '6 hour'))?.price || 20}
+                ${calculateTotalPrice()}
               </div>
             </span>
           </Button>
