@@ -9,22 +9,23 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 import React from "react";
 
-const PoolSVGLayout = () => {
+const PoolSVGLayout = ({ onSeatClick, selectedSeats }: { onSeatClick: (seatId: string) => void, selectedSeats: string[] }) => {
   const cx = 160, cy = 160;
   const arcs = [
-    { start: 210, end: 330, radius: 120, count: 16, color: "#b3dafe" },
-    { start: 330, end: 390, radius: 120, count: 8, color: "#7ec3f7" },
-    { start: 390, end: 510, radius: 120, count: 16, color: "#4fa3e3" },
-    { start: 510, end: 570, radius: 120, count: 8, color: "#7ec3f7" },
-    { start: 210, end: 330, radius: 90, count: 14, color: "#b3dafe" },
-    { start: 330, end: 390, radius: 90, count: 7, color: "#7ec3f7" },
-    { start: 390, end: 510, radius: 90, count: 14, color: "#4fa3e3" },
-    { start: 510, end: 570, radius: 90, count: 7, color: "#7ec3f7" },
-    { start: 210, end: 330, radius: 60, count: 12, color: "#b3dafe" },
-    { start: 330, end: 390, radius: 60, count: 6, color: "#7ec3f7" },
-    { start: 390, end: 510, radius: 60, count: 12, color: "#4fa3e3" },
-    { start: 510, end: 570, radius: 60, count: 6, color: "#7ec3f7" },
+    { start: 210, end: 330, radius: 120, count: 16, color: "#b3dafe", area: "Sun Area" },
+    { start: 330, end: 390, radius: 120, count: 8, color: "#7ec3f7", area: "VIP Poolside" },
+    { start: 390, end: 510, radius: 120, count: 16, color: "#4fa3e3", area: "Pool Side" },
+    { start: 510, end: 570, radius: 120, count: 8, color: "#7ec3f7", area: "Family Area" },
+    { start: 210, end: 330, radius: 90, count: 14, color: "#b3dafe", area: "Sun Area" },
+    { start: 330, end: 390, radius: 90, count: 7, color: "#7ec3f7", area: "VIP Poolside" },
+    { start: 390, end: 510, radius: 90, count: 14, color: "#4fa3e3", area: "Pool Side" },
+    { start: 510, end: 570, radius: 90, count: 7, color: "#7ec3f7", area: "Family Area" },
+    { start: 210, end: 330, radius: 60, count: 12, color: "#b3dafe", area: "Sun Area" },
+    { start: 330, end: 390, radius: 60, count: 6, color: "#7ec3f7", area: "VIP Poolside" },
+    { start: 390, end: 510, radius: 60, count: 12, color: "#4fa3e3", area: "Pool Side" },
+    { start: 510, end: 570, radius: 60, count: 6, color: "#7ec3f7", area: "Family Area" },
   ];
+
   function polarToCartesian(cx, cy, r, angle) {
     const rad = (angle - 90) * (Math.PI / 180);
     return {
@@ -32,6 +33,17 @@ const PoolSVGLayout = () => {
       y: cy + r * Math.sin(rad),
     };
   }
+
+  function getAreaFromAngle(angle) {
+    if (angle >= 210 && angle <= 330) return "Sun Area";
+    if (angle >= 330 && angle <= 390) return "VIP Poolside";
+    if (angle >= 390 && angle <= 510) return "Pool Side";
+    if (angle >= 510 && angle <= 570) return "Family Area";
+    return "Pool Side";
+  }
+
+  let seatCounter = 1;
+
   return (
     <svg width={450} height={450}>
       <path
@@ -53,8 +65,20 @@ const PoolSVGLayout = () => {
         for (let j = 0; j < arc.count; j++) {
           const angle = arc.start + j * step;
           const { x, y } = polarToCartesian(cx, cy, arc.radius, angle);
+          const seatId = `S${seatCounter++}`;
+          const isSelected = selectedSeats.includes(seatId);
+          
           dots.push(
-            <circle key={`${i}-${j}`} cx={x} cy={y} r={6} fill={arc.color} opacity={0.9} />
+            <circle 
+              key={`${i}-${j}`} 
+              cx={x} 
+              cy={y} 
+              r={6} 
+              fill={arc.color} 
+              opacity={isSelected ? 1 : 0.6}
+              style={{ cursor: 'pointer' }}
+              onClick={() => onSeatClick(seatId)}
+            />
           );
         }
         return dots;
@@ -62,7 +86,7 @@ const PoolSVGLayout = () => {
       <text x={cx-100} y={cy - 110} textAnchor="middle" fontSize={14} fill="#A7CCF1">Sun Area</text>
       <text x={cx + 70} y={cy - 110} textAnchor="start" fontSize={14} fill="#A7CCF1">VIP Poolside</text>
       <text x={cx - 80} y={cy + 120} textAnchor="end" fontSize={14} fill="#A7CCF1">Family Area</text>
-      <text x={cx + 100} y={cy + 120} textAnchor="start" fontSize={14} fill="#A7CCF1">Pool</text>
+      <text x={cx + 100} y={cy + 120} textAnchor="start" fontSize={14} fill="#A7CCF1">Pool Side</text>
     </svg>
   );
 };
@@ -72,10 +96,8 @@ const DateTime = () => {
   const [selectedZones, setSelectedZones] = useState<string[]>(['PGF', 'PGH']);
   const [showZoneDropdown, setShowZoneDropdown] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState<string>('');
-  const [spotDurations, setSpotDurations] = useState<{ [key: string]: string }>({
-    'A4': '6 hour',
-    'A5': '6 hour'
-  });
+  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const [spotDurations, setSpotDurations] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [openPopover, setOpenPopover] = useState<string | null>(null);
@@ -98,10 +120,47 @@ const DateTime = () => {
     { value: 'Whole day', label: 'Whole day', price: 35 },
   ];
 
-  const availableSpots = [
-    { id: 'A4', area: 'Family Area', time: 'Wednesday, June 25, 2025: 0:00 - 12:00' },
-    { id: 'A5', area: 'Family Area', time: 'Wednesday, June 25, 2025: 0:00 - 12:00' },
-  ];
+  // Generate available spots based on selected seats
+  const generateAvailableSpots = () => {
+    const areas = ["Sun Area", "VIP Poolside", "Pool Side", "Family Area"];
+    return selectedSeats.map((seatId, index) => {
+      const area = areas[index % areas.length];
+      return {
+        id: seatId,
+        area: area,
+        time: 'Wednesday, June 25, 2025: 0:00 - 12:00'
+      };
+    });
+  };
+
+  const availableSpots = generateAvailableSpots();
+
+  const handleSeatClick = (seatId: string) => {
+    setSelectedSeats(prev => {
+      if (prev.includes(seatId)) {
+        // Remove seat
+        const newSeats = prev.filter(id => id !== seatId);
+        // Remove from spot durations if it exists
+        const newDurations = { ...spotDurations };
+        delete newDurations[seatId];
+        setSpotDurations(newDurations);
+        // Reset selected spot if it was this seat
+        if (selectedSpot === seatId) {
+          setSelectedSpot('');
+        }
+        return newSeats;
+      } else {
+        // Add seat
+        const newSeats = [...prev, seatId];
+        // Set default duration for new seat
+        setSpotDurations(prev => ({
+          ...prev,
+          [seatId]: '6 hour'
+        }));
+        return newSeats;
+      }
+    });
+  };
 
   const handleZoneToggle = (zoneId: string) => {
     setSelectedZones(prev =>
@@ -281,17 +340,26 @@ const DateTime = () => {
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                   {t('dateTime.poolLayoutTitle') || 'POOL LAYOUT'}
                 </h3>
+                <p className="text-blue-200 text-sm mt-2">Click on dots to select your seats</p>
               </div>
 
               <div className="relative w-80 h-80 mx-auto mb-6">
-                <PoolSVGLayout />
+                <PoolSVGLayout onSeatClick={handleSeatClick} selectedSeats={selectedSeats} />
               </div>
+
+              {selectedSeats.length > 0 && (
+                <div className="bg-blue-500/20 backdrop-blur-lg rounded-2xl p-4 border border-blue-400/30">
+                  <p className="text-blue-200 text-sm text-center">
+                    {selectedSeats.length} seat{selectedSeats.length > 1 ? 's' : ''} selected: {selectedSeats.join(', ')}
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
 
-          {selectedZones.length > 0 && (
+          {availableSpots.length > 0 && (
             <div className="space-y-4 mb-8">
-              <h3 className="text-xl font-semibold text-white text-center">{t('dateTime.availableSpots')}</h3>
+              <h3 className="text-xl font-semibold text-white text-center">{t('dateTime.availableSpots') || 'Available Spots'}</h3>
               {availableSpots.map((spot) => (
                 <Card
                   key={spot.id}
@@ -327,17 +395,17 @@ const DateTime = () => {
                               }}
                             >
                               <div>
-                                {durationOptions.find(opt => opt.value === spotDurations[spot.id])?.label}
+                                {durationOptions.find(opt => opt.value === (spotDurations[spot.id] || '6 hour'))?.label}
                               </div>
                               <div className="text-xs opacity-80">
-                                ${durationOptions.find(opt => opt.value === spotDurations[spot.id])?.price}
+                                ${durationOptions.find(opt => opt.value === (spotDurations[spot.id] || '6 hour'))?.price}
                               </div>
                             </button>
                           </PopoverTrigger>
                           <PopoverContent className="p-0 w-40" align="end" side="bottom">
                             <div className="flex flex-col">
                               {durationOptions
-                                .filter(opt => opt.value !== spotDurations[spot.id])
+                                .filter(opt => opt.value !== (spotDurations[spot.id] || '6 hour'))
                                 .map(option => (
                                   <button
                                     key={option.value}
@@ -372,7 +440,7 @@ const DateTime = () => {
             <span className="flex items-center gap-3">
               Confirm Your Spot
               <div className="bg-white/20 px-3 py-1 rounded-full text-sm">
-                ${durationOptions.find(opt => opt.value === spotDurations[selectedSpot])?.price || 20}
+                ${durationOptions.find(opt => opt.value === (spotDurations[selectedSpot] || '6 hour'))?.price || 20}
               </div>
             </span>
           </Button>
