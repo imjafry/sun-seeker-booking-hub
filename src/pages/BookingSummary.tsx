@@ -4,190 +4,165 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/locales';
-import { MapPin, Clock, Calendar, Users, Plus, Minus, Waves, Umbrella, Sparkles } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, CreditCard, ArrowLeft } from 'lucide-react';
 
 const BookingSummary = () => {
-  const [towelQuantity, setTowelQuantity] = useState(1);
-  const [parasolQuantity, setParasolQuantity] = useState(1);
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const bookingDetails = {
-    spot: 'A4',
-    area: 'Family Area',
+  // Mock booking data - in real app this would come from context/state
+  const bookingData = {
     date: 'Wednesday, June 25, 2025',
-    time: '0:00 - 12:00',
-    duration: '6 hours',
-    price: 20,
-    zone: 'PG F'
+    time: '10:00 AM - 6:00 PM',
+    duration: '8 hours',
+    spots: ['S1', 'S15', 'S23'],
+    areas: ['Sun Area', 'VIP Poolside', 'Pool Side'],
+    totalPrice: 75,
+    location: 'Resort Paradise',
+    room: '205',
+    email: 'john.doe@email.com',
+    phone: '+1 234 567 8900'
   };
 
-  const addOns = [
-    { id: 'towel', name: t('booking.luxuryTowel'), price: 5, icon: Waves, quantity: towelQuantity, setQuantity: setTowelQuantity },
-    { id: 'parasol', name: t('booking.premiumParasol'), price: 8, icon: Umbrella, quantity: parasolQuantity, setQuantity: setParasolQuantity }
-  ];
-
-  const calculateTotal = () => {
-    const addOnTotal = addOns.reduce((total, addon) => total + (addon.price * addon.quantity), 0);
-    return bookingDetails.price + addOnTotal;
+  const handleConfirmBooking = () => {
+    navigate('/booking/payment');
   };
 
-  const handleConfirm = () => {
-    navigate('/booking/confirmation');
+  const handleBack = () => {
+    navigate(-1);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
-      {/* Premium Animated Background */}
-      <div className="absolute inset-0">
-        {/* Floating orbs */}
-        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-blue-400/30 to-cyan-400/30 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute top-32 right-20 w-24 h-24 bg-gradient-to-r from-purple-400/30 to-pink-400/30 rounded-full blur-xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-20 left-1/4 w-28 h-28 bg-gradient-to-r from-emerald-400/30 to-teal-400/30 rounded-full blur-xl animate-pulse delay-2000"></div>
-        
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
-        
-        {/* Sparkle effects */}
-        <div className="absolute top-1/4 left-1/3 animate-bounce delay-500">
-          <Sparkles className="w-4 h-4 text-yellow-300/60" />
-        </div>
-        <div className="absolute top-2/3 right-1/4 animate-bounce delay-1500">
-          <Sparkles className="w-3 h-3 text-blue-300/60" />
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] opacity-20"></div>
 
-      <div className="relative container mx-auto px-4 py-8 z-10">
-        <div className="max-w-md mx-auto">
+      <div className="relative container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent animate-fade-in leading-tight mb-2">
-              {t('booking.summary.title')}
-            </h1>
-            <p className="text-blue-100/90 text-lg">
-              {t('booking.summary.subtitle')}
-            </p>
+          <div className="flex items-center gap-4 mb-8">
+            <Button
+              variant="ghost"
+              onClick={handleBack}
+              className="text-white hover:text-blue-200 hover:bg-white/10"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {t('bookingSummary.back') || 'Back'}
+            </Button>
+            <div>
+              <h1 className="text-3xl font-bold text-white bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                {t('bookingSummary.title') || 'Booking Summary'}
+              </h1>
+              <p className="text-blue-200">{t('bookingSummary.subtitle') || 'Review your reservation details'}</p>
+            </div>
           </div>
 
-          {/* Booking Details */}
-          <Card className="mb-6 bg-white/10 backdrop-blur-lg border-white/20 rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-[1.02] hover:bg-white/15">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-blue-400" />
-                {t('booking.summary.spotDetails')}
+          {/* Booking Details Card */}
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20 mb-8">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-blue-400" />
+                {t('bookingSummary.reservationDetails') || 'Reservation Details'}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="bg-white/10 backdrop-blur-lg p-4 rounded-xl border border-white/20">
-                <div className="flex justify-between items-center mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-xl text-white">{t('booking.summary.spot')} {bookingDetails.spot}</span>
-                    <span className="bg-blue-500/30 text-blue-100 px-2 py-1 rounded-full text-xs font-medium border border-blue-400/30">
-                      {bookingDetails.area}
-                    </span>
-                  </div>
-                  <span className="bg-green-400/20 text-green-200 px-3 py-1 rounded-full text-sm font-bold border border-green-400/30">
-                    {t('booking.zone')} {bookingDetails.zone}
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-blue-400" />
-                    <span className="text-blue-200">{bookingDetails.date}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-blue-400" />
-                    <span className="text-blue-200">{bookingDetails.time}</span>
+            <CardContent className="space-y-6">
+              {/* Date & Time */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Calendar className="w-5 h-5 text-blue-400" />
+                  <div>
+                    <p className="text-white font-medium">{bookingData.date}</p>
+                    <p className="text-blue-200 text-sm">{bookingData.time}</p>
                   </div>
                 </div>
-                <div className="mt-3 flex justify-between items-center">
-                  <span className="text-sm text-blue-200">{t('booking.summary.duration')}: {bookingDetails.duration}</span>
-                  <span className="font-bold text-lg text-blue-200">${bookingDetails.price}</span>
+                <Badge variant="outline" className="bg-blue-500/20 text-blue-200 border-blue-400/50">
+                  {bookingData.duration}
+                </Badge>
+              </div>
+
+              <Separator className="bg-white/20" />
+
+              {/* Location & Contact */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-5 h-5 text-blue-400" />
+                  <div>
+                    <p className="text-white font-medium">{bookingData.location}</p>
+                    <p className="text-blue-200 text-sm">{t('bookingSummary.room') || 'Room'} {bookingData.room}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-8">
+                  <div>
+                    <p className="text-blue-200 text-sm">{t('bookingSummary.email') || 'Email'}</p>
+                    <p className="text-white text-sm">{bookingData.email}</p>
+                  </div>
+                  <div>
+                    <p className="text-blue-200 text-sm">{t('bookingSummary.phone') || 'Phone'}</p>
+                    <p className="text-white text-sm">{bookingData.phone}</p>
+                  </div>
+                </div>
+              </div>
+
+              <Separator className="bg-white/20" />
+
+              {/* Selected Spots */}
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <Users className="w-5 h-5 text-blue-400" />
+                  <p className="text-white font-medium">{t('bookingSummary.selectedSpots') || 'Selected Spots'}</p>
+                </div>
+                <div className="grid grid-cols-1 gap-3">
+                  {bookingData.spots.map((spot, index) => (
+                    <div key={spot} className="flex items-center justify-between bg-blue-500/20 rounded-lg p-3 border border-blue-400/30">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                          <span className="text-white text-sm font-bold">{spot}</span>
+                        </div>
+                        <div>
+                          <p className="text-white font-medium">{t('bookingSummary.spot') || 'Spot'} {spot}</p>
+                          <p className="text-blue-200 text-sm">{bookingData.areas[index]}</p>
+                        </div>
+                      </div>
+                      <Badge variant="outline" className="bg-green-500/20 text-green-200 border-green-400/50">
+                        $25
+                      </Badge>
+                    </div>
+                  ))}
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Add-ons */}
-          <Card className="mb-6 bg-white/10 backdrop-blur-lg border-white/20 rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-[1.02] hover:bg-white/15">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                <Plus className="w-5 h-5 text-blue-400" />
-                {t('booking.addOns')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {addOns.map((addon) => {
-                const Icon = addon.icon;
-                return (
-                  <div
-                    key={addon.id}
-                    className="flex items-center justify-between p-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-lg hover:border-blue-400/30 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="bg-blue-500/30 p-2 rounded-lg">
-                        <Icon className="w-5 h-5 text-blue-400" />
-                      </div>
-                      <div>
-                        <span className="font-medium text-white">{addon.name}</span>
-                        <div className="text-sm text-blue-200">${addon.price} {t('booking.each')}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => addon.setQuantity(Math.max(0, addon.quantity - 1))}
-                        className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-blue-500/20 transition-colors"
-                      >
-                        <Minus className="w-4 h-4 text-blue-200" />
-                      </button>
-                      <span className="font-bold text-lg min-w-[2rem] text-center text-white">{addon.quantity}</span>
-                      <button
-                        onClick={() => addon.setQuantity(addon.quantity + 1)}
-                        className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center hover:from-blue-600 hover:to-cyan-600 transition-colors"
-                      >
-                        <Plus className="w-4 h-4 text-white" />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </CardContent>
-          </Card>
-
-          {/* Total */}
-          <Card className="mb-6 bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-xl border-0 transform transition-all duration-500 hover:scale-[1.02]">
+          {/* Price Summary */}
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20 mb-8">
             <CardContent className="p-6">
               <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-blue-100">{t('booking.summary.spot')} {bookingDetails.spot}</span>
-                  <span className="font-medium">${bookingDetails.price}</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-blue-200">{t('bookingSummary.subtotal') || 'Subtotal'}</span>
+                  <span className="text-white">${bookingData.totalPrice}</span>
                 </div>
-                
-                {addOns.map((addon) => addon.quantity > 0 && (
-                  <div key={addon.id} className="flex justify-between items-center">
-                    <span className="text-blue-100">{addon.name} x{addon.quantity}</span>
-                    <span className="font-medium">${addon.price * addon.quantity}</span>
-                  </div>
-                ))}
-                
-                <Separator className="bg-blue-400" />
-                
-                <div className="flex justify-between items-center text-xl font-bold">
-                  <span>{t('booking.total')}</span>
-                  <span>${calculateTotal()}</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-blue-200">{t('bookingSummary.serviceFee') || 'Service Fee'}</span>
+                  <span className="text-white">$0</span>
+                </div>
+                <Separator className="bg-white/20" />
+                <div className="flex items-center justify-between text-lg font-bold">
+                  <span className="text-white">{t('bookingSummary.total') || 'Total'}</span>
+                  <span className="text-white">${bookingData.totalPrice}</span>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Confirm Button */}
-          <Button 
-            onClick={handleConfirm}
-            className="w-full py-6 text-lg font-bold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border-0 group"
+          <Button
+            onClick={handleConfirmBooking}
+            className="w-full py-6 text-lg font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 hover:from-blue-700 hover:via-cyan-700 hover:to-blue-800 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-0"
             size="lg"
           >
-            {t('booking.summary.confirmButton')} - ${calculateTotal()}
+            <CreditCard className="w-5 h-5 mr-2" />
+            {t('bookingSummary.confirmBooking') || 'Confirm Booking'}
           </Button>
         </div>
       </div>
