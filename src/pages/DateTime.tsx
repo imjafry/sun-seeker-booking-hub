@@ -14,15 +14,15 @@ const PoolSVGLayout = ({ onSeatClick, selectedSeats }: { onSeatClick: (seatId: s
   const arcs = [
     { start: 210, end: 330, radius: 120, count: 16, color: "#b3dafe", area: "Sun Area" },
     { start: 330, end: 390, radius: 120, count: 8, color: "#7ec3f7", area: "VIP Poolside" },
-    { start: 390, end: 510, radius: 120, count: 16, color: "#4fa3e3", area: "Pool Side" },
+    { start: 390, end: 510, radius: 120, count: 16, color: "#4fa3e3", area: "Resturant Area" },
     { start: 510, end: 570, radius: 120, count: 8, color: "#7ec3f7", area: "Family Area" },
     { start: 210, end: 330, radius: 90, count: 14, color: "#b3dafe", area: "Sun Area" },
     { start: 330, end: 390, radius: 90, count: 7, color: "#7ec3f7", area: "VIP Poolside" },
-    { start: 390, end: 510, radius: 90, count: 14, color: "#4fa3e3", area: "Pool Side" },
+    { start: 390, end: 510, radius: 90, count: 14, color: "#4fa3e3", area: "Resturant Area" },
     { start: 510, end: 570, radius: 90, count: 7, color: "#7ec3f7", area: "Family Area" },
     { start: 210, end: 330, radius: 60, count: 12, color: "#b3dafe", area: "Sun Area" },
     { start: 330, end: 390, radius: 60, count: 6, color: "#7ec3f7", area: "VIP Poolside" },
-    { start: 390, end: 510, radius: 60, count: 12, color: "#4fa3e3", area: "Pool Side" },
+    { start: 390, end: 510, radius: 60, count: 12, color: "#4fa3e3", area: "Resturant Area" },
     { start: 510, end: 570, radius: 60, count: 6, color: "#7ec3f7", area: "Family Area" },
   ];
 
@@ -37,9 +37,9 @@ const PoolSVGLayout = ({ onSeatClick, selectedSeats }: { onSeatClick: (seatId: s
   function getAreaFromAngle(angle) {
     if (angle >= 210 && angle <= 330) return "Sun Area";
     if (angle >= 330 && angle <= 390) return "VIP Poolside";
-    if (angle >= 390 && angle <= 510) return "Pool Side";
+    if (angle >= 390 && angle <= 510) return "Resturant Area";
     if (angle >= 510 && angle <= 570) return "Family Area";
-    return "Pool Side";
+    return "Resturant Area";
   }
 
   let seatCounter = 1;
@@ -74,7 +74,7 @@ const PoolSVGLayout = ({ onSeatClick, selectedSeats }: { onSeatClick: (seatId: s
               cx={x} 
               cy={y} 
               r={6} 
-              fill={arc.color} 
+              fill={isSelected ? "#ff8c00" : arc.color} 
               opacity={isSelected ? 1 : 0.6}
               style={{ cursor: 'pointer' }}
               onClick={() => onSeatClick(seatId)}
@@ -86,14 +86,14 @@ const PoolSVGLayout = ({ onSeatClick, selectedSeats }: { onSeatClick: (seatId: s
       <text x={cx-100} y={cy - 110} textAnchor="middle" fontSize={14} fill="#A7CCF1">Sun Area</text>
       <text x={cx + 70} y={cy - 110} textAnchor="start" fontSize={14} fill="#A7CCF1">VIP Poolside</text>
       <text x={cx - 80} y={cy + 120} textAnchor="end" fontSize={14} fill="#A7CCF1">Family Area</text>
-      <text x={cx + 100} y={cy + 120} textAnchor="start" fontSize={14} fill="#A7CCF1">Pool Side</text>
+      <text x={cx + 100} y={cy + 120} textAnchor="start" fontSize={14} fill="#A7CCF1">Resturant Area</text>
     </svg>
   );
 };
 
 const DateTime = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(2025, 5, 25)); // June 25, 2025
-  const [selectedZones, setSelectedZones] = useState<string[]>(['PGF', 'PGH']);
+  const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [showZoneDropdown, setShowZoneDropdown] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState<string>('');
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
@@ -122,7 +122,7 @@ const DateTime = () => {
 
   // Generate available spots based on selected seats
   const generateAvailableSpots = () => {
-    const areas = ["Sun Area", "VIP Poolside", "Pool Side", "Family Area"];
+    const areas = ["Sun Area", "VIP Poolside", "Resturant Area", "Family Area"];
     return selectedSeats.map((seatId, index) => {
       const area = areas[index % areas.length];
       return {
@@ -348,7 +348,23 @@ const DateTime = () => {
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                   {t('dateTime.poolLayoutTitle') || 'POOL LAYOUT'}
                 </h3>
-                <p className="text-blue-200 text-sm mt-2">Click on dots to select your seats</p>
+                <p className="text-blue-200 text-sm mt-2">Tap a dot to select your spot</p>
+              </div>
+
+              {/* Legend */}
+              <div className="flex justify-center items-center gap-8 mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#809FCD' }}></div>
+                  <span className="text-blue-200 text-sm">Available</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#457FC0' }}></div>
+                  <span className="text-blue-200 text-sm">Reserved</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#FF8C00' }}></div>
+                  <span className="text-blue-200 text-sm">Your Location</span>
+                </div>
               </div>
 
               <div className="relative w-80 h-80 mx-auto mb-6">
@@ -442,7 +458,7 @@ const DateTime = () => {
             size="lg"
           >
             <span className="flex items-center gap-3">
-              Confirm All Spots ({selectedSeats.length})
+              Confirm 
               <div className="bg-white/20 px-3 py-1 rounded-full text-sm">
                 ${calculateTotalPrice()}
               </div>

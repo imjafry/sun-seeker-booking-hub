@@ -19,16 +19,6 @@ const PaymentSelection = () => {
 
   const paymentOptions = [
     {
-      id: 'offline',
-      title: t('paymentSelection.offlineTitle') || 'Offline Payment',
-      subtitle: t('paymentSelection.offlineSubtitle') || 'Pay at Reception',
-      description: t('paymentSelection.offlineDescription') || 'Complete your payment when you arrive at our reception desk',
-      icon: MapPin,
-      color: 'from-green-500 to-emerald-600',
-      borderColor: 'border-green-400/50',
-      bgColor: 'bg-green-500/20',
-    },
-    {
       id: 'online',
       title: t('paymentSelection.onlineTitle') || 'Online Payment',
       subtitle: t('paymentSelection.onlineSubtitle') || 'Pay Now',
@@ -37,6 +27,16 @@ const PaymentSelection = () => {
       color: 'from-blue-500 to-cyan-600',
       borderColor: 'border-blue-400/50',
       bgColor: 'bg-blue-500/20',
+    },
+    {
+      id: 'offline',
+      title: t('paymentSelection.offlineTitle') || 'Offline Payment',
+      subtitle: t('paymentSelection.offlineSubtitle') || 'Pay at Reception',
+      description: t('paymentSelection.offlineDescription') || 'Complete your payment when you arrive at our reception desk',
+      icon: MapPin,
+      color: 'from-green-500 to-emerald-600',
+      borderColor: 'border-green-400/50',
+      bgColor: 'bg-green-500/20',
     },
   ];
 

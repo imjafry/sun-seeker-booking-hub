@@ -1,15 +1,14 @@
-
 export default {
   welcome: {
     title: "Ihr Platz in der Sonne – vor dem Frühstück gebucht.",
     subtitle: "Ihr Premium-Poolside-Erlebnis wartet auf Sie",
+    description: "Um Ihren Platz zu reservieren, müssen wir Ihre Unterkunft verifizieren",
     verifyStay: "Ihren Aufenthalt Verifizieren",
     confirmationCode: "Bestätigungscode",
     confirmationPlaceholder: "Geben Sie Ihren Buchungsbestätigungscode ein",
     continue: "Weiter",
     noBooking: "Haben Sie keine Buchung?",
     bookNow: "Jetzt Buchen",
-    description: "Um Ihren Platz zu reservieren, müssen wir Ihre Unterkunft verifizieren",
     scanQR: "QR-CODE SCANNEN",
     uploadQR: "QR-BILD HOCHLADEN",
     scanDescription: "Tippen Sie, um den Kamera-Scanner zu öffnen",
@@ -32,6 +31,17 @@ export default {
       tryAgain: "Erneut Versuchen"
     }
   },
+  dateTime: {
+    stepIndicator: "Schritt 3 von 4",
+    selectSpotTitle: "Wählen Sie Ihren Perfekten Platz",
+    selectSpotSubtitle: "Wählen Sie Ihr ideales Poolside-Erlebnis",
+    selectDate: "Datum Auswählen",
+    zones: "Zonen",
+    selected: "Ausgewählt",
+    poolLayoutTitle: "POOL-LAYOUT",
+    availableSpots: "Ausgewählte Plätze",
+    spot: "Platz"
+  },
   locationDetails: {
     premium: 'Premium-Erlebnis',
     title: 'Ihre Details',
@@ -45,17 +55,6 @@ export default {
     phone: 'Telefonnummer',
     phonePlaceholder: 'Geben Sie Ihre Telefonnummer ein',
     continue: 'Weiter zu Datum & Zeit'
-  },
-  dateTime: {
-    stepIndicator: "Schritt 3 von 4",
-    selectSpotTitle: "Wählen Sie Ihren Perfekten Platz",
-    selectSpotSubtitle: "Wählen Sie Ihr ideales Poolside-Erlebnis",
-    selectDate: "Datum Auswählen",
-    zones: "Zonen",
-    selected: "Ausgewählt",
-    poolLayoutTitle: "POOL-LAYOUT",
-    availableSpots: "Ausgewählte Plätze",
-    spot: "Platz"
   },
   paymentSelection: {
     premium: 'Premium-Erlebnis',

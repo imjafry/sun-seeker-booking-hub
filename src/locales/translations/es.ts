@@ -1,15 +1,14 @@
-
 export default {
   welcome: {
     title: "Tu lugar al sol – reservado antes del desayuno.",
     subtitle: "Tu experiencia premium junto a la piscina te espera",
+    description: "Para reservar tu lugar necesitamos verificar tu alojamiento",
     verifyStay: "Verificar tu Estancia",
     confirmationCode: "Código de Confirmación",
     confirmationPlaceholder: "Ingresa tu código de confirmación de reserva",
     continue: "Continuar",
     noBooking: "¿No tienes una reserva?",
     bookNow: "Reservar Ahora",
-    description: "Para reservar tu lugar necesitamos verificar tu alojamiento",
     scanQR: "ESCANEAR CÓDIGO QR",
     uploadQR: "SUBIR IMAGEN QR",
     scanDescription: "Toca para abrir el escáner de cámara",
@@ -32,6 +31,17 @@ export default {
       tryAgain: "Intentar de Nuevo"
     }
   },
+  dateTime: {
+    stepIndicator: "Paso 3 de 4",
+    selectSpotTitle: "Selecciona tu Lugar Perfecto",
+    selectSpotSubtitle: "Elige tu experiencia ideal junto a la piscina",
+    selectDate: "Seleccionar Fecha",
+    zones: "Zonas",
+    selected: "Seleccionado",
+    poolLayoutTitle: "DISEÑO DE PISCINA",
+    availableSpots: "Lugares Seleccionados",
+    spot: "Lugar"
+  },
   locationDetails: {
     premium: 'Experiencia Premium',
     title: 'Tus Detalles',
@@ -45,17 +55,6 @@ export default {
     phone: 'Número de Teléfono',
     phonePlaceholder: 'Ingresa tu número de teléfono',
     continue: 'Continuar a Fecha y Hora'
-  },
-  dateTime: {
-    stepIndicator: "Paso 3 de 4",
-    selectSpotTitle: "Selecciona tu Lugar Perfecto",
-    selectSpotSubtitle: "Elige tu experiencia ideal junto a la piscina",
-    selectDate: "Seleccionar Fecha",
-    zones: "Zonas",
-    selected: "Seleccionado",
-    poolLayoutTitle: "DISEÑO DE PISCINA",
-    availableSpots: "Lugares Seleccionados",
-    spot: "Lugar"
   },
   paymentSelection: {
     premium: 'Experiencia Premium',

@@ -156,10 +156,10 @@ const BookingConfirmation = () => {
                 <div>
                   <h4 className="font-semibold mb-2 text-yellow-50">{t('booking.beforeVisit')}:</h4>
                   <ul className="space-y-1 text-yellow-50">
-                    <li>• {t('booking.arriveEarly')}</li>
+                    {/* <li>• {t('booking.arriveEarly')}</li> */}
                     <li>• {t('booking.bringQR')}</li>
-                    <li>• {t('booking.validKey')}</li>
-                    <li>• {t('booking.towelsAvailable')}</li>
+                    {/* <li>• {t('booking.validKey')}</li> */}
+                    {/* <li>• {t('booking.towelsAvailable')}</li> */}
                   </ul>
                 </div>
                 

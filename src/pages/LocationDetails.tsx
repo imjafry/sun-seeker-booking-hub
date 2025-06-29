@@ -16,12 +16,12 @@ const LocationDetails = () => {
   const { t } = useLanguage();
 
   const handleContinue = () => {
-    if (location && roomNo && email && phone) {
+    if (roomNo && email && phone) {
       navigate('/booking/datetime');
     }
   };
 
-  const isFormValid = location && roomNo && email && phone;
+  const isFormValid = roomNo && email && phone;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
@@ -42,7 +42,8 @@ const LocationDetails = () => {
               <span className="text-amber-400 text-sm font-medium">{t('locationDetails.premium') || 'Premium Experience'}</span>
             </div>
             <h1 className="text-4xl font-bold text-white mb-3 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-              {t('locationDetails.title') || 'Your Details'}
+              Hotel Venti, Barcelona
+              {/* {t('locationDetails.title') || 'Your Details'} */}
             </h1>
             <p className="text-blue-200 text-lg">
               {t('locationDetails.subtitle') || 'Let us know where to reach you'}
@@ -54,7 +55,7 @@ const LocationDetails = () => {
             <CardContent className="p-8">
               <div className="space-y-6">
                 {/* Location */}
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   <label className="text-white font-medium flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-blue-400" />
                     {t('locationDetails.location') || 'Location Name'}
@@ -66,7 +67,7 @@ const LocationDetails = () => {
                     onChange={(e) => setLocation(e.target.value)}
                     className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/50 rounded-xl h-12"
                   />
-                </div>
+                </div> */}
 
                 {/* Room Number */}
                 <div className="space-y-2">

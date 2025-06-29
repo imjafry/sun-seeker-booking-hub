@@ -1,8 +1,8 @@
 
 export default {
   welcome: {
-    title: "Your spot in the sun – booked before breakfast.",
-    subtitle: "Your premium poolside experience awaits",
+    title: "Reserve your perfect spot - before you even step outside.",
+    subtitle: "Your relaxing experience starts here",
     description: "To reserve your spot, we need to verify your accommodation",
     verifyStay: "Verify Your Stay",
     confirmationCode: "Confirmation Code",
@@ -13,10 +13,10 @@ export default {
     scanQR: "SCAN QR CODE",
     uploadQR: "UPLOAD QR IMAGE",
     scanDescription: "Tap to open camera scanner",
-    uploadDescription: "Select QR code image from your device",
-    orEnterManually: "or enter manually",
-    placeholder: "Enter your accommodation ID",
-    continueButton: "Continue to Paradise",
+    uploadDescription: "Scan the QR code to get started",
+    orEnterManually: "or enter your accommodation code manually",
+    placeholder: "Enter your accommodation code",
+    continueButton: "Start Your Reservation",
     verifying: {
       title: "Verifying your stay",
       description: "Connecting you to your perfect poolside experience"
@@ -50,12 +50,12 @@ export default {
     location: 'Location Name',
     locationPlaceholder: 'Enter your location',
     roomNo: 'Room Number',
-    roomPlaceholder: 'Enter room number',
+    roomPlaceholder: 'To make sure your reservation is linked to your stay',
     email: 'Email Address',
-    emailPlaceholder: 'Enter your email',
+    emailPlaceholder: 'We will send your confirmation here',
     phone: 'Phone Number',
-    phonePlaceholder: 'Enter your phone number',
-    continue: 'Continue to Date & Time'
+    phonePlaceholder: 'For notifications or important updates about your booking',
+    continue: 'Select Spot'
   },
   paymentSelection: {
     premium: 'Premium Experience',
@@ -63,11 +63,11 @@ export default {
     subtitle: 'Choose your preferred payment option',
     offlineTitle: 'Offline Payment',
     offlineSubtitle: 'Pay at Reception',
-    offlineDescription: 'Complete your payment when you arrive at our reception desk',
+    offlineDescription: 'Complete your payment when you arive at pufon within reception desk complete your reservation.',
     onlineTitle: 'Online Payment',
     onlineSubtitle: 'Pay Now',
-    onlineDescription: 'Secure online payment with card or digital wallet',
-    continue: 'Continue to Confirmation'
+    onlineDescription: 'Secure online payment with card or apple pay',
+    continue: 'Confirm'
   },
   bookingSummary: {
     back: 'Back',
@@ -107,10 +107,10 @@ export default {
     validKey: 'Valid room key required',
     towelsAvailable: 'Towels available at pool service',
     cancellationPolicy: 'Cancellation Policy',
-    freeCancellation: 'Free cancellation 2 hours before',
-    halfRefund: '50% refund 1 hour before',
-    noRefund: 'No refund for no-show',
-    contactReception: 'Contact reception for changes',
+    freeCancellation: 'Free cancellation 2 hours before your booking time.',
+    halfRefund: '50% refund if cancelled 1 hour before.',
+    noRefund: 'No refund for no-show late arrivals',
+    contactReception: 'To modify your booking, please contact reception or scan QR code again.',
     addOns: 'Add-ons',
     premiumParasol: 'Premium Parasol',
     summary: {
