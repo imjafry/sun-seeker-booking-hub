@@ -5,15 +5,36 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { useState } from 'react';
 
 const TimeSettings = () => {
+  const [mondayEnabled, setMondayEnabled] = useState(true);
+  const [tuesdayEnabled, setTuesdayEnabled] = useState(true);
+  const [wednesdayEnabled, setWednesdayEnabled] = useState(true);
+  const [thursdayEnabled, setThursdayEnabled] = useState(true);
+  const [fridayEnabled, setFridayEnabled] = useState(true);
+  const [saturdayEnabled, setSaturdayEnabled] = useState(true);
+  const [sundayEnabled, setSundayEnabled] = useState(false);
+  const [advanceBooking, setAdvanceBooking] = useState(true);
+  const [cancellationPolicy, setCancellationPolicy] = useState(true);
+
+  const days = [
+    { name: 'Monday', enabled: mondayEnabled, setEnabled: setMondayEnabled },
+    { name: 'Tuesday', enabled: tuesdayEnabled, setEnabled: setTuesdayEnabled },
+    { name: 'Wednesday', enabled: wednesdayEnabled, setEnabled: setWednesdayEnabled },
+    { name: 'Thursday', enabled: thursdayEnabled, setEnabled: setThursdayEnabled },
+    { name: 'Friday', enabled: fridayEnabled, setEnabled: setFridayEnabled },
+    { name: 'Saturday', enabled: saturdayEnabled, setEnabled: setSaturdayEnabled },
+    { name: 'Sunday', enabled: sundayEnabled, setEnabled: setSundayEnabled },
+  ];
+
   return (
     <AdminLayout>
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-6">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Time Settings</h1>
-          <p className="text-white/70">Configure booking time slots and availability</p>
+          <p className="text-white/70">Configure operating hours and booking policies</p>
         </div>
 
         <div className="max-w-4xl mx-auto space-y-6">
@@ -22,42 +43,57 @@ const TimeSettings = () => {
             <CardHeader>
               <CardTitle className="text-white">Operating Hours</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label className="text-white">Opening Time</Label>
-                  <Input
-                    type="time"
-                    defaultValue="08:00"
-                    className="bg-white/10 border-white/20 text-white"
-                  />
+            <CardContent className="space-y-4">
+              {days.map((day) => (
+                <div key={day.name} className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                  <div className="flex items-center gap-4">
+                    <Switch 
+                      checked={day.enabled} 
+                      onCheckedChange={day.setEnabled}
+                      className={day.enabled ? 'data-[state=checked]:bg-green-600' : 'data-[state=unchecked]:bg-slate-600'}
+                    />
+                    <Label className="text-white text-base w-20">{day.name}</Label>
+                  </div>
+                  {day.enabled && (
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <Label className="text-white text-sm">Open:</Label>
+                        <Input
+                          type="time"
+                          defaultValue="09:00"
+                          className="bg-slate-800 border-slate-600 text-white w-32"
+                        />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Label className="text-white text-sm">Close:</Label>
+                        <Input
+                          type="time"
+                          defaultValue="18:00"
+                          className="bg-slate-800 border-slate-600 text-white w-32"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {!day.enabled && (
+                    <span className="text-white/60">Closed</span>
+                  )}
                 </div>
-                <div className="space-y-2">
-                  <Label className="text-white">Closing Time</Label>
-                  <Input
-                    type="time"
-                    defaultValue="20:00"
-                    className="bg-white/10 border-white/20 text-white"
-                  />
-                </div>
-              </div>
+              ))}
             </CardContent>
           </Card>
 
-          {/* Booking Slots */}
+          {/* Time Slots */}
           <Card className="bg-white/10 backdrop-blur-sm border-white/20">
             <CardHeader>
-              <CardTitle className="text-white">Booking Time Slots</CardTitle>
+              <CardTitle className="text-white">Time Slots</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-white">Slot Duration (hours)</Label>
+                  <Label className="text-white">Slot Duration (minutes)</Label>
                   <Input
                     type="number"
-                    defaultValue="2"
-                    min="1"
-                    max="8"
+                    defaultValue="60"
                     className="bg-white/10 border-white/20 text-white"
                   />
                 </div>
@@ -65,29 +101,9 @@ const TimeSettings = () => {
                   <Label className="text-white">Break Between Slots (minutes)</Label>
                   <Input
                     type="number"
-                    defaultValue="30"
-                    min="0"
-                    max="60"
+                    defaultValue="15"
                     className="bg-white/10 border-white/20 text-white"
                   />
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <Label className="text-white text-lg">Available Time Slots</Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {[
-                    '08:00 - 10:00',
-                    '10:30 - 12:30',
-                    '13:00 - 15:00',
-                    '15:30 - 17:30',
-                    '18:00 - 20:00'
-                  ].map((slot, index) => (
-                    <div key={index} className="flex items-center justify-between bg-white/5 p-3 rounded-lg">
-                      <span className="text-white text-sm">{slot}</span>
-                      <Switch defaultChecked />
-                    </div>
-                  ))}
                 </div>
               </div>
             </CardContent>
@@ -98,29 +114,39 @@ const TimeSettings = () => {
             <CardHeader>
               <CardTitle className="text-white">Advance Booking</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label className="text-white">Maximum Days in Advance</Label>
-                  <Input
-                    type="number"
-                    defaultValue="7"
-                    min="1"
-                    max="30"
-                    className="bg-white/10 border-white/20 text-white"
-                  />
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label className="text-white text-base">Enable Advance Booking</Label>
+                  <p className="text-white/60 text-sm">Allow customers to book in advance</p>
                 </div>
-                <div className="space-y-2">
-                  <Label className="text-white">Minimum Hours Before Booking</Label>
-                  <Input
-                    type="number"
-                    defaultValue="2"
-                    min="0"
-                    max="24"
-                    className="bg-white/10 border-white/20 text-white"
-                  />
-                </div>
+                <Switch 
+                  checked={advanceBooking} 
+                  onCheckedChange={setAdvanceBooking}
+                  className={advanceBooking ? 'data-[state=checked]:bg-green-600' : 'data-[state=unchecked]:bg-slate-600'}
+                />
               </div>
+              
+              {advanceBooking && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-white">Maximum Days in Advance</Label>
+                    <Input
+                      type="number"
+                      defaultValue="30"
+                      className="bg-white/10 border-white/20 text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-white">Minimum Hours in Advance</Label>
+                    <Input
+                      type="number"
+                      defaultValue="2"
+                      className="bg-white/10 border-white/20 text-white"
+                    />
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -129,69 +155,46 @@ const TimeSettings = () => {
             <CardHeader>
               <CardTitle className="text-white">Cancellation Policy</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label className="text-white">Free Cancellation (hours before)</Label>
-                  <Input
-                    type="number"
-                    defaultValue="2"
-                    min="0"
-                    max="24"
-                    className="bg-white/10 border-white/20 text-white"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-white">Partial Refund (hours before)</Label>
-                  <Input
-                    type="number"
-                    defaultValue="1"
-                    min="0"
-                    max="24"
-                    className="bg-white/10 border-white/20 text-white"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label className="text-white">Partial Refund Percentage</Label>
-                <Input
-                  type="number"
-                  defaultValue="50"
-                  min="0"
-                  max="100"
-                  className="bg-white/10 border-white/20 text-white"
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Special Hours */}
-          <Card className="bg-white/10 backdrop-blur-sm border-white/20">
-            <CardHeader>
-              <CardTitle className="text-white">Special Hours & Holidays</CardTitle>
-            </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-white">Enable Holiday Schedule</Label>
-                  <p className="text-white/60 text-sm">Set different hours for holidays</p>
+                  <Label className="text-white text-base">Allow Cancellations</Label>
+                  <p className="text-white/60 text-sm">Enable booking cancellations</p>
                 </div>
-                <Switch />
+                <Switch 
+                  checked={cancellationPolicy} 
+                  onCheckedChange={setCancellationPolicy}
+                  className={cancellationPolicy ? 'data-[state=checked]:bg-green-600' : 'data-[state=unchecked]:bg-slate-600'}
+                />
               </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-white">Weekend Extended Hours</Label>
-                  <p className="text-white/60 text-sm">Different hours for weekends</p>
+              
+              {cancellationPolicy && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-white">Free Cancellation (hours before)</Label>
+                    <Input
+                      type="number"
+                      defaultValue="24"
+                      className="bg-white/10 border-white/20 text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-white">Cancellation Fee (%)</Label>
+                    <Input
+                      type="number"
+                      defaultValue="10"
+                      className="bg-white/10 border-white/20 text-white"
+                    />
+                  </div>
                 </div>
-                <Switch />
-              </div>
+              )}
             </CardContent>
           </Card>
 
           {/* Save Button */}
           <div className="flex justify-end">
             <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2">
-              Save Time Settings
+              Save Settings
             </Button>
           </div>
         </div>

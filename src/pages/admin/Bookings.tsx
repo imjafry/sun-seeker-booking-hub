@@ -6,9 +6,14 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Eye, X, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
 
 const Bookings = () => {
+  const [bookingToCancel, setBookingToCancel] = useState<number | null>(null);
+  const [bookingToConfirm, setBookingToConfirm] = useState<number | null>(null);
+
   const bookings = [
     { id: 354, date: 'Jun 25, 2025', spots: 'S104, S123', status: 'Confirmed', room: '354' },
     { id: 120, date: 'Jun 25, 2025', spots: 'S108, V105', status: 'Confirmed', room: '120' },
@@ -31,6 +36,16 @@ const Bookings = () => {
       default:
         return 'bg-gray-100 text-gray-800';
     }
+  };
+
+  const handleCancelBooking = (bookingId: number) => {
+    console.log(`Cancelling booking ${bookingId}`);
+    setBookingToCancel(null);
+  };
+
+  const handleConfirmBooking = (bookingId: number) => {
+    console.log(`Confirming booking ${bookingId}`);
+    setBookingToConfirm(null);
   };
 
   return (
@@ -101,7 +116,8 @@ const Bookings = () => {
               <CardTitle className="text-white text-sm font-medium">Live Occupancy</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">Current Status</div>
+              <div className="text-2xl font-bold text-white">78%</div>
+              <div className="text-white/70 text-sm">Active now</div>
             </CardContent>
           </Card>
         </div>
@@ -163,15 +179,63 @@ const Bookings = () => {
                         <Eye className="w-4 h-4 mr-1" />
                         View
                       </Button>
-                      <Button size="sm" variant="outline" className="border-red-400 text-red-400 hover:bg-red-400 hover:text-white">
-                        <X className="w-4 h-4 mr-1" />
-                        Cancel
-                      </Button>
+                      
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button size="sm" variant="outline" className="border-red-400 text-red-400 hover:bg-red-400 hover:text-white">
+                            <X className="w-4 h-4 mr-1" />
+                            Cancel
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="bg-slate-800 border-slate-600">
+                          <AlertDialogHeader>
+                            <AlertDialogTitle className="text-white">Cancel Booking</AlertDialogTitle>
+                            <AlertDialogDescription className="text-white/70">
+                              Are you sure you want to cancel booking for room {booking.room}? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel className="bg-slate-700 text-white border-slate-600 hover:bg-slate-600">
+                              Keep Booking
+                            </AlertDialogCancel>
+                            <AlertDialogAction 
+                              className="bg-red-600 hover:bg-red-700 text-white"
+                              onClick={() => handleCancelBooking(booking.id)}
+                            >
+                              Cancel Booking
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+
                       {booking.status === 'Pay at reception' && (
-                        <Button size="sm" variant="outline" className="border-green-400 text-green-400 hover:bg-green-400 hover:text-white">
-                          <CheckCircle className="w-4 h-4 mr-1" />
-                          Confirm
-                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button size="sm" variant="outline" className="border-green-400 text-green-400 hover:bg-green-400 hover:text-white">
+                              <CheckCircle className="w-4 h-4 mr-1" />
+                              Confirm
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent className="bg-slate-800 border-slate-600">
+                            <AlertDialogHeader>
+                              <AlertDialogTitle className="text-white">Confirm Payment</AlertDialogTitle>
+                              <AlertDialogDescription className="text-white/70">
+                                Confirm that payment has been received for room {booking.room}?
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel className="bg-slate-700 text-white border-slate-600 hover:bg-slate-600">
+                                Cancel
+                              </AlertDialogCancel>
+                              <AlertDialogAction 
+                                className="bg-green-600 hover:bg-green-700 text-white"
+                                onClick={() => handleConfirmBooking(booking.id)}
+                              >
+                                Confirm Payment
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       )}
                     </div>
                   </TableCell>

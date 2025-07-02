@@ -1,4 +1,3 @@
-
 import { AdminLayout } from '@/components/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,8 +5,25 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Download, Printer, Upload } from 'lucide-react';
+import { useState } from 'react';
 
 const HotelQRCode = () => {
+  const [qrGenerated, setQrGenerated] = useState(false);
+
+  const generateQRCode = () => {
+    // Simple QR generation simulation - would use a QR library in production
+    setQrGenerated(true);
+    console.log('QR Code generated');
+  };
+
+  const generateQRCodes = () => {
+    console.log('Generating multiple QR codes');
+  };
+
+  const generateLabels = () => {
+    console.log('Generating labels');
+  };
+
   return (
     <AdminLayout>
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-6">
@@ -133,10 +149,17 @@ const HotelQRCode = () => {
                 </div>
 
                 <div className="flex gap-3">
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white flex-1">
+                  <Button 
+                    className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                    onClick={generateQRCodes}
+                  >
                     Generate QR Codes
                   </Button>
-                  <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 flex-1">
+                  <Button 
+                    variant="outline" 
+                    className="border-white/20 text-white hover:bg-white/10 flex-1"
+                    onClick={generateLabels}
+                  >
                     Generate Labels
                   </Button>
                 </div>
@@ -194,7 +217,10 @@ const HotelQRCode = () => {
                 <p className="text-white/70 mb-4">Scan this code to reserve your spot.</p>
                 
                 <div className="flex gap-3 justify-center">
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button 
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                    onClick={generateQRCode}
+                  >
                     <Download className="w-4 h-4 mr-2" />
                     Download PNG
                   </Button>
