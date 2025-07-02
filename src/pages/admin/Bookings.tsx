@@ -58,7 +58,7 @@ const Bookings = () => {
           <Card className="bg-white/10 backdrop-blur-sm border-white/20">
             <CardHeader className="pb-3">
               <CardTitle className="text-white text-sm font-medium">Occupancy by Zone</CardTitle>
-            </CardContent>
+            </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-white text-sm">Total Occupancy rate</span>
