@@ -1,7 +1,8 @@
+
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { LayoutDashboard, Calendar, Package, Settings, LogOut, Menu, X, User, Eye } from 'lucide-react';
+import { LayoutDashboard, Calendar, Package, Settings, LogOut, Menu, X, User, Eye, Clock, DollarSign, QrCode } from 'lucide-react';
 import { useState } from 'react';
 
 interface AdminLayoutProps {
@@ -14,10 +15,11 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-    { name: 'Reservations', href: '/admin/reservations', icon: Calendar },
-    { name: 'Pool Layout', href: '/admin/pool-layout', icon: Eye },
-    { name: 'Orders', href: '/admin/orders', icon: Package },
-    { name: 'Settings', href: '/admin/settings', icon: Settings },
+    { name: 'Bookings', href: '/admin/bookings', icon: Calendar },
+    { name: 'Layout Editor', href: '/admin/layout-editor', icon: Eye },
+    { name: 'Time Settings', href: '/admin/time-settings', icon: Clock },
+    { name: 'Pricing', href: '/admin/pricing', icon: DollarSign },
+    { name: 'Hotel & QR Code', href: '/admin/hotel-qr', icon: QrCode },
   ];
 
   const isActive = (href: string) => {

@@ -18,6 +18,11 @@ import Reservations from "./pages/admin/Reservations";
 import PoolLayout from "./pages/admin/PoolLayout";
 import Orders from "./pages/admin/Orders";
 import Settings from "./pages/admin/Settings";
+import Bookings from "./pages/admin/Bookings";
+import LayoutEditor from "./pages/admin/LayoutEditor";
+import TimeSettings from "./pages/admin/TimeSettings";
+import Pricing from "./pages/admin/Pricing";
+import HotelQRCode from "./pages/admin/HotelQRCode";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +48,11 @@ const App = () => (
             <Route path="/admin/pool-layout" element={<PoolLayout />} />
             <Route path="/admin/orders" element={<Orders />} />
             <Route path="/admin/settings" element={<Settings />} />
+            <Route path="/admin/bookings" element={<Bookings />} />
+            <Route path="/admin/layout-editor" element={<LayoutEditor />} />
+            <Route path="/admin/time-settings" element={<TimeSettings />} />
+            <Route path="/admin/pricing" element={<Pricing />} />
+            <Route path="/admin/hotel-qr" element={<HotelQRCode />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
