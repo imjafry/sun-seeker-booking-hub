@@ -22,14 +22,14 @@ const LayoutEditor = () => {
               <CardHeader>
                 <div className="flex justify-between items-center">
                   <CardTitle className="text-white">Pool Layout</CardTitle>
-                  <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                  <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 bg-transparent">
                     <Upload className="w-4 h-4 mr-2" />
                     Upload Background Image
                   </Button>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="relative bg-gray-100 rounded-lg p-8 min-h-[500px] flex items-center justify-center">
+                <div className="relative rounded-lg p-8 w-full flex items-center justify-center">
                   <PoolLayoutView />
                 </div>
                 
@@ -38,7 +38,7 @@ const LayoutEditor = () => {
                     Drag and drop seats to organize zones
                   </div>
                   <div className="flex gap-3">
-                    <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                    <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 bg-transparent">
                       Cancel
                     </Button>
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white">

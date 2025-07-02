@@ -161,7 +161,7 @@ const HotelQRCode = () => {
                     <Button 
                       variant="outline" 
                       onClick={generateNewCode}
-                      className="border-white/20 text-white hover:bg-white/10 hover:text-white"
+                      className="border-white/20 text-white hover:bg-white/10 hover:text-white bg-transparent"
                     >
                       Generate New
                     </Button>
@@ -175,63 +175,6 @@ const HotelQRCode = () => {
                     onChange={(e) => setBookingUrl(e.target.value)}
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
                   />
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Branding */}
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20">
-              <CardHeader>
-                <CardTitle className="text-white">Branding</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-white">Upload Logo</Label>
-                  <div 
-                    className="border-2 border-dashed border-white/20 rounded-lg p-8 text-center cursor-pointer hover:border-white/40 transition-colors"
-                    onClick={() => logoInputRef.current?.click()}
-                    onDragOver={handleLogoDragOver}
-                    onDrop={handleLogoDrop}
-                  >
-                    <input
-                      ref={logoInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoUpload}
-                      className="hidden"
-                    />
-                    {uploadedLogo ? (
-                      <div className="space-y-2">
-                        <img 
-                          src={uploadedLogo} 
-                          alt="Uploaded logo" 
-                          className="w-16 h-16 object-contain mx-auto"
-                        />
-                        <p className="text-white/60 text-sm">Click to change logo</p>
-                      </div>
-                    ) : (
-                      <>
-                        <Upload className="w-8 h-8 text-white/60 mx-auto mb-2" />
-                        <p className="text-white/60 text-sm">Click to upload or drag and drop</p>
-                      </>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label className="text-white">Primary Color</Label>
-                  <div className="flex items-center gap-3">
-                    <div 
-                      className="w-12 h-8 rounded border-2 border-white/20"
-                      style={{ backgroundColor: primaryColor }}
-                    ></div>
-                    <Input
-                      type="color"
-                      value={primaryColor}
-                      onChange={(e) => setPrimaryColor(e.target.value)}
-                      className="w-16 h-8 bg-transparent border-white/20 cursor-pointer"
-                    />
-                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -319,7 +262,7 @@ const HotelQRCode = () => {
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="border-white/20 text-white hover:bg-white/10 hover:text-white flex-1"
+                    className="border-white/20 text-white hover:bg-white/10 hover:text-white flex-1 bg-transparent"
                     onClick={generateLabels}
                   >
                     Generate Labels
@@ -394,7 +337,7 @@ const HotelQRCode = () => {
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="border-white/20 text-white hover:bg-white/10 hover:text-white"
+                    className="border-white/20 text-white hover:bg-white/10 hover:text-white bg-transparent"
                     onClick={printQR}
                   >
                     <Printer className="w-4 h-4 mr-2" />
