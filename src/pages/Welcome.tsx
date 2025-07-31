@@ -202,13 +202,16 @@ const Welcome = () => {
           {/* Premium Language Selector */}
           <div className="mb-6">
             <Select value={currentLanguage} onValueChange={setLanguage}>
-              <SelectTrigger className="w-full bg-white/10 backdrop-blur-xl border border-white/20 text-white h-14 text-base hover:bg-white/15 transition-all duration-300 shadow-lg">
+              <SelectTrigger className="w-full bg-white/90 backdrop-blur-xl border border-white/30 text-gray-900 h-14 text-base hover:bg-white/95 transition-all duration-300 shadow-lg rounded-xl">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-slate-800/95 backdrop-blur-xl border-white/20">
+              <SelectContent className="bg-white/95 backdrop-blur-xl border-white/30 shadow-xl">
                 {getAvailableLanguages().map((lang) => (
-                  <SelectItem key={lang.code} value={lang.code} className="text-white hover:bg-white/10">
-                    {lang.flag} {lang.name}
+                  <SelectItem key={lang.code} value={lang.code} className="text-gray-900 hover:bg-gray-50 focus:bg-gray-50">
+                    <span className="flex items-center gap-3">
+                      <span className="text-lg">{lang.flag}</span>
+                      <span className="font-medium">{lang.name}</span>
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>

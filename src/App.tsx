@@ -38,7 +38,7 @@ const App = () => (
             <Route path="/" element={<Welcome />} />
             <Route path="/booking/location-details" element={<LocationDetails />} />
             <Route path="/booking/datetime" element={<DateTime />} />
-            <Route path="/booking/poolmap" element={<PoolMap />} />
+            {/* <Route path="/booking/poolmap" element={<PoolMap />} /> */}
             <Route path="/booking/summary" element={<BookingSummary />} />
             <Route path="/booking/payment" element={<PaymentSelection />} />
             <Route path="/booking/confirmation" element={<BookingConfirmation />} />

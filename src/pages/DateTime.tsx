@@ -262,29 +262,50 @@ const DateTime = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] opacity-20"></div>
+    <div className="min-h-screen bg-gradient-to-br from-teal-400 via-cyan-500 to-turquoise-600 relative overflow-hidden">
+      {/* Water-like animated background */}
+      <div className="absolute inset-0">
+        {/* Animated water waves */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-cyan-300/20 to-teal-300/40 animate-pulse"></div>
+          <div className="absolute top-0 left-0 w-full h-full">
+            <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-radial from-cyan-300/30 to-transparent rounded-full animate-pulse delay-700"></div>
+            <div className="absolute top-32 right-20 w-80 h-80 bg-gradient-radial from-teal-300/25 to-transparent rounded-full animate-pulse delay-1000"></div>
+            <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-gradient-radial from-turquoise-300/30 to-transparent rounded-full animate-pulse delay-1500"></div>
+            <div className="absolute bottom-40 right-1/4 w-64 h-64 bg-gradient-radial from-cyan-400/20 to-transparent rounded-full animate-pulse delay-500"></div>
+          </div>
+        </div>
+        
+        {/* Floating bubbles */}
+        <div className="absolute top-20 left-20 w-4 h-4 bg-white/30 rounded-full animate-bounce delay-300"></div>
+        <div className="absolute top-40 right-32 w-3 h-3 bg-white/25 rounded-full animate-bounce delay-700"></div>
+        <div className="absolute bottom-32 left-32 w-5 h-5 bg-white/20 rounded-full animate-bounce delay-1100"></div>
+        <div className="absolute bottom-60 right-20 w-2 h-2 bg-white/35 rounded-full animate-bounce delay-1400"></div>
+        
+        {/* Water ripple effect */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(6,182,212,0.1)_0%,transparent_50%),radial-gradient(circle_at_80%_20%,rgba(20,184,166,0.1)_0%,transparent_50%),radial-gradient(circle_at_40%_80%,rgba(14,165,233,0.1)_0%,transparent_50%)] animate-pulse"></div>
+      </div>
 
-      <div className="relative container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
             {/* <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-4">
               <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
               <span className="text-amber-400 text-sm font-medium">{t('dateTime.stepIndicator') || 'Step 3 of 4'}</span>
             </div> */}
-            <h1 className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold text-white mb-3 drop-shadow-lg">
               {t('dateTime.selectSpotTitle') || 'Select Your Perfect Spot'}
             </h1>
-            <p className="text-blue-200">{t('dateTime.selectSpotSubtitle') || 'Choose your ideal poolside experience'}</p>
+            <p className="text-white/90 drop-shadow">{t('dateTime.selectSpotSubtitle') || 'Choose your ideal poolside experience'}</p>
           </div>
 
-          <div className="flex justify-between items-center mb-8 bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20">
+          <div className="flex justify-between items-center mb-8 bg-white/90 backdrop-blur-xl rounded-2xl p-4 border border-white/30 shadow-lg">
             <Popover>
               <PopoverTrigger asChild>
-                <button className="flex items-center gap-3 text-white hover:text-blue-200 transition-colors">
-                  <Calendar className="w-5 h-5 text-blue-400" />
+                <button className="flex items-center gap-3 text-gray-900 hover:text-teal-600 transition-colors">
+                  <Calendar className="w-5 h-5 text-teal-500" />
                   <div className="text-left">
-                    <div className="text-xs text-blue-200">{t('dateTime.selectDate')}</div>
+                    <div className="text-xs text-gray-600">{t('dateTime.selectDate')}</div>
                     <div className="font-medium">{format(selectedDate, "MMM dd, yyyy")}</div>
                   </div>
                 </button>
@@ -301,13 +322,13 @@ const DateTime = () => {
             </Popover>
 
             <div className="flex items-center gap-3 relative">
-              <Diamond className="w-5 h-5 text-blue-400" />
+              <Diamond className="w-5 h-5 text-teal-500" />
               <button
                 onClick={() => setShowZoneDropdown(!showZoneDropdown)}
-                className="flex items-center gap-2 text-white hover:text-blue-200 transition-colors"
+                className="flex items-center gap-2 text-gray-900 hover:text-teal-600 transition-colors"
               >
                 <div className="text-left">
-                  <div className="text-xs text-blue-200">{t('dateTime.zones') || 'Zones'}</div>
+                  <div className="text-xs text-gray-600">{t('dateTime.zones') || 'Zones'}</div>
                   <div className="font-medium">{selectedZones.length} {t('dateTime.selected') || 'Selected'}</div>
                 </div>
                 <ChevronDown className={`w-4 h-4 transition-transform ${showZoneDropdown ? 'rotate-180' : ''}`} />
@@ -316,24 +337,24 @@ const DateTime = () => {
           </div>
 
           {showZoneDropdown && (
-            <Card className="mb-8 bg-white/10 backdrop-blur-lg border-white/20 animate-fade-in">
+            <Card className="mb-8 bg-white/90 backdrop-blur-xl border-white/30 shadow-lg animate-fade-in">
               <CardContent className="p-6">
                 <div className="grid grid-cols-4 gap-4">
                   {zones.map((zone) => (
                     <div
                       key={zone.id}
-                      className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-white/10 cursor-pointer transition-all duration-200"
+                      className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-all duration-200"
                       onClick={() => handleZoneToggle(zone.id)}
                     >
                       <div className="relative">
                         {selectedZones.includes(zone.id) && (
-                          <Check className="absolute -top-2 -left-1 w-4 h-4 text-green-400 bg-green-400/20 rounded-full p-0.5" />
+                          <Check className="absolute -top-2 -left-1 w-4 h-4 text-green-500 bg-green-100 rounded-full p-0.5" />
                         )}
                         <div className={`w-8 h-8 ${zone.color} rounded-lg shadow-lg`}></div>
                       </div>
                       <div className="text-center">
-                        <div className="text-sm font-medium text-white">{zone.name}</div>
-                        <div className="text-xs text-blue-200">{zone.price}</div>
+                        <div className="text-sm font-medium text-gray-900">{zone.name}</div>
+                        <div className="text-xs text-gray-600">{zone.price}</div>
                       </div>
                     </div>
                   ))}
@@ -342,28 +363,28 @@ const DateTime = () => {
             </Card>
           )}
 
-          <Card className="mb-8 bg-white/10 backdrop-blur-lg border-white/20">
+          <Card className="mb-8 bg-white/90 backdrop-blur-xl border-white/30 shadow-lg">
             <CardContent className="p-8">
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                <h3 className="text-2xl font-bold text-gray-900">
                   {t('dateTime.poolLayoutTitle') || 'POOL LAYOUT'}
                 </h3>
-                <p className="text-blue-200 text-sm mt-2">Tap a dot to select your spot</p>
+                <p className="text-gray-600 text-sm mt-2">Tap a dot to select your spot</p>
               </div>
 
               {/* Legend */}
               <div className="flex justify-center items-center gap-8 mb-6">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#809FCD' }}></div>
-                  <span className="text-blue-200 text-sm">Available</span>
+                  <span className="text-gray-700 text-sm">Available</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#457FC0' }}></div>
-                  <span className="text-blue-200 text-sm">Reserved</span>
+                  <span className="text-gray-700 text-sm">Reserved</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#FF8C00' }}></div>
-                  <span className="text-blue-200 text-sm">Your Location</span>
+                  <span className="text-gray-700 text-sm">Your Location</span>
                 </div>
               </div>
 
@@ -372,8 +393,8 @@ const DateTime = () => {
               </div>
 
               {selectedSeats.length > 0 && (
-                <div className="bg-blue-500/20 backdrop-blur-lg rounded-2xl p-4 border border-blue-400/30">
-                  <p className="text-blue-200 text-sm text-center">
+                <div className="bg-teal-500/20 backdrop-blur-lg rounded-2xl p-4 border border-teal-400/30">
+                  <p className="text-teal-700 text-sm text-center font-medium">
                     {selectedSeats.length} seat{selectedSeats.length > 1 ? 's' : ''} selected: {selectedSeats.join(', ')}
                   </p>
                 </div>
@@ -383,22 +404,22 @@ const DateTime = () => {
 
           {availableSpots.length > 0 && (
             <div className="space-y-4 mb-8">
-              <h3 className="text-xl font-semibold text-white text-center">{t('dateTime.availableSpots') || 'Selected Spots'}</h3>
+              <h3 className="text-xl font-semibold text-white text-center drop-shadow-lg">{t('dateTime.availableSpots') || 'Selected Spots'}</h3>
               {availableSpots.map((spot) => (
                 <Card
                   key={spot.id}
-                  className="border-2 border-blue-400/50 bg-blue-500/20 backdrop-blur-lg shadow-xl shadow-blue-500/20"
+                  className="border-2 border-teal-400/50 bg-white/90 backdrop-blur-xl shadow-xl shadow-teal-500/20"
                 >
                   <CardContent className="p-6">
                     <div className="flex justify-between items-center">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-3">
-                          <span className="font-bold text-xl text-white">{t('dateTime.spot')} {spot.id}</span>
-                          <span className="text-sm text-blue-200 bg-blue-500/30 px-3 py-1 rounded-full border border-blue-400/30">
+                          <span className="font-bold text-xl text-gray-900">{t('dateTime.spot')} {spot.id}</span>
+                          <span className="text-sm text-teal-700 bg-teal-100 px-3 py-1 rounded-full border border-teal-300">
                             {spot.area}
                           </span>
                         </div>
-                        <div className="text-sm text-blue-200 mb-4">{spot.time}</div>
+                        <div className="text-sm text-gray-600 mb-4">{spot.time}</div>
                       </div>
 
                       <div className="flex flex-col gap-2">
@@ -408,7 +429,7 @@ const DateTime = () => {
                         >
                           <PopoverTrigger asChild>
                             <button
-                              className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
+                              className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-lg hover:from-teal-600 hover:to-cyan-700"
                               onClick={e => {
                                 e.stopPropagation();
                                 setOpenPopover(spot.id);
@@ -422,7 +443,7 @@ const DateTime = () => {
                               </div>
                             </button>
                           </PopoverTrigger>
-                          <PopoverContent className="p-0 w-40" align="end" side="bottom">
+                          <PopoverContent className="p-0 w-40 bg-white/95 backdrop-blur-lg border-white/20" align="end" side="bottom">
                             <div className="flex flex-col">
                               {durationOptions
                                 .filter(opt => opt.value !== (spotDurations[spot.id] || '6 hour'))
@@ -434,7 +455,7 @@ const DateTime = () => {
                                       handleSpotDurationChange(spot.id, option.value);
                                       setOpenPopover(null);
                                     }}
-                                    className="flex justify-between items-center px-4 py-2 text-left hover:bg-blue-100 text-blue-900"
+                                    className="flex justify-between items-center px-4 py-2 text-left hover:bg-gray-50 text-gray-900"
                                   >
                                     <div>{option.label}</div>
                                     <div className="text-xs opacity-80">${option.price}</div>
@@ -454,12 +475,12 @@ const DateTime = () => {
           <Button
             onClick={handleContinue}
             disabled={selectedSeats.length === 0}
-            className="w-full py-6 text-lg font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 hover:from-blue-700 hover:via-cyan-700 hover:to-blue-800 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-6 text-lg bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 group shadow-2xl font-semibold rounded-xl"
             size="lg"
           >
-            <span className="flex items-center gap-3">
+            <span className="flex items-center justify-center">
               Confirm 
-              <div className="bg-white/20 px-3 py-1 rounded-full text-sm">
+              <div className="bg-white/20 px-3 py-1 rounded-full text-sm ml-3">
                 ${calculateTotalPrice()}
               </div>
             </span>
