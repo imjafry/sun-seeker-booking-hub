@@ -142,7 +142,7 @@ const Welcome = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-teal-400 via-cyan-500 to-turquoise-600 relative overflow-hidden">
       {/* Hidden file input for QR upload */}
       <input
         ref={fileInputRef}
@@ -152,23 +152,27 @@ const Welcome = () => {
         className="hidden"
       />
 
-      {/* Premium Animated Background */}
+      {/* Water-like animated background */}
       <div className="absolute inset-0">
-        {/* Floating orbs */}
-        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-blue-400/30 to-cyan-400/30 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute top-32 right-20 w-24 h-24 bg-gradient-to-r from-purple-400/30 to-pink-400/30 rounded-full blur-xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-20 left-1/4 w-28 h-28 bg-gradient-to-r from-emerald-400/30 to-teal-400/30 rounded-full blur-xl animate-pulse delay-2000"></div>
-        
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
-        
-        {/* Sparkle effects */}
-        <div className="absolute top-1/4 left-1/3 animate-bounce delay-500">
-          <Sparkles className="w-4 h-4 text-yellow-300/60" />
+        {/* Animated water waves */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-cyan-300/20 to-teal-300/40 animate-pulse"></div>
+          <div className="absolute top-0 left-0 w-full h-full">
+            <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-radial from-cyan-300/30 to-transparent rounded-full animate-pulse delay-700"></div>
+            <div className="absolute top-32 right-20 w-80 h-80 bg-gradient-radial from-teal-300/25 to-transparent rounded-full animate-pulse delay-1000"></div>
+            <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-gradient-radial from-turquoise-300/30 to-transparent rounded-full animate-pulse delay-1500"></div>
+            <div className="absolute bottom-40 right-1/4 w-64 h-64 bg-gradient-radial from-cyan-400/20 to-transparent rounded-full animate-pulse delay-500"></div>
+          </div>
         </div>
-        <div className="absolute top-2/3 right-1/4 animate-bounce delay-1500">
-          <Sparkles className="w-3 h-3 text-blue-300/60" />
-        </div>
+        
+        {/* Floating bubbles */}
+        <div className="absolute top-20 left-20 w-4 h-4 bg-white/30 rounded-full animate-bounce delay-300"></div>
+        <div className="absolute top-40 right-32 w-3 h-3 bg-white/25 rounded-full animate-bounce delay-700"></div>
+        <div className="absolute bottom-32 left-32 w-5 h-5 bg-white/20 rounded-full animate-bounce delay-1100"></div>
+        <div className="absolute bottom-60 right-20 w-2 h-2 bg-white/35 rounded-full animate-bounce delay-1400"></div>
+        
+        {/* Water ripple effect */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(6,182,212,0.1)_0%,transparent_50%),radial-gradient(circle_at_80%_20%,rgba(20,184,166,0.1)_0%,transparent_50%),radial-gradient(circle_at_40%_80%,rgba(14,165,233,0.1)_0%,transparent_50%)] animate-pulse"></div>
       </div>
 
       <div className="container mx-auto px-4 py-8 relative z-10">
@@ -185,16 +189,12 @@ const Welcome = () => {
             </div>
             
             <div className="space-y-3 mb-6">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent animate-fade-in leading-tight">
+              <h1 className="text-4xl font-bold text-white drop-shadow-lg leading-tight">
                 {t('welcome.title')}
               </h1>
-              {/* <h2 className="text-2xl font-semibold bg-gradient-to-r from-blue-200 to-cyan-300 bg-clip-text text-transparent">
-                {t('welcome.subtitle')}
-              </h2>
-              <div className="w-16 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mx-auto rounded-full"></div> */}
             </div>
             
-            <p className="text-blue-100/90 text-lg leading-relaxed px-4">
+            <p className="text-white/90 text-lg leading-relaxed px-4 drop-shadow">
               {t('welcome.subtitle')}
             </p>
           </div>
@@ -216,7 +216,7 @@ const Welcome = () => {
           </div>
 
           {/* Premium Main Action Card */}
-          <Card className="bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl mb-6 transform transition-all duration-500 hover:scale-[1.02] hover:bg-white/15">
+          <Card className="bg-white shadow-2xl border-0 rounded-2xl mb-6 transform transition-all duration-500 hover:scale-[1.02]">
             <CardContent className="p-6 space-y-6">
               {!isVerifying && !isProcessingQR ? (
                 <>
@@ -227,12 +227,12 @@ const Welcome = () => {
                       <Button
                         onClick={handleQRScan}
                         variant="outline"
-                        className="bg-transparent hover:bg-transparent min-h-[200px] w-full border-2 border-dashed border-cyan-400/50 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-sm py-8 px-6 hover:from-cyan-500/20 hover:to-blue-500/20 hover:border-cyan-400/70 transition-all duration-300 group text-white"
+                        className="bg-transparent hover:bg-transparent min-h-[200px] w-full border-2 border-dashed border-teal-400/50 bg-gradient-to-r from-teal-500/10 to-cyan-500/10 backdrop-blur-sm py-8 px-6 hover:from-teal-500/20 hover:to-cyan-500/20 hover:border-teal-400/70 transition-all duration-300 group"
                       >
                         <div className="flex flex-col items-center space-y-3">
                           <div className="relative">
-                            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
-                            <div className="relative p-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg group-hover:scale-110 transition-transform">
+                            <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-cyan-500 rounded-lg blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
+                            <div className="relative p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg group-hover:scale-110 transition-transform">
                               {isMobile ? (
                                 <QrCode className="w-8 h-8 text-white" />
                               ) : (
@@ -241,10 +241,10 @@ const Welcome = () => {
                             </div>
                           </div>
                           <div className="text-center">
-                            <div className="font-bold text-white text-base mb-1">
+                            <div className="font-bold text-gray-900 text-base mb-1">
                               {isMobile ? t('welcome.scanQR') : t('welcome.uploadQR')}
                             </div>
-                            <div className="text-sm text-blue-200">
+                            <div className="text-sm text-teal-600">
                               {isMobile ? t('welcome.scanDescription') : t('welcome.uploadDescription')}
                             </div>
                           </div>
@@ -253,10 +253,10 @@ const Welcome = () => {
 
                       <div className="relative">
                         <div className="absolute inset-0 flex items-center">
-                          <div className="w-full border-t border-white/20"></div>
+                          <div className="w-full border-t border-gray-200"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                          <span className="px-3 bg-slate-800/50 text-blue-200 font-medium">{t('welcome.orEnterManually')}</span>
+                          <span className="px-3 bg-white text-teal-600 font-medium">{t('welcome.orEnterManually')}</span>
                         </div>
                       </div>
                     </>
@@ -267,7 +267,7 @@ const Welcome = () => {
                         <img 
                           src={uploadedImage} 
                           alt="Uploaded QR Code" 
-                          className="w-full h-48 object-cover rounded-lg border-2 border-cyan-400/30"
+                          className="w-full h-48 object-cover rounded-lg border-2 border-teal-300"
                         />
                         <Button
                           onClick={handleRemoveImage}
@@ -280,13 +280,13 @@ const Welcome = () => {
                       </div>
                       
                       {qrError && (
-                        <div className="bg-red-500/20 border border-red-400/30 rounded-lg p-4 text-center">
-                          <p className="text-red-200 text-sm mb-3">{qrError}</p>
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+                          <p className="text-red-600 text-sm mb-3">{qrError}</p>
                           <Button
                             onClick={handleRetryQR}
                             variant="outline"
                             size="sm"
-                            className="border-red-400/50 text-red-200 hover:bg-red-500/20"
+                            className="border-red-300 text-red-600 hover:bg-red-50"
                           >
                             {t('welcome.errors.tryAgain')}
                           </Button>
@@ -302,15 +302,14 @@ const Welcome = () => {
                         placeholder={t('welcome.placeholder')}
                         value={hotelId}
                         onChange={(e) => setHotelId(e.target.value)}
-                        className="text-center text-lg py-6 border-2 border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder:text-blue-200/70 focus:border-cyan-400/50 focus:bg-white/15 transition-all duration-300 shadow-lg"
+                        className="text-center text-lg py-6 border-2 border-teal-300 bg-white text-gray-900 placeholder:text-teal-400 focus:border-teal-500 focus:ring-teal-500/50 transition-all duration-300 shadow-lg rounded-xl"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-blue-500/5 rounded-md pointer-events-none"></div>
                     </div>
                     
                     <Button
                       onClick={handleContinue}
                       disabled={!hotelId.trim()}
-                      className="w-full py-6 text-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 group shadow-2xl font-semibold"
+                      className="w-full py-6 text-lg bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 group shadow-2xl font-semibold rounded-xl"
                       size="lg"
                     >
                       <span className="flex items-center justify-center">
@@ -325,19 +324,19 @@ const Welcome = () => {
                 <div className="text-center py-8">
                   <div className="flex justify-center mb-6">
                     <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50"></div>
-                      <div className="relative animate-spin rounded-full h-16 w-16 border-4 border-white/20 border-t-cyan-400 shadow-lg"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-cyan-500 rounded-full blur-md opacity-50"></div>
+                      <div className="relative animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-teal-500 shadow-lg"></div>
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3 bg-gradient-to-r from-cyan-200 to-blue-200 bg-clip-text text-transparent">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
                     {t('welcome.processing.title')}
                   </h3>
-                  <p className="text-blue-100/80 text-base px-4 mb-4">
+                  <p className="text-teal-600 text-base px-4 mb-4">
                     {t('welcome.processing.description')}
                   </p>
                   <div className="mt-4">
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
-                      <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full animate-pulse shadow-lg"></div>
+                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full animate-pulse shadow-lg"></div>
                     </div>
                   </div>
                 </div>
@@ -346,35 +345,25 @@ const Welcome = () => {
                 <div className="text-center py-8">
                   <div className="flex justify-center mb-6">
                     <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50"></div>
-                      <div className="relative animate-spin rounded-full h-16 w-16 border-4 border-white/20 border-t-cyan-400 shadow-lg"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-cyan-500 rounded-full blur-md opacity-50"></div>
+                      <div className="relative animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-teal-500 shadow-lg"></div>
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3 bg-gradient-to-r from-cyan-200 to-blue-200 bg-clip-text text-transparent">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
                     {t('welcome.verifying.title')}
                   </h3>
-                  <p className="text-blue-100/80 text-base px-4 mb-4">
+                  <p className="text-teal-600 text-base px-4 mb-4">
                     {t('welcome.verifying.description')}
                   </p>
                   <div className="mt-4">
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
-                      <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full animate-pulse shadow-lg"></div>
+                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full animate-pulse shadow-lg"></div>
                     </div>
                   </div>
                 </div>
               )}
             </CardContent>
           </Card>
-
-          {/* Premium Back Button */}
-          {/* <div className="text-center">
-            <Button
-              variant="ghost"
-              className="text-blue-200/80 hover:text-white hover:bg-white/10 transition-all duration-300 text-base backdrop-blur-sm px-6 py-3"
-            >
-              {t('welcome.backButton')}
-            </Button>
-          </div> */}
         </div>
       </div>
     </div>
