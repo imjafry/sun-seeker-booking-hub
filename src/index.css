@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,5 +100,22 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Remove outlines from all input fields when focused */
+  input:focus,
+  textarea:focus,
+  select:focus,
+  button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Remove focus-visible outlines specifically for booking flow */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
   }
 }
